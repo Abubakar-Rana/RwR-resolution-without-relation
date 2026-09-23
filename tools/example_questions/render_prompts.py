@@ -78,7 +78,7 @@ for task, grp, r, opts in rows:
     L.append(f"{tex_escape(task)} & {g} & {tex_escape(r['question'])} \\emph{{({tex_escape(ans_txt)})}} \\\\")
 L += [r"\bottomrule", r"\end{tabular}", r"\end{table}"]
 (HERE / "example_questions.tex").write_text("\n".join(L) + "\n", encoding="utf-8")
-paper = HERE.parent.parent / "paper" / "analysis"
+paper = HERE.parent.parent / "results" / "analysis_outputs"
 if paper.exists():
     (paper / "example_questions.tex").write_text("\n".join(L) + "\n", encoding="utf-8")
 

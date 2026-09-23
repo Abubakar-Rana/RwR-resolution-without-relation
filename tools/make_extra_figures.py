@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Extra paper material, generated from the real run (Codebase/results/main).
+"""Extra figures, generated from the committed run in results/main.
 
     python make_additional.py
 
@@ -27,7 +27,7 @@ from matplotlib.patches import (FancyArrowPatch, FancyBboxPatch, Polygon,  # noq
                                 Rectangle)
 from PIL import Image  # noqa: E402
 
-HERE = Path(__file__).resolve().parent / "paper_extras"
+HERE = Path(__file__).resolve().parent / "extra_figures"
 ROOT = Path(__file__).resolve().parent.parent
 RESULTS = ROOT / "results" / "main"
 QUAL = RESULTS / "report" / "qualitative"

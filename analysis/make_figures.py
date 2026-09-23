@@ -30,7 +30,7 @@ import matplotlib.pyplot as plt  # noqa: E402
 from matplotlib.patches import FancyArrowPatch, FancyBboxPatch  # noqa: E402
 
 HERE = Path(__file__).resolve().parent
-FIG = HERE.parent / "paper" / "figures"
+FIG = HERE.parent / "figures"
 FIG.mkdir(parents=True, exist_ok=True)
 
 MM = 1 / 25.4

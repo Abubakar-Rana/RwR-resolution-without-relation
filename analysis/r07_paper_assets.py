@@ -1,8 +1,8 @@
 #!/usr/bin/env python
-"""Build the new paper assets for Paper_v2: number macros, the partition table, and the
+"""Build the derived assets: number macros, the partition table, and the
 combined figure (relation effect under two grounding regimes | grounding coverage | router).
 
-Run after a01-a06. Writes into ../paper/ only.
+Run after r01-r06. Writes figures/ and results/analysis_outputs/ only.
 """
 import json
 from pathlib import Path
@@ -15,9 +15,9 @@ from matplotlib.patches import Patch  # noqa: E402
 
 from common import OUT, fmt_p, pct, pp  # noqa: E402
 
-PAPER = Path(__file__).resolve().parent.parent / "paper"
-FIG = PAPER / "figures"
-ANA = PAPER / "analysis"
+ROOT = Path(__file__).resolve().parent.parent
+FIG = ROOT / "figures"
+ANA = ROOT / "results" / "analysis_outputs"
 MM = 1 / 25.4
 FULL = 122 * MM
 NAVY, AMBER, SLATE, INK, INK2, GRID = "#1f3a5f", "#c98500", "#5b6b7f", "#1a1a1a", "#4d4d4d", "#e3e3e3"

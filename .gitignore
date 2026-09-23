@@ -6,17 +6,6 @@ data/
 *.hf_cache/
 hf_cache/
 
-# LaTeX build products
-paper/*.aux
-paper/*.bbl
-paper/*.blg
-paper/*.log
-paper/*.out
-paper/*.pdf
-paper/*.synctex.gz
-paper/*.fdb_latexmk
-paper/*.fls
-
 # python
 __pycache__/
 *.py[cod]

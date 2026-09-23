@@ -1,29 +1,25 @@
-# Reproduce every number, table and figure in the paper from the committed model outputs.
+# Reproduce every number, table and figure from the committed model outputs.
 # No GPU required for the `analysis` chain; `runs` needs one (see README).
 
 PY ?= python
 
-.PHONY: all data analysis figures revision paper runs clean
+.PHONY: all data analysis figures revision runs clean
 
 all: analysis
 
 data:            ## gunzip the committed per-item outputs
 	$(PY) scripts/prepare_results.py
 
-analysis: data   ## main tables, figures, revision analyses, paper macros
+analysis: data   ## tables, figures, revision analyses and LaTeX macros
 	$(PY) analysis/analyze.py --results results/main --out analysis
 	$(PY) analysis/make_figures.py
 	$(PY) analysis/run_all.py
-	$(PY) analysis/sync_paper.py
 
 figures: data    ## figures only
 	$(PY) analysis/make_figures.py
 
 revision: data   ## robustness, power, router, detector grounding
 	$(PY) analysis/run_all.py
-
-paper:           ## compile the manuscript (needs pdflatex + bibtex)
-	cd paper && pdflatex -interaction=nonstopmode main && bibtex main && pdflatex -interaction=nonstopmode main && pdflatex -interaction=nonstopmode main
 
 runs:            ## the four GPU arms, in order (35.6 GPU-h on one L40S)
 	$(PY) scripts/00_check_env.py --load-model
@@ -34,6 +30,5 @@ runs:            ## the four GPU arms, in order (35.6 GPU-h on one L40S)
 	$(PY) scripts/02_run_experiment.py --config configs/main.yaml --arm proposed_ctsr
 	$(PY) scripts/03_aggregate_results.py --results results/main
 
-clean:           ## remove expanded outputs and LaTeX build products
+clean:           ## remove the expanded per-item outputs
 	$(PY) -c "import glob,os; [os.remove(f) for f in glob.glob(\"results/**/predictions.jsonl\", recursive=True)]"
-	$(PY) -c "import glob,os; [os.remove(f) for f in glob.glob(\"paper/*.aux\")+glob.glob(\"paper/*.log\")+glob.glob(\"paper/*.bbl\")+glob.glob(\"paper/*.blg\")]"
