@@ -1,0 +1,53 @@
+task,l2,group,family,metric,arm,n,value,ci_lo,ci_hi
+Overall Counting,Perception,non_relational,mcq_counting,correct,b1_direct,60,0.25,0.15,0.36666666666666664
+Overall Counting,Perception,non_relational,mcq_counting,correct,b2_tiling,60,0.16666666666666666,0.08333333333333333,0.26666666666666666
+Overall Counting,Perception,non_relational,mcq_counting,correct,b3_selected,60,0.3333333333333333,0.21666666666666667,0.45
+Overall Counting,Perception,non_relational,mcq_counting,correct,proposed_ctsr,60,0.26666666666666666,0.16666666666666666,0.38333333333333336
+Regional Counting,Perception,relational,mcq_counting,correct,b1_direct,100,0.45,0.36,0.55
+Regional Counting,Perception,relational,mcq_counting,correct,b2_tiling,100,0.36,0.27,0.45
+Regional Counting,Perception,relational,mcq_counting,correct,b3_selected,100,0.39,0.3,0.48
+Regional Counting,Perception,relational,mcq_counting,correct,proposed_ctsr,100,0.43,0.33,0.53
+Overall Land Use Classification,Perception,non_relational,mcq,correct,b1_direct,3,0.6666666666666666,0.0,1.0
+Overall Land Use Classification,Perception,non_relational,mcq,correct,b2_tiling,3,0.6666666666666666,0.0,1.0
+Overall Land Use Classification,Perception,non_relational,mcq,correct,b3_selected,3,0.6666666666666666,0.0,1.0
+Overall Land Use Classification,Perception,non_relational,mcq,correct,proposed_ctsr,3,0.6666666666666666,0.0,1.0
+Regional Land Use Classification,Perception,non_relational,mcq,correct,b1_direct,200,0.68,0.615,0.745
+Regional Land Use Classification,Perception,non_relational,mcq,correct,b2_tiling,200,0.56,0.49,0.63
+Regional Land Use Classification,Perception,non_relational,mcq,correct,b3_selected,200,0.725,0.66,0.785
+Regional Land Use Classification,Perception,non_relational,mcq,correct,proposed_ctsr,200,0.715,0.65,0.775
+Object Spatial Relationship,Perception,relational,mcq,correct,b1_direct,500,0.324,0.284,0.366
+Object Spatial Relationship,Perception,relational,mcq,correct,b2_tiling,500,0.302,0.262,0.342
+Object Spatial Relationship,Perception,relational,mcq,correct,b3_selected,500,0.272,0.234,0.312
+Object Spatial Relationship,Perception,relational,mcq,correct,proposed_ctsr,500,0.262,0.224,0.304
+Object Classification,Perception,non_relational,mcq,correct,b1_direct,800,0.35,0.3175,0.3825
+Object Classification,Perception,non_relational,mcq,correct,b2_tiling,800,0.315,0.2825,0.3475
+Object Classification,Perception,non_relational,mcq,correct,b3_selected,800,0.37875,0.345,0.4125
+Object Classification,Perception,non_relational,mcq,correct,proposed_ctsr,800,0.38625,0.35375,0.42
+Object Color,Perception,non_relational,mcq,correct,b1_direct,800,0.35375,0.32125,0.38625
+Object Color,Perception,non_relational,mcq,correct,b2_tiling,800,0.34375,0.31125,0.37625
+Object Color,Perception,non_relational,mcq,correct,b3_selected,800,0.41375,0.37875,0.44875
+Object Color,Perception,non_relational,mcq,correct,proposed_ctsr,800,0.41,0.375,0.44375
+Object Motion State,Perception,non_relational,mcq,correct,b1_direct,60,0.65,0.5166666666666667,0.7666666666666667
+Object Motion State,Perception,non_relational,mcq,correct,b2_tiling,60,0.65,0.5166666666666667,0.7666666666666667
+Object Motion State,Perception,non_relational,mcq,correct,b3_selected,60,0.6666666666666666,0.55,0.7833333333333333
+Object Motion State,Perception,non_relational,mcq,correct,proposed_ctsr,60,0.6666666666666666,0.55,0.7833333333333333
+Environmental Condition Reasoning,Reasoning,non_relational,mcq,correct,b1_direct,100,0.79,0.71,0.87
+Environmental Condition Reasoning,Reasoning,non_relational,mcq,correct,b2_tiling,100,0.72,0.63,0.81
+Environmental Condition Reasoning,Reasoning,non_relational,mcq,correct,b3_selected,100,0.8,0.72,0.87
+Environmental Condition Reasoning,Reasoning,non_relational,mcq,correct,proposed_ctsr,100,0.78,0.7,0.86
+Anomaly Detection and Interpretation,Reasoning,non_relational,mcq,correct,b1_direct,100,0.7,0.61,0.79
+Anomaly Detection and Interpretation,Reasoning,non_relational,mcq,correct,b2_tiling,100,0.65,0.56,0.74
+Anomaly Detection and Interpretation,Reasoning,non_relational,mcq,correct,b3_selected,100,0.7,0.61,0.79
+Anomaly Detection and Interpretation,Reasoning,non_relational,mcq,correct,proposed_ctsr,100,0.65,0.56,0.74
+Route Planning,Reasoning,relational,mcq,correct,b1_direct,100,0.4,0.31,0.5
+Route Planning,Reasoning,relational,mcq,correct,b2_tiling,100,0.42,0.32,0.52
+Route Planning,Reasoning,relational,mcq,correct,b3_selected,100,0.41,0.31,0.51
+Route Planning,Reasoning,relational,mcq,correct,proposed_ctsr,100,0.41,0.32,0.51
+Counting with Complex Reasoning,Reasoning,relational,mcq_counting,correct,b1_direct,100,0.56,0.46,0.65
+Counting with Complex Reasoning,Reasoning,relational,mcq_counting,correct,b2_tiling,100,0.43,0.33,0.53
+Counting with Complex Reasoning,Reasoning,relational,mcq_counting,correct,b3_selected,100,0.51,0.41,0.6
+Counting with Complex Reasoning,Reasoning,relational,mcq_counting,correct,proposed_ctsr,100,0.52,0.42,0.62
+Counting/Counting with changing detection,Unknown,unknown,mcq,correct,b1_direct,60,0.43333333333333335,0.31666666666666665,0.5666666666666667
+Counting/Counting with changing detection,Unknown,unknown,mcq,correct,b2_tiling,60,0.4666666666666667,0.35,0.5833333333333334
+Counting/Counting with changing detection,Unknown,unknown,mcq,correct,b3_selected,60,0.4666666666666667,0.35,0.5833333333333334
+Counting/Counting with changing detection,Unknown,unknown,mcq,correct,proposed_ctsr,60,0.45,0.3333333333333333,0.5666666666666667

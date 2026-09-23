@@ -1,0 +1,26 @@
+# Offline plumbing check. No GPU, no model weights.
+# Produces deterministic placeholder answers so every code path runs end to end.
+# NEVER report numbers produced with this config: the aggregator refuses them
+# unless --allow-stub is passed, and the report marks them.
+base: default.yaml
+
+model:
+  backend: stub
+  stub_fail_every: 7         # inject failures to exercise the retry paths
+
+data:
+  per_task_limit: 2
+
+selection:
+  scorer: saliency           # avoids needing the CLIP weights
+  top_k: 3
+
+tiling:
+  tile_size: 512
+  overlap: 64
+  max_tiles: 16
+  overview_side: 512
+
+run:
+  out_dir: results_smoke
+  resume: false

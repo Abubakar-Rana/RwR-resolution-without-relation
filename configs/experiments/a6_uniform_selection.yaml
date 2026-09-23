@@ -1,0 +1,11 @@
+# A6: remove question conditioning from tile selection, keeping everything else.
+# Isolates the contribution of question-aware region selection. Both arms are run
+# so the relation effect can still be measured under uniform selection.
+base: ../default.yaml
+
+selection:
+  scorer: uniform
+
+run:
+  out_dir: results/ablation/a6_uniform_selection
+  arms: [b3_selected, proposed_ctsr]

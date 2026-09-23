@@ -1,0 +1,27 @@
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{lcclrrrrrr}
+\toprule
+Sub-task & Grp & Metric & Baseline 1 & Baseline 2 & Baseline 3 & Proposed & \$\textbackslash\{\}Delta\$ & \$N\$ \\
+\midrule
+Counting with Complex Reasoning & R & correct & 56.0 & 43.0 & 51.0 & 52.0 & 1.0 & 100 \\
+Object Spatial Relationship & R & correct & 32.4 & 30.2 & 27.2 & 26.2 & -1.0 & 500 \\
+Regional Counting & R & correct & 45.0 & 36.0 & 39.0 & 43.0 & 4.0 & 100 \\
+Route Planning & R & correct & 40.0 & 42.0 & 41.0 & 41.0 & 0.0 & 100 \\
+Anomaly Detection and Interpretation & N & correct & 70.0 & 65.0 & 70.0 & 65.0 & -5.0 & 100 \\
+Counting/Counting with changing detection & N & correct & 43.3 & 46.7 & 46.7 & 45.0 & -1.7 & 60 \\
+Environmental Condition Reasoning & N & correct & 79.0 & 72.0 & 80.0 & 78.0 & -2.0 & 100 \\
+Object Classification & N & correct & 35.0 & 31.5 & 37.9 & 38.6 & 0.8 & 800 \\
+Object Color & N & correct & 35.4 & 34.4 & 41.4 & 41.0 & -0.4 & 800 \\
+Object Motion State & N & correct & 65.0 & 65.0 & 66.7 & 66.7 & 0.0 & 60 \\
+Overall Counting & N & correct & 25.0 & 16.7 & 33.3 & 26.7 & -6.7 & 60 \\
+Overall Land Use Classification & N & correct & 66.7 & 66.7 & 66.7 & 66.7 & 0.0 & 3 \\
+Regional Land Use Classification & N & correct & 68.0 & 56.0 & 72.5 & 71.5 & -1.0 & 200 \\
+\bottomrule
+\end{tabular}
+\vspace{2pt}
+\begin{minipage}{\linewidth}\footnotesize Grp: R = relational, N = non-relational (pre-registered). Metric: accuracy for multiple-choice tasks, IoU for grounding, ROUGE-L for captioning. \$\textbackslash\{\}Delta\$ is Proposed minus Baseline 3 on paired samples; stars use Holm-adjusted \$p\$ across the 16 sub-tasks (\$\textasciicircum{}\{*\}p<0.05\$, \$\textasciicircum{}\{**\}p<0.01\$, \$\textasciicircum{}\{***\}p<0.001\$). These per-task tests are exploratory; the confirmatory tests are the two group-level comparisons in Table\textasciitilde{}\textbackslash\{\}ref\{tab:significance\}.\end{minipage}
+\caption{Per-sub-task results across the 16 XLRS-Bench sub-tasks.}
+\label{tab:pertask}
+\end{table}

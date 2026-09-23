@@ -1,0 +1,10 @@
+# A3: scrambled relations. Same number of relation lines, geometry destroyed.
+# Separates "explicit geometric structure" from "more text about objects".
+base: ../default.yaml
+
+ablation:
+  shuffle_relations: true
+
+run:
+  out_dir: results/ablation/a3_shuffled_relations
+  arms: [proposed_ctsr]

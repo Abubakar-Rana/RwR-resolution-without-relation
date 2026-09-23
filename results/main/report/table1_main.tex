@@ -1,0 +1,18 @@
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{lrrrrr}
+\toprule
+Method & \$N\$ & Overall & Relational & Non-relational & Parse fail \\
+\midrule
+Baseline 1: Direct & 2983 & 41.3 [39.6, 43.1] & 37.9 [34.5, 41.2] & 42.6 [40.5, 44.7] & 0.1 \\
+Baseline 2: Independent tiling & 2983 & 37.8 [36.0, 39.5] & 34.0 [30.8, 37.2] & 39.0 [36.9, 41.1] & 1.6 \\
+Baseline 3: Question-conditioned selection & 2983 & 43.1 [41.3, 44.9] & 33.4 [30.1, 36.6] & 46.7 [44.6, 48.8] & 0.0 \\
+Proposed: + cross-tile spatial relations & 2983 & 42.7 [41.0, 44.6] & 33.4 [30.1, 36.6] & 46.2 [44.0, 48.4] & 0.2 \\
+\bottomrule
+\end{tabular}
+\vspace{2pt}
+\begin{minipage}{\linewidth}\footnotesize Accuracy in percent with 95\textbackslash\{\}\% percentile-bootstrap confidence intervals. All arms are evaluated on the same 3080 paired samples. The relational / non-relational split is the pre-registered grouping of the 16 XLRS-Bench sub-tasks. 'Parse fail' is the share of responses from which no answer could be extracted; these are scored as incorrect.\end{minipage}
+\caption{Accuracy on XLRS-Bench by method and task group.}
+\label{tab:main}
+\end{table}

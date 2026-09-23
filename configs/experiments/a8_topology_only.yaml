@@ -1,0 +1,11 @@
+# A8: topology only - adjacency, containment and intersection, without direction
+# or distance. Complements A7.
+base: ../default.yaml
+
+relations:
+  include_direction: false
+  include_distance: false
+
+run:
+  out_dir: results/ablation/a8_topology_only
+  arms: [proposed_ctsr]

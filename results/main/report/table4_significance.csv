@@ -1,0 +1,19 @@
+scope,key,n_pairs,n_dropped,mean_a,mean_b,delta,ci_lo,ci_hi,p_value,test,significant_05,b01_only_b_correct,b10_only_a_correct,b11_both_correct,b00_both_wrong,metric,p_adjusted,reject_holm
+primary,relational,800,0,0.33375,0.33375,0.0,-0.02,0.02125,1.0,mcnemar_exact,False,37,37,230,496,,,
+primary,non_relational,2123,97,0.466792,0.462082,-0.00471,-0.013189,0.003768,0.31430658,mcnemar_exact,False,35,45,946,1097,,,
+per_task,Anomaly Detection and Interpretation,100,0,0.7,0.65,-0.05,-0.1,0.0,0.125,mcnemar_exact,False,1,6,64,29,correct,1.0,False
+per_task,Counting with Complex Reasoning,100,0,0.51,0.52,0.01,-0.03,0.05,1.0,mcnemar_exact,False,3,2,49,46,correct,1.0,False
+per_task,Counting/Counting with changing detection,60,0,0.466667,0.45,-0.016667,-0.1,0.05,1.0,mcnemar_exact,False,2,3,25,30,correct,1.0,False
+per_task,Environmental Condition Reasoning,100,0,0.8,0.78,-0.02,-0.07,0.03,0.6875,mcnemar_exact,False,2,4,76,18,correct,1.0,False
+per_task,Object Classification,800,0,0.37875,0.38625,0.0075,-0.0025,0.0175,0.23788452,mcnemar_exact,False,12,6,297,485,correct,1.0,False
+per_task,Object Color,800,0,0.41375,0.41,-0.00375,-0.01625,0.00875,0.70110804,mcnemar_exact,False,12,15,316,457,correct,1.0,False
+per_task,Object Motion State,60,0,0.666667,0.666667,0.0,,,1.0,mcnemar(no_discordant_pairs),False,0,0,40,20,correct,1.0,False
+per_task,Object Spatial Relationship,500,0,0.272,0.262,-0.01,-0.038,0.018,0.57584935,mcnemar_exact,False,23,28,108,341,correct,1.0,False
+per_task,Overall Counting,60,0,0.333333,0.266667,-0.066667,-0.183333,0.05,0.38769531,mcnemar_exact,False,4,8,12,36,correct,1.0,False
+per_task,Overall Land Use Classification,3,97,0.666667,0.666667,0.0,,,1.0,mcnemar(no_discordant_pairs),False,0,0,2,1,correct,1.0,False
+per_task,Regional Counting,100,0,0.39,0.43,0.04,0.0,0.09,0.21875,mcnemar_exact,False,5,1,38,56,correct,1.0,False
+per_task,Regional Land Use Classification,200,0,0.725,0.715,-0.01,-0.04,0.02,0.75390625,mcnemar_exact,False,4,6,139,51,correct,1.0,False
+per_task,Route Planning,100,0,0.41,0.41,0.0,-0.07,0.07,1.0,mcnemar_exact,False,6,6,35,53,correct,1.0,False
+progression,b1_direct_vs_b2_tiling,2983,97,0.413342,0.377808,-0.035535,-0.053973,-0.017767,0.00015403,mcnemar_exact,True,333,439,794,1417,,,
+progression,b2_tiling_vs_b3_selected,2983,97,0.377808,0.43111,0.053302,0.034529,0.072075,3e-08,mcnemar_exact,True,486,327,800,1370,,,
+progression,b3_selected_vs_proposed_ctsr,2983,97,0.43111,0.427422,-0.003688,-0.011733,0.004358,0.42783981,mcnemar_exact,False,74,85,1201,1623,,,

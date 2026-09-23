@@ -1,0 +1,21 @@
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{lrr}
+\toprule
+Category & Count & Share of failures (\textbackslash\{\}\%) \\
+\midrule
+parse failure & 5 & 0.3 \\
+localisation propagation & 1211 & 70.9 \\
+duplicate objects & 185 & 10.8 \\
+tile boundary & 68 & 4.0 \\
+incorrect relation & 162 & 9.5 \\
+fine grained loss & 9 & 0.5 \\
+unexplained & 68 & 4.0 \\
+\bottomrule
+\end{tabular}
+\vspace{2pt}
+\begin{minipage}{\linewidth}\footnotesize Categories are mutually exclusive and assigned in priority order, so counts sum to the 1708 scored failures. 97 samples were excluded as unscorable.\end{minipage}
+\caption{Error taxonomy for the proposed method.}
+\label{tab:errors}
+\end{table}

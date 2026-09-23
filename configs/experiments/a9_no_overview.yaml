@@ -1,0 +1,11 @@
+# A9: withhold the global overview image from the final call, keeping the crops
+# and the structured evidence. Tests how much of the global context the relation
+# representation can carry on its own.
+base: ../default.yaml
+
+final_call:
+  attach_overview: false
+
+run:
+  out_dir: results/ablation/a9_no_overview
+  arms: [b3_selected, proposed_ctsr]

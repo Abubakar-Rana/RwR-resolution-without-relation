@@ -1,0 +1,24 @@
+# For a single GPU with limited memory (roughly 24 GB).
+# Reduces the visual token budget and the number of attached crops, which are the
+# two dominant VRAM costs. Note that this changes the experimental condition:
+# report the pixel budget alongside any result produced with it.
+base: default.yaml
+
+model:
+  max_pixels_tokens: 640
+  load_in_4bit: false        # set true if bfloat16 still does not fit
+
+tiling:
+  tile_size: 768
+  overlap: 96
+
+final_call:
+  attach_crops: 2
+  crop_thumb_side: 640
+
+detection:
+  max_objects_per_tile: 10
+  max_objects_total: 45
+
+run:
+  out_dir: results/low_vram

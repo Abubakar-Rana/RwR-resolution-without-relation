@@ -1,0 +1,18 @@
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{lrrrrrrr}
+\toprule
+Method & Tiles & Selected & Objects & Relations & Cross-tile frac. & Dup. rate & Parse fail \\
+\midrule
+Baseline 1 & -- & -- & -- & -- & -- & -- & 0.001 \\
+Baseline 2 & 92.6 & 8.1 & -- & -- & -- & -- & 0.016 \\
+Baseline 3 & 92.6 & 5.1 & 5.5 & 19.6 & 0.063 & 0.082 & 0.000 \\
+Proposed & 92.6 & 5.1 & 5.5 & 19.6 & 0.063 & 0.082 & 0.002 \\
+\bottomrule
+\end{tabular}
+\vspace{2pt}
+\begin{minipage}{\linewidth}\footnotesize Pipeline-internal statistics. 'Cross-tile frac.' is the share of constructed relations holding between objects observed in different tiles: the relational structure that independent tile processing cannot represent. 'Dup. rate' is the fraction of raw detections removed as cross-tile duplicates.\end{minipage}
+\caption{Pipeline diagnostics.}
+\label{tab:diagnostics}
+\end{table}

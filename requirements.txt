@@ -1,0 +1,49 @@
+# CTSR pipeline dependencies.
+#
+# Install torch FIRST, matched to your CUDA version, from pytorch.org - do not
+# let pip resolve it from this file, or you may get a CPU-only build:
+#
+#   pip install torch torchvision --index-url https://download.pytorch.org/whl/cu121
+#   pip install -r requirements.txt
+#
+# Then verify with:  python scripts/00_check_env.py --load-model
+
+# --- required ---------------------------------------------------------------
+# Qwen2.5-VL needs a transformers version that ships
+# Qwen2_5_VLForConditionalGeneration. If the pinned floor below is unavailable,
+# install from source: pip install git+https://github.com/huggingface/transformers
+transformers>=4.49.0
+accelerate>=0.26.0
+qwen-vl-utils==0.0.8          # the officially supported vision-input path
+pillow>=10.0.0                # large-image decoding; the pipeline lifts MAX_IMAGE_PIXELS
+numpy>=1.24
+pyyaml>=6.0                   # config files
+datasets>=2.18.0              # data.source=hf
+pyarrow>=14.0                 # data.source=parquet, and HF arrow shards
+
+# --- strongly recommended ---------------------------------------------------
+matplotlib>=3.7               # all figures; without it, tables still generate
+pandas>=2.0                   # notebook convenience and CSV handling
+scipy>=1.10                   # exact binomial p-values (a pure-python fallback exists)
+
+# --- optional ---------------------------------------------------------------
+# METEOR for captioning. Without these, METEOR is reported as null (never 0):
+#   pip install nltk
+#   python -c "import nltk; nltk.download('wordnet'); nltk.download('omw-1.4')"
+# nltk>=3.8
+
+# Graph-level analysis in the notebook (SceneGraph.to_networkx):
+# networkx>=3.0
+
+# Faster attention. Needs a matching CUDA toolchain and a long compile; set
+# model.attn_implementation=flash_attention_2 once installed:
+# flash-attn>=2.5.0
+
+# 4-bit quantisation for a small-VRAM GPU (model.load_in_4bit=true):
+# bitsandbytes>=0.43.0
+
+# Progress bars in the notebook:
+# tqdm>=4.66
+
+# Router cross-validation in analysis/r03_router.py:
+scikit-learn>=1.3

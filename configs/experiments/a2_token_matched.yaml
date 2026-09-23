@@ -1,0 +1,11 @@
+# A2: token-matched control. Baseline 3 receives a spatially uninformative filler
+# block of comparable length, so a remaining gap cannot be explained by the
+# proposed arm merely having a longer prompt.
+base: ../default.yaml
+
+ablation:
+  pad_tokens_in_baseline: true
+
+run:
+  out_dir: results/ablation/a2_token_matched
+  arms: [b3_selected]

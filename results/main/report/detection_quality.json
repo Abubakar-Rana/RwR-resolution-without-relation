@@ -1,0 +1,29 @@
+{
+  "arm": "proposed_ctsr",
+  "n": 2983,
+  "accuracy_by_n_objects": {
+    "0": {
+      "n": 2034,
+      "accuracy": 0.4022
+    },
+    "1-5": {
+      "n": 255,
+      "accuracy": 0.4235
+    },
+    "6-15": {
+      "n": 342,
+      "accuracy": 0.4386
+    },
+    "16-30": {
+      "n": 236,
+      "accuracy": 0.5297
+    },
+    "31+": {
+      "n": 116,
+      "accuracy": 0.6379
+    }
+  },
+  "corr_n_objects_vs_correct": 0.11502671976338026,
+  "corr_extraction_parse_failure_vs_correct": 0.04070285745048922,
+  "note": "Observational: detection quality was not experimentally manipulated, so these correlations describe association, not effect. Use the tile-size / top-k sweeps for a manipulated comparison."
+}

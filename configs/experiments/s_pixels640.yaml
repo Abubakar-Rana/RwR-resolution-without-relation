@@ -1,0 +1,12 @@
+# Sweep: visual token budget = 640
+# Plan section 8 asks for the effect of tile size, tile overlap and the
+# number of selected regions. Both arms are run at every setting so the
+# relation effect stays a paired comparison within each condition.
+base: ../default.yaml
+
+model:
+  max_pixels_tokens: 640
+
+run:
+  out_dir: results/sweep/s_pixels640
+  arms: [b3_selected, proposed_ctsr]

@@ -1,0 +1,61 @@
+{
+  "config": "configs/main.yaml",
+  "arms": [
+    "b1_direct",
+    "b2_tiling",
+    "b3_selected",
+    "proposed_ctsr"
+  ],
+  "elapsed_minutes": 10.69,
+  "backend_is_stub": false,
+  "summaries": {
+    "b1_direct": {
+      "run_name": "b1_direct",
+      "run_dir": "results/main/b1_direct",
+      "n_records": 3080,
+      "n_scored": 2983,
+      "accuracy": 0.41334227287965136,
+      "n_parse_failed": 2,
+      "n_error": 0,
+      "mean_vlm_calls": 1.0,
+      "mean_seconds": 2.9774618831168764,
+      "backend_is_stub": false
+    },
+    "b2_tiling": {
+      "run_name": "b2_tiling",
+      "run_dir": "results/main/b2_tiling",
+      "n_records": 3080,
+      "n_scored": 2983,
+      "accuracy": 0.37780757626550454,
+      "n_parse_failed": 48,
+      "n_error": 0,
+      "mean_vlm_calls": 9.14935064935065,
+      "mean_seconds": 4.988207500000008,
+      "backend_is_stub": false
+    },
+    "b3_selected": {
+      "run_name": "b3_selected",
+      "run_dir": "results/main/b3_selected",
+      "n_records": 3080,
+      "n_scored": 2983,
+      "accuracy": 0.4311096211867248,
+      "n_parse_failed": 0,
+      "n_error": 0,
+      "mean_vlm_calls": 6.096103896103896,
+      "mean_seconds": 16.754933344155884,
+      "backend_is_stub": false
+    },
+    "proposed_ctsr": {
+      "run_name": "proposed_ctsr",
+      "run_dir": "results/main/proposed_ctsr",
+      "n_records": 3080,
+      "n_scored": 2983,
+      "accuracy": 0.4274220583305397,
+      "n_parse_failed": 5,
+      "n_error": 0,
+      "mean_vlm_calls": 6.096103896103896,
+      "mean_seconds": 16.854371818181836,
+      "backend_is_stub": false
+    }
+  }
+}

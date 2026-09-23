@@ -1,0 +1,1578 @@
+{
+ "n_samples_loaded": 3080,
+ "group_sizes_loaded": {
+  "non_relational": 2220,
+  "relational": 800,
+  "unknown": 60
+ },
+ "task_sizes_loaded": {
+  "Object Color": 800,
+  "Object Spatial Relationship": 500,
+  "Overall Counting": 60,
+  "Route Planning": 100,
+  "Environmental Condition Reasoning": 100,
+  "Counting with Complex Reasoning": 100,
+  "Object Motion State": 60,
+  "Anomaly Detection and Interpretation": 100,
+  "Object Classification": 800,
+  "Overall Land Use Classification": 100,
+  "Regional Land Use Classification": 200,
+  "Regional Counting": 100,
+  "Counting/Counting with changing detection": 60
+ },
+ "n_scorable_per_arm": {
+  "b1_direct": 2983,
+  "b2_tiling": 2983,
+  "b3_selected": 2983,
+  "proposed_ctsr": 2983
+ },
+ "unscorable_by_task": {
+  "Overall Land Use Classification": 97
+ },
+ "accuracy": {
+  "b1_direct": {
+   "overall": {
+    "acc": 0.41334227287965136,
+    "lo": 0.3959101575595039,
+    "hi": 0.4307827690244719,
+    "n": 2983
+   },
+   "relational": {
+    "acc": 0.37875,
+    "lo": 0.345,
+    "hi": 0.4125,
+    "n": 800
+   },
+   "non_relational": {
+    "acc": 0.42581252943947245,
+    "lo": 0.40461610927932173,
+    "hi": 0.4470089495996232,
+    "n": 2123
+   },
+   "unknown": {
+    "acc": 0.43333333333333335,
+    "lo": 0.31666666666666665,
+    "hi": 0.5666666666666667,
+    "n": 60
+   },
+   "parse_fail_rate": 0.0006493506493506494
+  },
+  "b2_tiling": {
+   "overall": {
+    "acc": 0.37780757626550454,
+    "lo": 0.36071069393228294,
+    "hi": 0.3942339926248743,
+    "n": 2983
+   },
+   "relational": {
+    "acc": 0.34,
+    "lo": 0.3075,
+    "hi": 0.3725,
+    "n": 800
+   },
+   "non_relational": {
+    "acc": 0.38954309938765896,
+    "lo": 0.36928874234573716,
+    "hi": 0.41026848798869525,
+    "n": 2123
+   },
+   "unknown": {
+    "acc": 0.4666666666666667,
+    "lo": 0.3333333333333333,
+    "hi": 0.6,
+    "n": 60
+   },
+   "parse_fail_rate": 0.015584415584415584
+  },
+  "b3_selected": {
+   "overall": {
+    "acc": 0.4311096211867248,
+    "lo": 0.41334227287965136,
+    "hi": 0.4492122024807241,
+    "n": 2983
+   },
+   "relational": {
+    "acc": 0.33375,
+    "lo": 0.30246875,
+    "hi": 0.36625,
+    "n": 800
+   },
+   "non_relational": {
+    "acc": 0.46679227508243054,
+    "lo": 0.44512482336316533,
+    "hi": 0.48800047103155897,
+    "n": 2123
+   },
+   "unknown": {
+    "acc": 0.4666666666666667,
+    "lo": 0.3333333333333333,
+    "hi": 0.6,
+    "n": 60
+   },
+   "parse_fail_rate": 0.0
+  },
+  "proposed_ctsr": {
+   "overall": {
+    "acc": 0.4274220583305397,
+    "lo": 0.4096547100234663,
+    "hi": 0.44518940663761314,
+    "n": 2983
+   },
+   "relational": {
+    "acc": 0.33375,
+    "lo": 0.30125,
+    "hi": 0.3675,
+    "n": 800
+   },
+   "non_relational": {
+    "acc": 0.46208195949128594,
+    "lo": 0.44088553933113517,
+    "hi": 0.4828073480923222,
+    "n": 2123
+   },
+   "unknown": {
+    "acc": 0.45,
+    "lo": 0.31666666666666665,
+    "hi": 0.5666666666666667,
+    "n": 60
+   },
+   "parse_fail_rate": 0.0016233766233766235
+  }
+ },
+ "pairwise": {
+  "b1_direct__b2_tiling": {
+   "overall": {
+    "n": 2983,
+    "acc_a": 0.41334227287965136,
+    "acc_b": 0.37780757626550454,
+    "delta": -0.035534696614146835,
+    "lo": -0.05363727790814616,
+    "hi": -0.01709688233322159,
+    "wins": 333,
+    "losses": 439,
+    "p": 0.00015402605370253483
+   },
+   "relational": {
+    "n": 800,
+    "acc_a": 0.37875,
+    "acc_b": 0.34,
+    "delta": -0.03875,
+    "lo": -0.0725,
+    "hi": -0.00375,
+    "wins": 87,
+    "losses": 118,
+    "p": 0.03588773130337711
+   },
+   "non_relational": {
+    "n": 2123,
+    "acc_a": 0.42581252943947245,
+    "acc_b": 0.38954309938765896,
+    "delta": -0.03626943005181347,
+    "lo": -0.0574658502119642,
+    "hi": -0.01460197833254828,
+    "wins": 236,
+    "losses": 313,
+    "p": 0.0011608822682546691
+   }
+  },
+  "b2_tiling__b3_selected": {
+   "overall": {
+    "n": 2983,
+    "acc_a": 0.37780757626550454,
+    "acc_b": 0.4311096211867248,
+    "delta": 0.053302044921220246,
+    "lo": 0.03486423064029501,
+    "hi": 0.0717398592021455,
+    "wins": 486,
+    "losses": 327,
+    "p": 2.722444752321545e-08
+   },
+   "relational": {
+    "n": 800,
+    "acc_a": 0.34,
+    "acc_b": 0.33375,
+    "delta": -0.00625,
+    "lo": -0.04128124999999997,
+    "hi": 0.02875,
+    "wins": 104,
+    "losses": 109,
+    "p": 0.7841033831878784
+   },
+   "non_relational": {
+    "n": 2123,
+    "acc_a": 0.38954309938765896,
+    "acc_b": 0.46679227508243054,
+    "delta": 0.07724917569477155,
+    "lo": 0.054639660857277436,
+    "hi": 0.09891662741403674,
+    "wins": 374,
+    "losses": 210,
+    "p": 1.1286179044465989e-11
+   }
+  },
+  "b1_direct__b3_selected": {
+   "overall": {
+    "n": 2983,
+    "acc_a": 0.41334227287965136,
+    "acc_b": 0.4311096211867248,
+    "delta": 0.017767348307073418,
+    "lo": 0.0026818638954073082,
+    "hi": 0.032852832718739525,
+    "wins": 293,
+    "losses": 240,
+    "p": 0.024208199518897047
+   },
+   "relational": {
+    "n": 800,
+    "acc_a": 0.37875,
+    "acc_b": 0.33375,
+    "delta": -0.045,
+    "lo": -0.075,
+    "hi": -0.015,
+    "wins": 56,
+    "losses": 92,
+    "p": 0.0038645812171462035
+   },
+   "non_relational": {
+    "n": 2123,
+    "acc_a": 0.42581252943947245,
+    "acc_b": 0.46679227508243054,
+    "delta": 0.04097974564295808,
+    "lo": 0.023551577955723033,
+    "hi": 0.05934997644842204,
+    "wins": 233,
+    "losses": 146,
+    "p": 9.170965520630295e-06
+   }
+  },
+  "b3_selected__proposed_ctsr": {
+   "overall": {
+    "n": 2983,
+    "acc_a": 0.4311096211867248,
+    "acc_b": 0.4274220583305397,
+    "delta": -0.0036875628561850488,
+    "lo": -0.012068387529332886,
+    "hi": 0.004358028830036876,
+    "wins": 74,
+    "losses": 85,
+    "p": 0.42783981112503305
+   },
+   "relational": {
+    "n": 800,
+    "acc_a": 0.33375,
+    "acc_b": 0.33375,
+    "delta": 0.0,
+    "lo": -0.02125,
+    "hi": 0.02125,
+    "wins": 37,
+    "losses": 37,
+    "p": 1.0
+   },
+   "non_relational": {
+    "n": 2123,
+    "acc_a": 0.46679227508243054,
+    "acc_b": 0.46208195949128594,
+    "delta": -0.004710315591144607,
+    "lo": -0.0131888836552049,
+    "hi": 0.0037682524729156855,
+    "wins": 35,
+    "losses": 45,
+    "p": 0.31430657986393706
+   }
+  },
+  "b1_direct__proposed_ctsr": {
+   "overall": {
+    "n": 2983,
+    "acc_a": 0.41334227287965136,
+    "acc_b": 0.4274220583305397,
+    "delta": 0.014079785450888367,
+    "lo": -0.0010056989607777405,
+    "hi": 0.029835735836406304,
+    "wins": 290,
+    "losses": 248,
+    "p": 0.07702448419148801
+   },
+   "relational": {
+    "n": 800,
+    "acc_a": 0.37875,
+    "acc_b": 0.33375,
+    "delta": -0.045,
+    "lo": -0.075,
+    "hi": -0.015,
+    "wins": 55,
+    "losses": 91,
+    "p": 0.0036247809875379873
+   },
+   "non_relational": {
+    "n": 2123,
+    "acc_a": 0.42581252943947245,
+    "acc_b": 0.46208195949128594,
+    "delta": 0.03626943005181347,
+    "lo": 0.017899199246349504,
+    "hi": 0.054168629298162976,
+    "wins": 229,
+    "losses": 152,
+    "p": 9.390114951118664e-05
+   }
+  }
+ },
+ "interaction_b3_minus_b1": {
+  "delta_relational": -0.045,
+  "delta_non_relational": 0.04097974564295808,
+  "diff_in_diff": -0.08597974564295807,
+  "lo": -0.12148728214790391,
+  "hi": -0.05065355628827131,
+  "p_perm": 0.0001
+ },
+ "per_task": {
+  "Anomaly Detection and Interpretation": {
+   "group": "non_relational",
+   "l2": "Reasoning",
+   "b1_direct": {
+    "acc": 0.7,
+    "lo": 0.61,
+    "hi": 0.79,
+    "n": 100
+   },
+   "b2_tiling": {
+    "acc": 0.65,
+    "lo": 0.56,
+    "hi": 0.74,
+    "n": 100
+   },
+   "b3_selected": {
+    "acc": 0.7,
+    "lo": 0.61,
+    "hi": 0.79,
+    "n": 100
+   },
+   "proposed_ctsr": {
+    "acc": 0.65,
+    "lo": 0.55,
+    "hi": 0.74,
+    "n": 100
+   },
+   "b3_vs_p": {
+    "n": 100,
+    "acc_a": 0.7,
+    "acc_b": 0.65,
+    "delta": -0.05,
+    "lo": -0.1,
+    "hi": 0.0,
+    "wins": 1,
+    "losses": 6,
+    "p": 0.125,
+    "p_holm": 1.0
+   },
+   "b1_vs_b3": {
+    "n": 100,
+    "acc_a": 0.7,
+    "acc_b": 0.7,
+    "delta": 0.0,
+    "lo": -0.05,
+    "hi": 0.05,
+    "wins": 3,
+    "losses": 3,
+    "p": 1.0,
+    "p_holm": 1.0
+   },
+   "zero_object_rate": 0.14
+  },
+  "Counting with Complex Reasoning": {
+   "group": "relational",
+   "l2": "Reasoning",
+   "b1_direct": {
+    "acc": 0.56,
+    "lo": 0.46,
+    "hi": 0.66,
+    "n": 100
+   },
+   "b2_tiling": {
+    "acc": 0.43,
+    "lo": 0.33,
+    "hi": 0.52,
+    "n": 100
+   },
+   "b3_selected": {
+    "acc": 0.51,
+    "lo": 0.41,
+    "hi": 0.61,
+    "n": 100
+   },
+   "proposed_ctsr": {
+    "acc": 0.52,
+    "lo": 0.42,
+    "hi": 0.62,
+    "n": 100
+   },
+   "b3_vs_p": {
+    "n": 100,
+    "acc_a": 0.51,
+    "acc_b": 0.52,
+    "delta": 0.01,
+    "lo": -0.03,
+    "hi": 0.06,
+    "wins": 3,
+    "losses": 2,
+    "p": 1.0,
+    "p_holm": 1.0
+   },
+   "b1_vs_b3": {
+    "n": 100,
+    "acc_a": 0.56,
+    "acc_b": 0.51,
+    "delta": -0.05,
+    "lo": -0.12,
+    "hi": 0.03,
+    "wins": 5,
+    "losses": 10,
+    "p": 0.30175781249999994,
+    "p_holm": 1.0
+   },
+   "zero_object_rate": 0.48
+  },
+  "Counting/Counting with changing detection": {
+   "group": "unknown",
+   "l2": "Default",
+   "b1_direct": {
+    "acc": 0.43333333333333335,
+    "lo": 0.31666666666666665,
+    "hi": 0.55,
+    "n": 60
+   },
+   "b2_tiling": {
+    "acc": 0.4666666666666667,
+    "lo": 0.3333333333333333,
+    "hi": 0.5833333333333334,
+    "n": 60
+   },
+   "b3_selected": {
+    "acc": 0.4666666666666667,
+    "lo": 0.35,
+    "hi": 0.6,
+    "n": 60
+   },
+   "proposed_ctsr": {
+    "acc": 0.45,
+    "lo": 0.31666666666666665,
+    "hi": 0.5666666666666667,
+    "n": 60
+   },
+   "b3_vs_p": {
+    "n": 60,
+    "acc_a": 0.4666666666666667,
+    "acc_b": 0.45,
+    "delta": -0.016666666666666666,
+    "lo": -0.08333333333333333,
+    "hi": 0.05,
+    "wins": 2,
+    "losses": 3,
+    "p": 1.0,
+    "p_holm": 1.0
+   },
+   "b1_vs_b3": {
+    "n": 60,
+    "acc_a": 0.43333333333333335,
+    "acc_b": 0.4666666666666667,
+    "delta": 0.03333333333333333,
+    "lo": -0.05,
+    "hi": 0.11666666666666667,
+    "wins": 4,
+    "losses": 2,
+    "p": 0.6875,
+    "p_holm": 1.0
+   },
+   "zero_object_rate": 0.4
+  },
+  "Environmental Condition Reasoning": {
+   "group": "non_relational",
+   "l2": "Reasoning",
+   "b1_direct": {
+    "acc": 0.79,
+    "lo": 0.71,
+    "hi": 0.87,
+    "n": 100
+   },
+   "b2_tiling": {
+    "acc": 0.72,
+    "lo": 0.63,
+    "hi": 0.81,
+    "n": 100
+   },
+   "b3_selected": {
+    "acc": 0.8,
+    "lo": 0.72,
+    "hi": 0.88,
+    "n": 100
+   },
+   "proposed_ctsr": {
+    "acc": 0.78,
+    "lo": 0.7,
+    "hi": 0.86,
+    "n": 100
+   },
+   "b3_vs_p": {
+    "n": 100,
+    "acc_a": 0.8,
+    "acc_b": 0.78,
+    "delta": -0.02,
+    "lo": -0.07,
+    "hi": 0.03,
+    "wins": 2,
+    "losses": 4,
+    "p": 0.6875,
+    "p_holm": 1.0
+   },
+   "b1_vs_b3": {
+    "n": 100,
+    "acc_a": 0.79,
+    "acc_b": 0.8,
+    "delta": 0.01,
+    "lo": -0.05,
+    "hi": 0.07,
+    "wins": 6,
+    "losses": 5,
+    "p": 1.0,
+    "p_holm": 1.0
+   },
+   "zero_object_rate": 0.09
+  },
+  "Object Classification": {
+   "group": "non_relational",
+   "l2": "Perception",
+   "b1_direct": {
+    "acc": 0.35,
+    "lo": 0.31625,
+    "hi": 0.38375,
+    "n": 800
+   },
+   "b2_tiling": {
+    "acc": 0.315,
+    "lo": 0.2825,
+    "hi": 0.3475,
+    "n": 800
+   },
+   "b3_selected": {
+    "acc": 0.37875,
+    "lo": 0.34625,
+    "hi": 0.4125,
+    "n": 800
+   },
+   "proposed_ctsr": {
+    "acc": 0.38625,
+    "lo": 0.3525,
+    "hi": 0.42,
+    "n": 800
+   },
+   "b3_vs_p": {
+    "n": 800,
+    "acc_a": 0.37875,
+    "acc_b": 0.38625,
+    "delta": 0.0075,
+    "lo": -0.0025,
+    "hi": 0.0175,
+    "wins": 12,
+    "losses": 6,
+    "p": 0.237884521484375,
+    "p_holm": 1.0
+   },
+   "b1_vs_b3": {
+    "n": 800,
+    "acc_a": 0.35,
+    "acc_b": 0.37875,
+    "delta": 0.02875,
+    "lo": -0.0025,
+    "hi": 0.05878125000000011,
+    "wins": 91,
+    "losses": 68,
+    "p": 0.08070858724864136,
+    "p_holm": 0.8070858724864136
+   },
+   "zero_object_rate": 0.985
+  },
+  "Object Color": {
+   "group": "non_relational",
+   "l2": "Perception",
+   "b1_direct": {
+    "acc": 0.35375,
+    "lo": 0.32,
+    "hi": 0.3875,
+    "n": 800
+   },
+   "b2_tiling": {
+    "acc": 0.34375,
+    "lo": 0.31125,
+    "hi": 0.37625,
+    "n": 800
+   },
+   "b3_selected": {
+    "acc": 0.41375,
+    "lo": 0.3775,
+    "hi": 0.4475,
+    "n": 800
+   },
+   "proposed_ctsr": {
+    "acc": 0.41,
+    "lo": 0.37625,
+    "hi": 0.44375,
+    "n": 800
+   },
+   "b3_vs_p": {
+    "n": 800,
+    "acc_a": 0.41375,
+    "acc_b": 0.41,
+    "delta": -0.00375,
+    "lo": -0.01625,
+    "hi": 0.00875,
+    "wins": 12,
+    "losses": 15,
+    "p": 0.7011080384254456,
+    "p_holm": 1.0
+   },
+   "b1_vs_b3": {
+    "n": 800,
+    "acc_a": 0.35375,
+    "acc_b": 0.41375,
+    "delta": 0.06,
+    "lo": 0.03,
+    "hi": 0.0875,
+    "wins": 95,
+    "losses": 47,
+    "p": 6.913146544615215e-05,
+    "p_holm": 0.0008295775853538257
+   },
+   "zero_object_rate": 0.99625
+  },
+  "Object Motion State": {
+   "group": "non_relational",
+   "l2": "Perception",
+   "b1_direct": {
+    "acc": 0.65,
+    "lo": 0.5333333333333333,
+    "hi": 0.7666666666666667,
+    "n": 60
+   },
+   "b2_tiling": {
+    "acc": 0.65,
+    "lo": 0.5333333333333333,
+    "hi": 0.7666666666666667,
+    "n": 60
+   },
+   "b3_selected": {
+    "acc": 0.6666666666666666,
+    "lo": 0.55,
+    "hi": 0.7833333333333333,
+    "n": 60
+   },
+   "proposed_ctsr": {
+    "acc": 0.6666666666666666,
+    "lo": 0.55,
+    "hi": 0.7833333333333333,
+    "n": 60
+   },
+   "b3_vs_p": {
+    "n": 60,
+    "acc_a": 0.6666666666666666,
+    "acc_b": 0.6666666666666666,
+    "delta": 0.0,
+    "lo": 0.0,
+    "hi": 0.0,
+    "wins": 0,
+    "losses": 0,
+    "p": 1.0,
+    "p_holm": 1.0
+   },
+   "b1_vs_b3": {
+    "n": 60,
+    "acc_a": 0.65,
+    "acc_b": 0.6666666666666666,
+    "delta": 0.016666666666666666,
+    "lo": 0.0,
+    "hi": 0.05,
+    "wins": 1,
+    "losses": 0,
+    "p": 1.0,
+    "p_holm": 1.0
+   },
+   "zero_object_rate": 1.0
+  },
+  "Object Spatial Relationship": {
+   "group": "relational",
+   "l2": "Perception",
+   "b1_direct": {
+    "acc": 0.324,
+    "lo": 0.284,
+    "hi": 0.366,
+    "n": 500
+   },
+   "b2_tiling": {
+    "acc": 0.302,
+    "lo": 0.262,
+    "hi": 0.342,
+    "n": 500
+   },
+   "b3_selected": {
+    "acc": 0.272,
+    "lo": 0.234,
+    "hi": 0.312,
+    "n": 500
+   },
+   "proposed_ctsr": {
+    "acc": 0.262,
+    "lo": 0.224,
+    "hi": 0.302,
+    "n": 500
+   },
+   "b3_vs_p": {
+    "n": 500,
+    "acc_a": 0.272,
+    "acc_b": 0.262,
+    "delta": -0.01,
+    "lo": -0.038,
+    "hi": 0.016,
+    "wins": 23,
+    "losses": 28,
+    "p": 0.5758493477318467,
+    "p_holm": 1.0
+   },
+   "b1_vs_b3": {
+    "n": 500,
+    "acc_a": 0.324,
+    "acc_b": 0.272,
+    "delta": -0.052,
+    "lo": -0.09,
+    "hi": -0.012,
+    "wins": 36,
+    "losses": 62,
+    "p": 0.011174544214771171,
+    "p_holm": 0.12291998636248289
+   },
+   "zero_object_rate": 0.374
+  },
+  "Overall Counting": {
+   "group": "non_relational",
+   "l2": "Perception",
+   "b1_direct": {
+    "acc": 0.25,
+    "lo": 0.15,
+    "hi": 0.36666666666666664,
+    "n": 60
+   },
+   "b2_tiling": {
+    "acc": 0.16666666666666666,
+    "lo": 0.08333333333333333,
+    "hi": 0.26666666666666666,
+    "n": 60
+   },
+   "b3_selected": {
+    "acc": 0.3333333333333333,
+    "lo": 0.21666666666666667,
+    "hi": 0.4666666666666667,
+    "n": 60
+   },
+   "proposed_ctsr": {
+    "acc": 0.26666666666666666,
+    "lo": 0.16666666666666666,
+    "hi": 0.38333333333333336,
+    "n": 60
+   },
+   "b3_vs_p": {
+    "n": 60,
+    "acc_a": 0.3333333333333333,
+    "acc_b": 0.26666666666666666,
+    "delta": -0.06666666666666667,
+    "lo": -0.18333333333333332,
+    "hi": 0.05,
+    "wins": 4,
+    "losses": 8,
+    "p": 0.3876953125,
+    "p_holm": 1.0
+   },
+   "b1_vs_b3": {
+    "n": 60,
+    "acc_a": 0.25,
+    "acc_b": 0.3333333333333333,
+    "delta": 0.08333333333333333,
+    "lo": -0.05,
+    "hi": 0.21666666666666667,
+    "wins": 11,
+    "losses": 6,
+    "p": 0.332305908203125,
+    "p_holm": 1.0
+   },
+   "zero_object_rate": 0.13333333333333333
+  },
+  "Overall Land Use Classification": {
+   "group": "non_relational",
+   "l2": "Perception",
+   "b1_direct": {
+    "acc": 0.6666666666666666,
+    "lo": 0.0,
+    "hi": 1.0,
+    "n": 3
+   },
+   "b2_tiling": {
+    "acc": 0.6666666666666666,
+    "lo": 0.0,
+    "hi": 1.0,
+    "n": 3
+   },
+   "b3_selected": {
+    "acc": 0.6666666666666666,
+    "lo": 0.0,
+    "hi": 1.0,
+    "n": 3
+   },
+   "proposed_ctsr": {
+    "acc": 0.6666666666666666,
+    "lo": 0.0,
+    "hi": 1.0,
+    "n": 3
+   },
+   "b3_vs_p": {
+    "n": 3,
+    "acc_a": 0.6666666666666666,
+    "acc_b": 0.6666666666666666,
+    "delta": 0.0,
+    "lo": 0.0,
+    "hi": 0.0,
+    "wins": 0,
+    "losses": 0,
+    "p": 1.0
+   },
+   "b1_vs_b3": {
+    "n": 3,
+    "acc_a": 0.6666666666666666,
+    "acc_b": 0.6666666666666666,
+    "delta": 0.0,
+    "lo": 0.0,
+    "hi": 0.0,
+    "wins": 0,
+    "losses": 0,
+    "p": 1.0
+   },
+   "zero_object_rate": 0.0
+  },
+  "Regional Counting": {
+   "group": "relational",
+   "l2": "Perception",
+   "b1_direct": {
+    "acc": 0.45,
+    "lo": 0.35,
+    "hi": 0.55,
+    "n": 100
+   },
+   "b2_tiling": {
+    "acc": 0.36,
+    "lo": 0.26,
+    "hi": 0.45,
+    "n": 100
+   },
+   "b3_selected": {
+    "acc": 0.39,
+    "lo": 0.29,
+    "hi": 0.48,
+    "n": 100
+   },
+   "proposed_ctsr": {
+    "acc": 0.43,
+    "lo": 0.34,
+    "hi": 0.53,
+    "n": 100
+   },
+   "b3_vs_p": {
+    "n": 100,
+    "acc_a": 0.39,
+    "acc_b": 0.43,
+    "delta": 0.04,
+    "lo": 0.0,
+    "hi": 0.09,
+    "wins": 5,
+    "losses": 1,
+    "p": 0.21875,
+    "p_holm": 1.0
+   },
+   "b1_vs_b3": {
+    "n": 100,
+    "acc_a": 0.45,
+    "acc_b": 0.39,
+    "delta": -0.06,
+    "lo": -0.14,
+    "hi": 0.02,
+    "wins": 6,
+    "losses": 12,
+    "p": 0.237884521484375,
+    "p_holm": 1.0
+   },
+   "zero_object_rate": 0.49
+  },
+  "Regional Land Use Classification": {
+   "group": "non_relational",
+   "l2": "Perception",
+   "b1_direct": {
+    "acc": 0.68,
+    "lo": 0.615,
+    "hi": 0.745,
+    "n": 200
+   },
+   "b2_tiling": {
+    "acc": 0.56,
+    "lo": 0.49,
+    "hi": 0.63,
+    "n": 200
+   },
+   "b3_selected": {
+    "acc": 0.725,
+    "lo": 0.665,
+    "hi": 0.785,
+    "n": 200
+   },
+   "proposed_ctsr": {
+    "acc": 0.715,
+    "lo": 0.65,
+    "hi": 0.775,
+    "n": 200
+   },
+   "b3_vs_p": {
+    "n": 200,
+    "acc_a": 0.725,
+    "acc_b": 0.715,
+    "delta": -0.01,
+    "lo": -0.04,
+    "hi": 0.02,
+    "wins": 4,
+    "losses": 6,
+    "p": 0.75390625,
+    "p_holm": 1.0
+   },
+   "b1_vs_b3": {
+    "n": 200,
+    "acc_a": 0.68,
+    "acc_b": 0.725,
+    "delta": 0.045,
+    "lo": -0.015,
+    "hi": 0.11,
+    "wins": 26,
+    "losses": 17,
+    "p": 0.2220528201560228,
+    "p_holm": 1.0
+   },
+   "zero_object_rate": 0.11
+  },
+  "Route Planning": {
+   "group": "relational",
+   "l2": "Reasoning",
+   "b1_direct": {
+    "acc": 0.4,
+    "lo": 0.31,
+    "hi": 0.5,
+    "n": 100
+   },
+   "b2_tiling": {
+    "acc": 0.42,
+    "lo": 0.33,
+    "hi": 0.52,
+    "n": 100
+   },
+   "b3_selected": {
+    "acc": 0.41,
+    "lo": 0.32,
+    "hi": 0.51,
+    "n": 100
+   },
+   "proposed_ctsr": {
+    "acc": 0.41,
+    "lo": 0.32,
+    "hi": 0.5,
+    "n": 100
+   },
+   "b3_vs_p": {
+    "n": 100,
+    "acc_a": 0.41,
+    "acc_b": 0.41,
+    "delta": 0.0,
+    "lo": -0.07,
+    "hi": 0.07,
+    "wins": 6,
+    "losses": 6,
+    "p": 1.0,
+    "p_holm": 1.0
+   },
+   "b1_vs_b3": {
+    "n": 100,
+    "acc_a": 0.4,
+    "acc_b": 0.41,
+    "delta": 0.01,
+    "lo": -0.07,
+    "hi": 0.09,
+    "wins": 9,
+    "losses": 8,
+    "p": 1.0,
+    "p_holm": 1.0
+   },
+   "zero_object_rate": 0.28
+  }
+ },
+ "extraction": {
+  "zero_object_rate": 0.6603896103896104,
+  "zero_relation_rate": 0.6698051948051948,
+  "mean_objects": 5.538636363636364,
+  "median_objects_given_any": 12.0,
+  "mean_objects_given_any": 16.308795411089868,
+  "mean_relations_given_any": 59.34709931170108,
+  "mean_cross_tile_given_any": 9.053097345132743,
+  "cross_tile_fraction_given_any": 0.19021186228583511,
+  "share_with_cross_tile": 0.20584415584415586,
+  "mean_tiles_selected": 5.096103896103896,
+  "mean_tiles_total": 92.62435064935065,
+  "raw_items": 19481,
+  "raw_items_unparsed": 302,
+  "border_touching": 4124,
+  "tiles_processed": 15696,
+  "tiles_failed": 0,
+  "dedup_input": 19102,
+  "dedup_merged": 2040,
+  "cross_tile_merges": 623,
+  "objects_hist_bins": [
+   0,
+   1,
+   6,
+   16,
+   31,
+   1000000
+  ]
+ },
+ "stratified_b3_vs_p": {
+  "no_relations": {
+   "n_all": 2063,
+   "overall": {
+    "n": 2063,
+    "acc_a": 0.407174018419777,
+    "acc_b": 0.4066892874454678,
+    "delta": -0.0004847309743092584,
+    "lo": -0.008240426563257392,
+    "hi": 0.007270964614638876,
+    "wins": 32,
+    "losses": 33,
+    "p": 1.0,
+    "answer_change_rate": 0.05622879301987397
+   },
+   "relational": {
+    "n": 329,
+    "acc_a": 0.3799392097264438,
+    "acc_b": 0.364741641337386,
+    "delta": -0.015197568389057751,
+    "lo": -0.0364741641337386,
+    "hi": 0.0060790273556231,
+    "wins": 4,
+    "losses": 9,
+    "p": 0.266845703125,
+    "answer_change_rate": 0.0790273556231003
+   },
+   "non_relational": {
+    "n": 1709,
+    "acc_a": 0.41076653013458164,
+    "acc_b": 0.4125219426565243,
+    "delta": 0.0017554125219426564,
+    "lo": -0.006436512580456407,
+    "hi": 0.00994733762434172,
+    "wins": 26,
+    "losses": 23,
+    "p": 0.7754496546815659,
+    "answer_change_rate": 0.05090696313633704
+   }
+  },
+  "has_relations": {
+   "n_all": 1017,
+   "overall": {
+    "n": 920,
+    "acc_a": 0.48478260869565215,
+    "acc_b": 0.47391304347826085,
+    "delta": -0.010869565217391304,
+    "lo": -0.03152173913043478,
+    "hi": 0.009782608695652175,
+    "wins": 42,
+    "losses": 52,
+    "p": 0.35332803247158273,
+    "answer_change_rate": 0.17391304347826086
+   },
+   "relational": {
+    "n": 471,
+    "acc_a": 0.30148619957537154,
+    "acc_b": 0.31210191082802546,
+    "delta": 0.010615711252653927,
+    "lo": -0.021231422505307854,
+    "hi": 0.04246284501061571,
+    "wins": 33,
+    "losses": 28,
+    "p": 0.6089207154048286,
+    "answer_change_rate": 0.2484076433121019
+   },
+   "non_relational": {
+    "n": 414,
+    "acc_a": 0.6980676328502415,
+    "acc_b": 0.6666666666666666,
+    "delta": -0.03140096618357488,
+    "lo": -0.057971014492753624,
+    "hi": -0.004830917874396135,
+    "wins": 9,
+    "losses": 22,
+    "p": 0.029449373483657837,
+    "answer_change_rate": 0.09903381642512077
+   }
+  },
+  "has_cross_tile": {
+   "n_all": 634,
+   "overall": {
+    "n": 549,
+    "acc_a": 0.5300546448087432,
+    "acc_b": 0.5209471766848816,
+    "delta": -0.009107468123861567,
+    "lo": -0.03642987249544627,
+    "hi": 0.018214936247723135,
+    "wins": 28,
+    "losses": 33,
+    "p": 0.6089207154048286,
+    "answer_change_rate": 0.1930783242258652
+   },
+   "relational": {
+    "n": 247,
+    "acc_a": 0.3076923076923077,
+    "acc_b": 0.3360323886639676,
+    "delta": 0.02834008097165992,
+    "lo": -0.020242914979757085,
+    "hi": 0.07692307692307693,
+    "wins": 22,
+    "losses": 15,
+    "p": 0.3240086000878364,
+    "answer_change_rate": 0.29959514170040485
+   },
+   "non_relational": {
+    "n": 293,
+    "acc_a": 0.7235494880546075,
+    "acc_b": 0.6825938566552902,
+    "delta": -0.040955631399317405,
+    "lo": -0.07508532423208192,
+    "hi": -0.010238907849829351,
+    "wins": 6,
+    "losses": 18,
+    "p": 0.022655844688415527,
+    "answer_change_rate": 0.10921501706484642
+   }
+  }
+ },
+ "acc_by_objects": {
+  "0": {
+   "n": 2034,
+   "b1_direct": {
+    "acc": 0.372173058013766,
+    "lo": 0.35152409046214356,
+    "hi": 0.39331366764995085,
+    "n": 2034
+   },
+   "b2_tiling": {
+    "acc": 0.3525073746312684,
+    "lo": 0.33235004916420846,
+    "hi": 0.37315634218289084,
+    "n": 2034
+   },
+   "b3_selected": {
+    "acc": 0.4026548672566372,
+    "lo": 0.3810226155358899,
+    "hi": 0.42428711897738447,
+    "n": 2034
+   },
+   "proposed_ctsr": {
+    "acc": 0.40216322517207476,
+    "lo": 0.38101032448377586,
+    "hi": 0.42379547689282204,
+    "n": 2034
+   },
+   "rel_share": 0.15339233038348082,
+   "task_mix": {
+    "Object Color": 797,
+    "Object Classification": 788,
+    "Object Spatial Relationship": 187,
+    "Object Motion State": 60
+   }
+  },
+  "1-5": {
+   "n": 255,
+   "b1_direct": {
+    "acc": 0.4392156862745098,
+    "lo": 0.3764705882352941,
+    "hi": 0.5019607843137255,
+    "n": 255
+   },
+   "b2_tiling": {
+    "acc": 0.403921568627451,
+    "lo": 0.3411764705882353,
+    "hi": 0.46284313725490234,
+    "n": 255
+   },
+   "b3_selected": {
+    "acc": 0.4117647058823529,
+    "lo": 0.35294117647058826,
+    "hi": 0.4745098039215686,
+    "n": 255
+   },
+   "proposed_ctsr": {
+    "acc": 0.4235294117647059,
+    "lo": 0.36470588235294116,
+    "hi": 0.48627450980392156,
+    "n": 255
+   },
+   "rel_share": 0.7254901960784313,
+   "task_mix": {
+    "Object Spatial Relationship": 124,
+    "Regional Land Use Classification": 28,
+    "Regional Counting": 27,
+    "Counting with Complex Reasoning": 21
+   }
+  },
+  "6-15": {
+   "n": 348,
+   "b1_direct": {
+    "acc": 0.4590643274853801,
+    "lo": 0.4093567251461988,
+    "hi": 0.5116959064327485,
+    "n": 342
+   },
+   "b2_tiling": {
+    "acc": 0.37719298245614036,
+    "lo": 0.32456140350877194,
+    "hi": 0.4298245614035088,
+    "n": 342
+   },
+   "b3_selected": {
+    "acc": 0.4678362573099415,
+    "lo": 0.4152046783625731,
+    "hi": 0.52046783625731,
+    "n": 342
+   },
+   "proposed_ctsr": {
+    "acc": 0.43859649122807015,
+    "lo": 0.38596491228070173,
+    "hi": 0.49122807017543857,
+    "n": 342
+   },
+   "rel_share": 0.5660919540229885,
+   "task_mix": {
+    "Object Spatial Relationship": 126,
+    "Regional Land Use Classification": 63,
+    "Route Planning": 39,
+    "Anomaly Detection and Interpretation": 23
+   }
+  },
+  "16-30": {
+   "n": 266,
+   "b1_direct": {
+    "acc": 0.5720338983050848,
+    "lo": 0.5084745762711864,
+    "hi": 0.6313559322033898,
+    "n": 236
+   },
+   "b2_tiling": {
+    "acc": 0.4872881355932203,
+    "lo": 0.423728813559322,
+    "hi": 0.5508474576271186,
+    "n": 236
+   },
+   "b3_selected": {
+    "acc": 0.5423728813559322,
+    "lo": 0.4788135593220339,
+    "hi": 0.6059322033898306,
+    "n": 236
+   },
+   "proposed_ctsr": {
+    "acc": 0.5296610169491526,
+    "lo": 0.4661016949152542,
+    "hi": 0.5932203389830508,
+    "n": 236
+   },
+   "rel_share": 0.29699248120300753,
+   "task_mix": {
+    "Regional Land Use Classification": 74,
+    "Object Spatial Relationship": 51,
+    "Environmental Condition Reasoning": 34,
+    "Overall Land Use Classification": 31
+   }
+  },
+  "31+": {
+   "n": 177,
+   "b1_direct": {
+    "acc": 0.6206896551724138,
+    "lo": 0.5344827586206896,
+    "hi": 0.7068965517241379,
+    "n": 116
+   },
+   "b2_tiling": {
+    "acc": 0.5431034482758621,
+    "lo": 0.4566810344827587,
+    "hi": 0.6379310344827587,
+    "n": 116
+   },
+   "b3_selected": {
+    "acc": 0.6379310344827587,
+    "lo": 0.5517241379310345,
+    "hi": 0.7241379310344828,
+    "n": 116
+   },
+   "proposed_ctsr": {
+    "acc": 0.6379310344827587,
+    "lo": 0.5517241379310345,
+    "hi": 0.7241379310344828,
+    "n": 116
+   },
+   "rel_share": 0.15254237288135594,
+   "task_mix": {
+    "Overall Land Use Classification": 62,
+    "Environmental Condition Reasoning": 37,
+    "Anomaly Detection and Interpretation": 30,
+    "Regional Land Use Classification": 13
+   }
+  }
+ },
+ "oracle": {
+  "overall": {
+   "b1": 0.41334227287965136,
+   "b3": 0.4311096211867248,
+   "either": 0.511565538048944,
+   "both": 0.3328863560174321,
+   "n": 2983
+  },
+  "relational": {
+   "b1": 0.37875,
+   "b3": 0.33375,
+   "either": 0.44875,
+   "both": 0.26375,
+   "n": 800
+  },
+  "non_relational": {
+   "b1": 0.42581252943947245,
+   "b3": 0.46679227508243054,
+   "either": 0.5355628827131418,
+   "both": 0.3570419218087612,
+   "n": 2123
+  }
+ },
+ "compute": {
+  "b1_direct": {
+   "calls": 1.0,
+   "mpix": 0.9818368181818182,
+   "prompt_tokens": 1403.0954545454545,
+   "completion_tokens": 5.00422077922078,
+   "images": 1.0194805194805194,
+   "seconds": 2.9774618831168835,
+   "gpu_hours": 2.5473840555555554,
+   "peak_vram_gb": 16.0033203125,
+   "stage_seconds": {
+    "load_images": 0.014878863636363636,
+    "vlm_answer": 2.9623930519480517
+   },
+   "n_degraded": 0
+  },
+  "b2_tiling": {
+   "calls": 9.14935064935065,
+   "mpix": 7.826636363636364,
+   "prompt_tokens": 11810.127922077922,
+   "completion_tokens": 39.69642857142857,
+   "images": 8.14935064935065,
+   "seconds": 4.9882075,
+   "gpu_hours": 4.267688638888889,
+   "peak_vram_gb": 15.81611328125,
+   "stage_seconds": {
+    "tile_answers": 4.850141850649351,
+    "vote": 0.12924113636363638
+   },
+   "n_degraded": 0
+  },
+  "b3_selected": {
+   "calls": 6.096103896103896,
+   "mpix": 7.527040000000001,
+   "prompt_tokens": 12006.491883116883,
+   "completion_tokens": 429.43084415584417,
+   "images": 9.096103896103896,
+   "seconds": 16.754933344155845,
+   "gpu_hours": 14.334776305555556,
+   "peak_vram_gb": 17.098046875,
+   "stage_seconds": {
+    "attach_crops": 0.034553181818181816,
+    "extraction": 13.03960064935065,
+    "final_answer": 0.8301492207792207,
+    "overview": 2.5656054220779225,
+    "selection": 0.2697748376623376,
+    "dedup": 0.002072753346080306,
+    "relations": 0.0006320267686424475
+   },
+   "n_degraded": 0
+  },
+  "proposed_ctsr": {
+   "calls": 6.096103896103896,
+   "mpix": 7.527040000000001,
+   "prompt_tokens": 12454.916558441559,
+   "completion_tokens": 429.5064935064935,
+   "images": 9.096103896103896,
+   "seconds": 16.854371818181818,
+   "gpu_hours": 14.419851444444443,
+   "peak_vram_gb": 17.96103515625,
+   "stage_seconds": {
+    "attach_crops": 0.034387662337662335,
+    "extraction": 13.037851461038962,
+    "final_answer": 0.8754725,
+    "overview": 2.6136638311688314,
+    "selection": 0.2759908116883117,
+    "dedup": 0.002083365200764818,
+    "relations": 0.0006434990439770555
+   },
+   "n_degraded": 0
+  }
+ },
+ "total_gpu_hours": 35.56970044444444,
+ "gt_letters": {
+  "A": 695,
+  "D": 682,
+  "B": 801,
+  "C": 805
+ },
+ "parsed_letters": {
+  "b1_direct": {
+   "C": 1181,
+   "D": 752,
+   "B": 619,
+   "A": 526,
+   "None": 2
+  },
+  "b2_tiling": {
+   "C": 1136,
+   "D": 809,
+   "B": 573,
+   "A": 514,
+   "None": 48
+  },
+  "b3_selected": {
+   "C": 1249,
+   "D": 716,
+   "B": 567,
+   "A": 548
+  },
+  "proposed_ctsr": {
+   "C": 1261,
+   "D": 700,
+   "A": 561,
+   "B": 553,
+   "None": 5
+  }
+ },
+ "error_taxonomy": {
+  "counts": {
+   "parse_failure": 5,
+   "localisation_propagation": 1211,
+   "duplicate_objects": 185,
+   "tile_boundary": 68,
+   "incorrect_relation": 162,
+   "fine_grained_loss": 9,
+   "unexplained": 68
+  },
+  "n_failed": 1708
+ },
+ "environment": {
+  "python": "3.11.5",
+  "platform": "Linux-5.14.0-427.42.2.arc.el9.x86_64-x86_64-with-glibc2.34",
+  "processor": "x86_64",
+  "torch": "2.13.0+cu130",
+  "cuda_available": true,
+  "cuda_version": "13.0",
+  "gpu_count": 1,
+  "gpus": [
+   "NVIDIA L40S"
+  ],
+  "gpu0_total_mem_gb": 44.39,
+  "transformers": "4.57.6",
+  "accelerate": "1.14.0",
+  "PIL": "11.3.0",
+  "numpy": "2.4.6",
+  "pandas": "2.3.3"
+ },
+ "config": {
+  "model": {
+   "backend": "qwen",
+   "model_id": "Qwen/Qwen2.5-VL-7B-Instruct",
+   "torch_dtype": "bfloat16",
+   "device_map": "auto",
+   "attn_implementation": null,
+   "min_pixels_tokens": 256,
+   "max_pixels_tokens": 1280,
+   "load_in_4bit": false,
+   "trust_remote_code": false,
+   "stub_fail_every": 0
+  },
+  "tiling": {
+   "tile_size": 1024,
+   "overlap": 128,
+   "max_tiles": 256,
+   "overview_side": 1024
+  },
+  "selection": {
+   "scorer": "hybrid",
+   "clip_model": "openai/clip-vit-base-patch32",
+   "thumb_size": 224,
+   "weight_saliency": 0.35,
+   "weight_clip": 0.65,
+   "weight_vlm": 0.0,
+   "vlm_batch_tiles": 6,
+   "w_edge": 0.7,
+   "w_var": 0.3,
+   "overview_side": 1024,
+   "top_k": 5,
+   "min_score": null,
+   "spatial_diversity": true,
+   "diversity_radius_frac": 0.04
+  },
+  "detection": {
+   "proposer": "vlm",
+   "max_objects_per_tile": 12,
+   "max_objects_total": 60,
+   "max_new_tokens": 640,
+   "crop_max_pixels": null,
+   "model_id": "IDEA-Research/grounding-dino-base",
+   "box_threshold": 0.3,
+   "text_threshold": 0.25
+  },
+  "relations": {
+   "max_neighbours": 6,
+   "adjacency_gap_frac": 0.012,
+   "near_dist_frac": 0.06,
+   "containment_thresh": 0.85,
+   "intersect_iou_thresh": 0.05,
+   "include_direction": true,
+   "include_distance": true,
+   "include_adjacency": true,
+   "include_containment": true,
+   "include_intersection": true,
+   "use_compass": true,
+   "gsd_m_per_px": null,
+   "max_relations": 220,
+   "token_budget": 1400
+  },
+  "final_call": {
+   "attach_overview": true,
+   "attach_crops": 3,
+   "crop_thumb_side": 768
+  },
+  "baseline2": {
+   "max_answer_tiles": 8,
+   "tile_choice": "grid",
+   "include_overview_in_vote": false
+  },
+  "dedup": {
+   "enabled": true,
+   "iou_thresh": 0.45,
+   "cross_tile_iou_thresh": 0.25,
+   "containment_thresh": 0.8,
+   "seam_gap_px": 8.0,
+   "strict_labels": false,
+   "box_mode": "union"
+  }
+ }
+}

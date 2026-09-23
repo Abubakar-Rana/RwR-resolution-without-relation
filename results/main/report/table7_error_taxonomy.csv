@@ -1,0 +1,8 @@
+category,count,share_of_failures
+parse_failure,5,0.0029
+localisation_propagation,1211,0.709
+duplicate_objects,185,0.1083
+tile_boundary,68,0.0398
+incorrect_relation,162,0.0948
+fine_grained_loss,9,0.0053
+unexplained,68,0.0398

@@ -1,0 +1,155 @@
+{
+ "Anomaly Detection and Interpretation": [
+  {
+   "index": 0,
+   "question": "The width and calmness of the river in the picture suggest?",
+   "multi-choice options": "The choices are listed below:\n(A) It is a vital transportation route.\n(B) This area might be a nature reserve or an undeveloped natural region.\n(C) This area is likely designated primarily for environmental conservation or activities with minimal human intervention.\n(D) It may serve as a vital natural water source, crucial for the surrounding ecosystem.\n\nSelect the best answer for the multiple-choice question based on the image. Only respond with the letter corresponding to the correct answer (A, B, C, D).\nThe answer is:",
+   "answer": "D",
+   "category": "Complex reasoning",
+   "l2-category": "Anomaly Detection and Interpretation",
+   "task": "Anomaly Detection and Interpretation"
+  },
+  {
+   "index": 98,
+   "question": "In the image, the farms and residential areas are generally scattered. Why is the residential area located slightly to the right of the upper center more concentrated?",
+   "multi-choice options": "The choices are listed below:\n(A) The area has established a solid infrastructure, including electricity and water supply systems, schools, and medical facilities, all of which attract people to live and work here.\n(B) This residential area may hold special religious significance, attracting believers to gather here and establish their homes.\n(C) Historically, this location may have been the center of a village or town. Over time, as the population gradually increased, it developed into a larger residential area.\n(D) This area may have preserved a specific cultural heritage or custom, attracting residents who wish to maintain or experience this culture.\n\nSelect the best answer for the multiple-choice question based on the image. Only respond with the letter corresponding to the correct answer (A, B, C, D).\nThe answer is:",
+   "answer": "A",
+   "category": "Complex reasoning",
+   "l2-category": "Anomaly Detection and Interpretation",
+   "task": "Anomaly Detection and Interpretation"
+  }
+ ],
+ "Counting with complex reasoning": [
+  {
+   "index": 767,
+   "question": "How many parking lots are there in the town shown in the picture above?",
+   "multi-choice options": "The choices are listed below:\n(A) 6\n(B) 7\n(C) 8\n(D) 9\n\nSelect the best answer for the multiple-choice question based on the image. Only respond with the letter corresponding to the correct answer (A, B, C, D).\nThe answer is:",
+   "answer": "D",
+   "category": "Counting",
+   "l2-category": "Counting with complex reasoning",
+   "task": "Counting with complex reasoning"
+  },
+  {
+   "index": 794,
+   "question": "How many roundabouts are there to the left of the large parking lot in the upper right corner?",
+   "multi-choice options": "The choices are listed below:\n(A) 5\n(B) 3\n(C) 1\n(D) 2\n\nSelect the best answer for the multiple-choice question based on the image. Only respond with the letter corresponding to the correct answer (A, B, C, D).\nThe answer is:",
+   "answer": "C",
+   "category": "Counting",
+   "l2-category": "Counting with complex reasoning",
+   "task": "Counting with complex reasoning"
+  }
+ ],
+ "Object classification": [
+  {
+   "index": 2182,
+   "question": "Identify the object category within the given bounding box in the satellite or aerial image. Image resolution: 4096 x 4097. Bounding box: [2368, 2061, 2447, 2108].",
+   "multi-choice options": "The choices are listed below:\n(A) The Black Boat\n(B) The Red Roof\n(C) Green grassland\n(D) The Blue Ocean\n\nSelect the best answer for the multiple-choice question based on the image. Only respond with the letter corresponding to the correct answer (A, B, C, D).\nThe answer is:",
+   "answer": "B",
+   "category": "Object properties",
+   "l2-category": "Object classification",
+   "task": "Object classification"
+  },
+  {
+   "index": 2260,
+   "question": "Identify the object category within the given bounding box in the satellite or aerial image. Image resolution: 3240 x 2378. Bounding box: [474, 990, 514, 1012].",
+   "multi-choice options": "The choices are listed below:\n(A) The red car\n(B) The blue car\n(C) White cars\n(D) Green car\n\nSelect the best answer for the multiple-choice question based on the image. Only respond with the letter corresponding to the correct answer (A, B, C, D).\nThe answer is:",
+   "answer": "D",
+   "category": "Object properties",
+   "l2-category": "Object classification",
+   "task": "Object classification"
+  }
+ ],
+ "Object color": [
+  {
+   "index": 1219,
+   "question": "Determine the color of the object within the given reference bounding box in the satellite image. Image resolution: 5616 x 3744. Bounding box: [3826, 1648, 3944, 1695].",
+   "multi-choice options": "The choices are listed below:\n(A) Gray\n(B) Blue\n(C) White\n(D) Red\n\nSelect the best answer for the multiple-choice question based on the image. Only respond with the letter corresponding to the correct answer (A, B, C, D).\nThe answer is:",
+   "answer": "C",
+   "category": "Object properties",
+   "l2-category": "Object color",
+   "task": "Object color"
+  },
+  {
+   "index": 1235,
+   "question": "Determine the color of the object within the given reference bounding box in the satellite image. Image resolution: 4096 x 4096. Bounding box: [974, 3961, 1129, 4027].",
+   "multi-choice options": "The choices are listed below:\n(A) Black\n(B) Green\n(C) Orange\n(D) Blue\n\nSelect the best answer for the multiple-choice question based on the image. Only respond with the letter corresponding to the correct answer (A, B, C, D).\nThe answer is:",
+   "answer": "D",
+   "category": "Object properties",
+   "l2-category": "Object color",
+   "task": "Object color"
+  }
+ ],
+ "Object spatial relationship": [
+  {
+   "index": 206,
+   "question": "In the image, the two smaller green rectangular greenhouses located towards the upper right are positioned in which direction relative to the larger multi-unit residential area?",
+   "multi-choice options": "The choices are listed below:\n(A) On the left side\n(B) Top left corner\n(C) To the right\n(D) Above\n\nSelect the best answer for the multiple-choice question based on the image. Only respond with the letter corresponding to the correct answer (A, B, C, D).\nThe answer is:",
+   "answer": "C",
+   "category": "Object spatial relationship",
+   "l2-category": "Object spatial relationship",
+   "task": "Object spatial relationship"
+  },
+  {
+   "index": 412,
+   "question": "In the image, where is the sports stadium located in relation to the light blue L-shaped building?",
+   "multi-choice options": "The choices are listed below:\n(A) To the left\n(B) Top left corner\n(C) Bottom right corner\n(D) Upper right corner\n\nSelect the best answer for the multiple-choice question based on the image. Only respond with the letter corresponding to the correct answer (A, B, C, D).\nThe answer is:",
+   "answer": "C",
+   "category": "Object spatial relationship",
+   "l2-category": "Object spatial relationship",
+   "task": "Object spatial relationship"
+  }
+ ],
+ "Overall Land use classification": [
+  {
+   "index": 2160,
+   "question": "Select the options that best represent the types of land use depicted in the image.",
+   "multi-choice options": "The choices are listed below:\n(A) Farmland\n(B) Lakes or Ponds\n(C) Waste Treatment Plant\n(D) Parking Lot or Garage\n\nSelect the best answer(s) for the multiple-choice question based on the image. There may be more than one correct option. Only respond with the letter(s) corresponding to the correct answer(s) (A, B, C, D), with multiple choices separated by spaces.The answer(s) is(are):",
+   "answer": "ABD",
+   "category": "Land use classification",
+   "l2-category": "Overall Land use classification",
+   "task": "Overall Land use classification"
+  },
+  {
+   "index": 2175,
+   "question": "Select all land use types that best represent those depicted in the image. Ensure to include all types present in the picture.",
+   "multi-choice options": "The choices are listed below:\n(A) Racetrack\n(B) Crop Field\n(C) Parking Lot or Garage\n(D) Lakes or Ponds\n\nSelect the best answer(s) for the multiple-choice question based on the image. There may be more than one correct option. Only respond with the letter(s) corresponding to the correct answer(s) (A, B, C, D), with multiple choices separated by spaces.The answer(s) is(are):",
+   "answer": "BCD",
+   "category": "Land use classification",
+   "l2-category": "Overall Land use classification",
+   "task": "Overall Land use classification"
+  }
+ ],
+ "Regional Land use classification": [
+  {
+   "index": 1030,
+   "question": "Select the type of land marked with a red circle in the image.",
+   "multi-choice options": "The choices are listed below:\n(A) Interchange Overpass\n(B) Lakes or Ponds\n(C) Multi-unit residential buildings\n(D) Farmland\n\nSelect the best answer for the multiple-choice question based on the image. Only respond with the letter corresponding to the correct answer (A, B, C, D).\nThe answer is:",
+   "answer": "D",
+   "category": "Land use classification",
+   "l2-category": "Regional Land use classification",
+   "task": "Regional Land use classification"
+  }
+ ],
+ "Regional counting": [
+  {
+   "index": 3004,
+   "question": "How many houses are there inside the red circle?",
+   "multi-choice options": "The choices are listed below:\n(A) 1\n(B) 5\n(C) 3\n(D) 2\n\nSelect the best answer for the multiple-choice question based on the image. Only respond with the letter corresponding to the correct answer (A, B, C, D).\nThe answer is:",
+   "answer": "B",
+   "category": "Counting",
+   "l2-category": "Regional counting",
+   "task": "Regional counting"
+  }
+ ],
+ "Route planning": [
+  {
+   "index": 2055,
+   "question": "In the image below, what is the shortest driving route from the building with the red pyramid roof to the parking lot at the port on the left?",
+   "multi-choice options": "The choices are listed below:\n(A) After exiting the building, head west. At the intersection, turn left, then at the next intersection, turn right. Continue straight through the following intersection, then turn right at the next one. Proceed straight through another intersection to reach your destination.\n(B) Exit the building and head west. Continue straight through the first intersection. At the next intersection, turn left to reach your destination.\n(C) Exit the building and head west. Continue straight at the first intersection, turn left at the next intersection, turn right at the following intersection, and proceed straight at the next intersection to reach your destination.\n(D) After exiting the building, head west. At the intersection, turn left, then at the next intersection, turn right. At the following intersection, turn right again, and at the next intersection, turn left. Continue straight through the next intersection to reach your destination.\n\nSelect the best answer for the multiple-choice question based on the image. Only respond with the letter corresponding to the correct answer (A, B, C, D).\nThe answer is:",
+   "answer": "B",
+   "category": "Complex reasoning",
+   "l2-category": "Route planning",
+   "task": "Route planning"
+  }
+ ]
+}

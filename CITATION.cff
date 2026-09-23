@@ -1,0 +1,28 @@
+cff-version: 1.2.0
+message: "If you use this code or the released model outputs, please cite the paper."
+title: "Resolution Without Relations: Quantifying the Perception-Reasoning Trade-off of Tile Selection in Ultra-High-Resolution Remote Sensing"
+abstract: >-
+  Code, per-item model outputs and analysis for a controlled study of question-relevant tile
+  selection in ultra-high-resolution remote sensing visual question answering. Selection improves
+  perception accuracy and degrades spatial relational accuracy; supplying the discarded layout as
+  an explicit relation graph, under matched VLM calls and encoded pixels, does not recover it.
+authors:
+  - family-names: TODO
+    given-names: TODO
+license: MIT
+type: software
+repository-code: "https://github.com/TODO/resolution-without-relations"
+keywords:
+  - vision-language models
+  - visual question answering
+  - remote sensing
+  - ultra-high-resolution
+  - spatial reasoning
+preferred-citation:
+  type: conference-paper
+  title: "Resolution Without Relations: Quantifying the Perception-Reasoning Trade-off of Tile Selection in Ultra-High-Resolution Remote Sensing"
+  authors:
+    - family-names: TODO
+      given-names: TODO
+  collection-title: "Computer Vision Conference (CVC)"
+  year: 2027

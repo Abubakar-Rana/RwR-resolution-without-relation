@@ -1,0 +1,185 @@
+{
+ "n_items": 1201,
+ "groups": {
+  "all": 1201,
+  "relational": 800,
+  "non-relational": 401
+ },
+ "accuracy": {
+  "Direct": {
+   "all": 0.4121565362198168,
+   "relational": 0.37875,
+   "non-relational": 0.47880299251870323
+  },
+  "Selection (VLM objects)": {
+   "all": 0.3855120732722731,
+   "relational": 0.33375,
+   "non-relational": 0.48877805486284287
+  },
+  "Proposed (VLM objects)": {
+   "all": 0.37968359700249793,
+   "relational": 0.33375,
+   "non-relational": 0.4713216957605985
+  },
+  "Selection (detector)": {
+   "all": 0.3671940049958368,
+   "relational": 0.315,
+   "non-relational": 0.4713216957605985
+  },
+  "Proposed (detector)": {
+   "all": 0.38384679433805163,
+   "relational": 0.3325,
+   "non-relational": 0.486284289276808
+  }
+ },
+ "relation_effect": {
+  "all": {
+   "VLM objects": {
+    "n": 1201,
+    "acc_a": 0.3855120732722731,
+    "acc_b": 0.37968359700249793,
+    "delta": -0.005828476269775187,
+    "lo": -0.020815986677768527,
+    "hi": 0.009159034138218152,
+    "wins": 40,
+    "losses": 47,
+    "p": 0.5202915935750733
+   },
+   "detector objects": {
+    "n": 1201,
+    "acc_a": 0.3671940049958368,
+    "acc_b": 0.38384679433805163,
+    "delta": 0.01665278934221482,
+    "lo": -0.0016652789342214821,
+    "hi": 0.034970857618651124,
+    "wins": 75,
+    "losses": 55,
+    "p": 0.095253411432518
+   }
+  },
+  "relational": {
+   "VLM objects": {
+    "n": 800,
+    "acc_a": 0.33375,
+    "acc_b": 0.33375,
+    "delta": 0.0,
+    "lo": -0.02125,
+    "hi": 0.02125,
+    "wins": 37,
+    "losses": 37,
+    "p": 1.0
+   },
+   "detector objects": {
+    "n": 800,
+    "acc_a": 0.315,
+    "acc_b": 0.3325,
+    "delta": 0.0175,
+    "lo": -0.00625,
+    "hi": 0.04125,
+    "wins": 54,
+    "losses": 40,
+    "p": 0.17966501480803004
+   }
+  },
+  "non-relational": {
+   "VLM objects": {
+    "n": 401,
+    "acc_a": 0.48877805486284287,
+    "acc_b": 0.4713216957605985,
+    "delta": -0.017456359102244388,
+    "lo": -0.034912718204488775,
+    "hi": 0.0,
+    "wins": 3,
+    "losses": 10,
+    "p": 0.09228515625
+   },
+   "detector objects": {
+    "n": 401,
+    "acc_a": 0.4713216957605985,
+    "acc_b": 0.486284289276808,
+    "delta": 0.014962593516209476,
+    "lo": -0.014962593516209476,
+    "hi": 0.04488778054862843,
+    "wins": 21,
+    "losses": 15,
+    "p": 0.4050322461407632
+   }
+  }
+ },
+ "improvement": {
+  "all": {
+   "n": 1201,
+   "delta": 0.022481265611990008,
+   "lo": 0.0,
+   "hi": 0.04579517069109076,
+   "p_perm": 0.0698
+  },
+  "relational": {
+   "n": 800,
+   "delta": 0.0175,
+   "lo": -0.0125,
+   "hi": 0.04875,
+   "p_perm": 0.2907
+  },
+  "non-relational": {
+   "n": 401,
+   "delta": 0.032418952618453865,
+   "lo": 0.0,
+   "hi": 0.06483790523690773,
+   "p_perm": 0.066
+  }
+ },
+ "detector_vocabulary": {
+  "mean_share_objects_matching_question_keywords": 0.10451652389477867,
+  "top_labels": [
+   [
+    "tree",
+    15350
+   ],
+   [
+    "vehicle",
+    4400
+   ],
+   [
+    "house",
+    2994
+   ],
+   [
+    "building house",
+    1086
+   ],
+   [
+    "building",
+    1035
+   ],
+   [
+    "farmland",
+    682
+   ],
+   [
+    "road",
+    667
+   ],
+   [
+    "cars vehicle",
+    274
+   ],
+   [
+    "houses house",
+    269
+   ],
+   [
+    "stadium",
+    251
+   ],
+   [
+    "vehicle boat",
+    229
+   ],
+   [
+    "car vehicle",
+    224
+   ]
+  ]
+ }
+}

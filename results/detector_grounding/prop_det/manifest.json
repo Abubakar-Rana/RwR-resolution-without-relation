@@ -1,0 +1,302 @@
+{
+  "run_name": "prop_det",
+  "pipeline": "prop_det",
+  "uses_relations": true,
+  "backend_is_stub": false,
+  "started_at": "2026-09-22T23:06:51",
+  "n_samples_total": 1201,
+  "n_samples_pending": 1201,
+  "n_samples_resumed": 0,
+  "config": {
+    "seed": 1234,
+    "save_prompts": false,
+    "data": {
+      "source": "hf",
+      "name_or_path": "initiacms/XLRS-Bench-lite",
+      "split": "train",
+      "config_name": null,
+      "image_root": null,
+      "cache_dir": "data/image_cache",
+      "field_map": {},
+      "hf_kwargs": {},
+      "materialise_images": true,
+      "limit": null,
+      "per_task_limit": null,
+      "categories": null
+    },
+    "model": {
+      "backend": "qwen",
+      "model_id": "Qwen/Qwen2.5-VL-7B-Instruct",
+      "torch_dtype": "bfloat16",
+      "device_map": "auto",
+      "attn_implementation": null,
+      "min_pixels_tokens": 256,
+      "max_pixels_tokens": 1280,
+      "load_in_4bit": false,
+      "trust_remote_code": false,
+      "stub_fail_every": 0
+    },
+    "generation": {
+      "max_new_tokens": 256,
+      "caption_max_new_tokens": 512,
+      "retry_attempts": 3,
+      "retry_base_delay": 2.0
+    },
+    "tiling": {
+      "tile_size": 1024,
+      "overlap": 128,
+      "max_tiles": 256,
+      "overview_side": 1024
+    },
+    "selection": {
+      "scorer": "hybrid",
+      "clip_model": "openai/clip-vit-base-patch32",
+      "thumb_size": 224,
+      "weight_saliency": 0.35,
+      "weight_clip": 0.65,
+      "weight_vlm": 0.0,
+      "vlm_batch_tiles": 6,
+      "w_edge": 0.7,
+      "w_var": 0.3,
+      "overview_side": 1024,
+      "top_k": 5,
+      "min_score": null,
+      "spatial_diversity": true,
+      "diversity_radius_frac": 0.04
+    },
+    "detection": {
+      "proposer": "vlm",
+      "max_objects_per_tile": 12,
+      "max_objects_total": 60,
+      "max_new_tokens": 640,
+      "crop_max_pixels": null,
+      "model_id": "IDEA-Research/grounding-dino-base",
+      "box_threshold": 0.3,
+      "text_threshold": 0.25
+    },
+    "dedup": {
+      "enabled": true,
+      "iou_thresh": 0.45,
+      "cross_tile_iou_thresh": 0.25,
+      "containment_thresh": 0.8,
+      "seam_gap_px": 8.0,
+      "strict_labels": false,
+      "box_mode": "union"
+    },
+    "relations": {
+      "max_neighbours": 6,
+      "adjacency_gap_frac": 0.012,
+      "near_dist_frac": 0.06,
+      "containment_thresh": 0.85,
+      "intersect_iou_thresh": 0.05,
+      "include_direction": true,
+      "include_distance": true,
+      "include_adjacency": true,
+      "include_containment": true,
+      "include_intersection": true,
+      "use_compass": true,
+      "gsd_m_per_px": null,
+      "max_relations": 220,
+      "token_budget": 1400
+    },
+    "final_call": {
+      "attach_overview": true,
+      "attach_crops": 3,
+      "crop_thumb_side": 768
+    },
+    "baseline1": {
+      "send_full_resolution": true,
+      "pre_resize_pixels": null
+    },
+    "baseline2": {
+      "max_answer_tiles": 8,
+      "tile_choice": "grid",
+      "include_overview_in_vote": false
+    },
+    "ablation": {
+      "pad_tokens_in_baseline": false,
+      "shuffle_relations": false,
+      "drop_global_coords": false
+    },
+    "eval": {
+      "iou_thresholds": [
+        0.5,
+        0.7
+      ],
+      "primary_iou": 0.5,
+      "n_bootstrap": 10000,
+      "alpha": 0.05,
+      "relational_tasks": null
+    },
+    "run": {
+      "out_dir": "results/main",
+      "resume": true,
+      "retry_errors": true,
+      "progress_every": 10,
+      "arms": [
+        "b1_direct",
+        "b2_tiling",
+        "b3_selected",
+        "proposed_ctsr"
+      ]
+    },
+    "_config_path": "configs/main.yaml",
+    "tier2": {
+      "detector": "IDEA-Research/grounding-dino-base",
+      "box_threshold": 0.3,
+      "text_threshold": 0.25,
+      "orig_results": "results/main"
+    }
+  },
+  "config_hash": "0ed81addb1",
+  "pipeline_description": {
+    "pipeline": "prop_det",
+    "uses_relations": true,
+    "tile_size": 1024,
+    "overlap": 128,
+    "overview_side": 1024,
+    "max_new_tokens": 256,
+    "backend": {
+      "name": "Qwen/Qwen2.5-VL-7B-Instruct",
+      "is_stub": false,
+      "model_id": "Qwen/Qwen2.5-VL-7B-Instruct",
+      "torch_dtype": "bfloat16",
+      "attn_implementation": null,
+      "min_pixels": 200704,
+      "max_pixels": 1003520,
+      "min_visual_tokens": 256,
+      "max_visual_tokens": 1280,
+      "do_sample": false,
+      "max_new_tokens": 256,
+      "load_in_4bit": false,
+      "qwen_vl_utils": true
+    },
+    "scorer": {
+      "scorer": "fixed_from_original_run"
+    },
+    "proposer": {
+      "proposer": "grounding_dino",
+      "model_id": "IDEA-Research/grounding-dino-base",
+      "box_threshold": 0.3,
+      "text_threshold": 0.25,
+      "max_objects_per_tile": 24
+    },
+    "use_relations": true,
+    "top_k": 5,
+    "max_objects_total": 60,
+    "relation_config": {
+      "max_neighbours": 6,
+      "adjacency_gap_frac": 0.012,
+      "near_dist_frac": 0.06,
+      "containment_thresh": 0.85,
+      "intersect_iou_thresh": 0.05,
+      "intersect_min_overlap_frac": 0.05,
+      "include_direction": true,
+      "include_distance": true,
+      "include_adjacency": true,
+      "include_containment": true,
+      "include_intersection": true,
+      "use_compass": true,
+      "gsd_m_per_px": null,
+      "max_relations": 220,
+      "symmetric_direction": false
+    },
+    "dedup": {
+      "iou_thresh": 0.45,
+      "cross_tile_iou_thresh": 0.25,
+      "containment_thresh": 0.8,
+      "seam_gap_px": 8.0,
+      "strict_labels": false,
+      "box_mode": "union",
+      "enabled": true
+    },
+    "attach_overview": true,
+    "attach_crops": 3,
+    "ablation_flags": {
+      "pad_tokens_in_baseline": false,
+      "shuffle_relations": false,
+      "drop_global_coords": false
+    }
+  },
+  "dataset": {
+    "n_samples": 3080,
+    "n_multi_image": 60,
+    "n_unscorable": 0,
+    "by_task": {
+      "Object Color": 800,
+      "Object Classification": 800,
+      "Object Spatial Relationship": 500,
+      "Regional Land Use Classification": 200,
+      "Anomaly Detection and Interpretation": 100,
+      "Environmental Condition Reasoning": 100,
+      "Counting with Complex Reasoning": 100,
+      "Route Planning": 100,
+      "Overall Land Use Classification": 100,
+      "Regional Counting": 100,
+      "Overall Counting": 60,
+      "Object Motion State": 60,
+      "Counting/Counting with changing detection": 60
+    },
+    "by_l2": {
+      "Perception": 2620,
+      "Reasoning": 400,
+      "Default": 60
+    },
+    "by_family": {
+      "mcq": 2820,
+      "mcq_counting": 260
+    },
+    "by_relational_group": {
+      "non_relational": 2220,
+      "relational": 800,
+      "unknown": 60
+    },
+    "unrecognised_categories": [],
+    "field_map": {
+      "index": "index",
+      "question": "question",
+      "options": "multi-choice options",
+      "answer": "answer",
+      "category": "category",
+      "l2_category": "l2-category",
+      "image": "image",
+      "path": "path"
+    },
+    "columns": [
+      "path",
+      "index",
+      "question",
+      "multi-choice options",
+      "answer",
+      "category",
+      "l2-category",
+      "image"
+    ],
+    "source": "hf",
+    "name_or_path": "initiacms/XLRS-Bench-lite"
+  },
+  "environment": {
+    "python": "3.11.5",
+    "platform": "Linux-5.14.0-427.42.2.arc.el9.x86_64-x86_64-with-glibc2.34",
+    "processor": "x86_64",
+    "torch": "2.13.0+cu130",
+    "cuda_available": true,
+    "cuda_version": "13.0",
+    "gpu_count": 1,
+    "gpus": [
+      "NVIDIA L40S"
+    ],
+    "gpu0_total_mem_gb": 44.39,
+    "transformers": "4.57.6",
+    "accelerate": "1.14.0",
+    "PIL": "11.3.0",
+    "numpy": "2.4.6",
+    "pandas": "2.3.3"
+  },
+  "status": "complete",
+  "n_completed_this_run": 1201,
+  "elapsed_seconds": 7647.2,
+  "n_ok": 1201,
+  "n_error": 0,
+  "finished_at": "2026-09-23T01:14:18"
+}

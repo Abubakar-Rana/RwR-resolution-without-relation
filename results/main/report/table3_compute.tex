@@ -1,0 +1,18 @@
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{lrrrrrr}
+\toprule
+Method & VLM calls & MPix & Prompt tok. & Gen. tok. & Sec. & Peak VRAM (MiB) \\
+\midrule
+Baseline 1: Direct & 1.00 & 0.98 & 1403 & 5 & 3.0 & 16387 \\
+Baseline 2: Independent tiling & 9.15 & 7.83 & 11810 & 40 & 5.0 & 16196 \\
+Baseline 3: Question-conditioned selection & 6.10 & 7.53 & 12006 & 429 & 16.8 & 17508 \\
+Proposed: + cross-tile spatial relations & 6.10 & 7.53 & 12455 & 430 & 16.9 & 18392 \\
+\bottomrule
+\end{tabular}
+\vspace{2pt}
+\begin{minipage}{\linewidth}\footnotesize Per-sample means. 'MPix' is the pixel count actually encoded by the vision tower after resizing, measured rather than assumed. Baseline 3 and the proposed method issue the same number of calls and encode the same pixels by construction; the proposed method differs only in prompt tokens, which is the cost of the relation block. Peak VRAM is the maximum observed over all samples of the run.\end{minipage}
+\caption{Inference cost per sample under the compute-matched protocol.}
+\label{tab:compute}
+\end{table}

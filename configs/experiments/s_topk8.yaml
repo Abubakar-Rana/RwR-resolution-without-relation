@@ -1,0 +1,12 @@
+# Sweep: top_k = 8 selected regions
+# Plan section 8 asks for the effect of tile size, tile overlap and the
+# number of selected regions. Both arms are run at every setting so the
+# relation effect stays a paired comparison within each condition.
+base: ../default.yaml
+
+selection:
+  top_k: 8
+
+run:
+  out_dir: results/sweep/s_topk8
+  arms: [b3_selected, proposed_ctsr]

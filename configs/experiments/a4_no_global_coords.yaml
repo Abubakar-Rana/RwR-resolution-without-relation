@@ -1,0 +1,10 @@
+# A4: object list without coordinates. Tests whether the benefit comes from the
+# common global coordinate system or merely from having a list of objects.
+base: ../default.yaml
+
+ablation:
+  drop_global_coords: true
+
+run:
+  out_dir: results/ablation/a4_no_global_coords
+  arms: [proposed_ctsr]

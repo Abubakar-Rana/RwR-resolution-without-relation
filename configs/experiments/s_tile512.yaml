@@ -1,0 +1,14 @@
+# Sweep: tile size = 512
+# Plan section 8 asks for the effect of tile size, tile overlap and the
+# number of selected regions. Both arms are run at every setting so the
+# relation effect stays a paired comparison within each condition.
+base: ../default.yaml
+
+tiling:
+  tile_size: 512
+  overlap: 64
+  max_tiles: 400
+
+run:
+  out_dir: results/sweep/s_tile512
+  arms: [b3_selected, proposed_ctsr]

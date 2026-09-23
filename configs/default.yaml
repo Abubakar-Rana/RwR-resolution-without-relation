@@ -1,0 +1,109 @@
+# Default configuration.
+# Every experiment config inherits from this file via `base: ../default.yaml`, so
+# shared parameters are defined exactly once. An ablation config that restated
+# every parameter could drift from the arm it is meant to be compared against.
+# Values here mirror ctsr/config.py:DEFAULTS; anything omitted falls back to those.
+
+seed: 1234
+save_prompts: false          # true stores the final prompt per sample (large files)
+
+data:
+  source: hf                 # hf | parquet | tsv | jsonl
+  name_or_path: initiacms/XLRS-Bench-lite
+  split: train
+  image_root: null           # set for source=jsonl/tsv with images already on disk
+  cache_dir: data/image_cache
+  # If the released columns differ from the verified lite schema, map them here:
+  #   field_map: {question: query, answer: gt}
+  field_map: {}
+  limit: null                # cap total samples (smoke tests)
+  per_task_limit: null       # balanced per-sub-task cap (dev iteration)
+  categories: null           # e.g. ["Object Spatial Relationship"]
+
+model:
+  backend: qwen              # qwen | stub  (stub = offline plumbing check)
+  model_id: Qwen/Qwen2.5-VL-7B-Instruct
+  torch_dtype: bfloat16
+  device_map: auto
+  attn_implementation: null   # set to flash_attention_2 if it is installed
+  # Visual token budget. max_pixels = max_pixels_tokens * 28 * 28 pixels.
+  # This is the most important knob for both accuracy and VRAM.
+  min_pixels_tokens: 256
+  max_pixels_tokens: 1280
+  load_in_4bit: false
+
+generation:
+  max_new_tokens: 256
+  caption_max_new_tokens: 512
+  retry_attempts: 3
+
+tiling:
+  tile_size: 1024
+  overlap: 128
+  max_tiles: 256             # 8500x8500 at tile 1024 / overlap 128 gives ~100 tiles
+  overview_side: 1024
+
+selection:
+  scorer: hybrid             # hybrid | clip | saliency | vlm | uniform
+  clip_model: openai/clip-vit-base-patch32
+  weight_saliency: 0.35
+  weight_clip: 0.65
+  weight_vlm: 0.0            # >0 adds VLM calls; keep identical across arms
+  top_k: 5
+  spatial_diversity: true
+  diversity_radius_frac: 0.04
+
+detection:
+  proposer: vlm              # vlm | openvocab (openvocab is optional/unverified)
+  max_objects_per_tile: 12
+  max_objects_total: 60
+  max_new_tokens: 640
+
+dedup:
+  enabled: true
+  iou_thresh: 0.45
+  cross_tile_iou_thresh: 0.25
+  containment_thresh: 0.80
+  seam_gap_px: 8.0
+  box_mode: union
+
+relations:
+  max_neighbours: 6
+  adjacency_gap_frac: 0.012
+  near_dist_frac: 0.06
+  containment_thresh: 0.85
+  use_compass: true
+  gsd_m_per_px: null         # set ONLY if the true GSD is known; else no metres
+  max_relations: 220
+  token_budget: 1400
+
+final_call:
+  attach_overview: true
+  attach_crops: 3
+  crop_thumb_side: 768
+
+baseline1:
+  send_full_resolution: true
+
+baseline2:
+  max_answer_tiles: 8
+  tile_choice: grid
+
+ablation:
+  pad_tokens_in_baseline: false
+  shuffle_relations: false
+  drop_global_coords: false
+
+eval:
+  iou_thresholds: [0.5, 0.7]
+  primary_iou: 0.5
+  n_bootstrap: 10000
+  alpha: 0.05
+  relational_tasks: null     # null = pre-registered default in data/taxonomy.py
+
+run:
+  out_dir: results
+  resume: true
+  retry_errors: true
+  progress_every: 10
+  arms: [b1_direct, b2_tiling, b3_selected, proposed_ctsr]

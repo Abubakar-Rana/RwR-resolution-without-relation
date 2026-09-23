@@ -1,0 +1,11 @@
+# A10: withhold the high-resolution crops from the final call, so the model has
+# only the overview plus the structured evidence. Tests whether the textual
+# representation preserves the fine-grained information the crops carried.
+base: ../default.yaml
+
+final_call:
+  attach_crops: 0
+
+run:
+  out_dir: results/ablation/a10_no_crops
+  arms: [b3_selected, proposed_ctsr]

@@ -1,0 +1,14 @@
+# Fast GPU iteration: a balanced slice of every sub-task.
+base: default.yaml
+
+data:
+  per_task_limit: 8
+
+tiling:
+  max_tiles: 64
+
+selection:
+  top_k: 4
+
+run:
+  out_dir: results/dev

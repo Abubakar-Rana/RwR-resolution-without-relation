@@ -1,0 +1,10 @@
+# A5: no cross-tile deduplication. Expected to hurt counting most, and to create
+# spurious relations between duplicate detections of one object.
+base: ../default.yaml
+
+dedup:
+  enabled: false
+
+run:
+  out_dir: results/ablation/a5_no_dedup
+  arms: [proposed_ctsr]

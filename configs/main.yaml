@@ -1,0 +1,6 @@
+# The primary experiment: all four arms on the full evaluation set.
+base: default.yaml
+
+run:
+  out_dir: results/main
+  arms: [b1_direct, b2_tiling, b3_selected, proposed_ctsr]

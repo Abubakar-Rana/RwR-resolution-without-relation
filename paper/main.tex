@@ -1,0 +1,265 @@
+% Target: Computer Vision Conference (CVC) 2027 -- Springer LNNS, llncs class.
+% Main text limited to 6 pages excluding references; supporting material follows the bibliography.
+% Every number is a macro generated from the raw predictions:
+%   analysis/numbers.tex      <- Paper/analysis/analyze.py        (main experiment)
+%   analysis/numbers_rev.tex  <- Revision1/a07_paper_assets.py    (robustness, detector, router)
+% Do not type numbers by hand.
+\documentclass[runningheads]{llncs}
+
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{xcolor}
+\usepackage[hidelinks]{hyperref}
+\usepackage{microtype}
+\usepackage{float}
+\setlength{\emergencystretch}{1em}
+
+\input{analysis/numbers.tex}
+\input{analysis/numbers_rev.tex}
+\graphicspath{{figures/}}
+
+\newcommand{\pp}{\,pp}
+\newcommand{\Bone}{\textit{Direct}}
+\newcommand{\Btwo}{\textit{Tiling}}
+\newcommand{\Bthree}{\textit{Selection}}
+\newcommand{\Prop}{\textit{Proposed}}
+\newcommand{\SelD}{\textit{Selection-D}}
+\newcommand{\PropD}{\textit{Proposed-D}}
+
+\begin{document}
+
+\title{Resolution Without Relations: Quantifying the Perception--Reasoning Trade-off of Tile Selection in Ultra-High-Resolution Remote Sensing}
+\titlerunning{Resolution Without Relations}
+
+% TODO: author names and affiliations.
+\author{Anonymous Author(s)}
+\authorrunning{Anonymous}
+\institute{Affiliation withheld for review}
+
+\maketitle
+
+\begin{abstract}
+Vision-language models (VLMs) must downscale remote sensing scenes of ultra-high resolution (UHR), so a common remedy is to select tiles relevant to the question and reason over them at native resolution. We quantify what this costs and test whether it can be repaired. On \nLoaded{} XLRS-Bench items with Qwen2.5-VL-7B, under paired tests and a matched budget of VLM calls and encoded pixels, tile selection raises accuracy on perception questions by \dOTNon\pp{} but lowers it on relational questions by \dOTRel\pp{} (interaction \didVal\pp, $p<10^{-4}$), a crossover that holds under \nPartitions{} alternative definitions of the relational group. Supplying the missing layout explicitly, as a geometric graph of cross-tile relations, does not repair it (\dBPRel\pp, 95\% CI \dciBPRel). Replacing the VLM extractor with an object detector raises graph coverage from \gVcross\% to \gDcross\% of scenes and removes the harm the graph did to perception questions, but the relational gain remains small and not significant (\relDRel\pp{} \relDRelci). The diagnosis is relevance rather than availability: only \detKwShare\% of detected objects correspond to anything the question asks about. A cross-validated router that simply decides \emph{whether} to zoom is both more accurate than always zooming (\routerAcc\% vs \accBThreeAll\%, $p=\routerP$) and \routerSaving\% cheaper, which we argue is the better use of the budget today.
+\keywords{Remote sensing \and Vision-language models \and Ultra-high resolution \and Spatial reasoning}
+\end{abstract}
+
+%-----------------------------------------------------------------------------
+\section{Introduction}
+
+UHR remote sensing images are 8,500$\times$8,500 pixels or larger. XLRS-Bench~\cite{wang2025xlrs} made plain what this means for VLMs: a target object may cover a few hundred pixels, and whole-image encoding~\cite{bai2025qwen25vl} downscales it away. The field's answer is to \emph{zoom}, by searching~\cite{wu2024vstar,shen2024zoomeye}, pruning tokens~\cite{luo2025lrsvqa}, retrieving regions~\cite{zhang2024imagerag}, or learning an active crop policy~\cite{liu2025zoomearth}. That zooming trades global context for local detail is increasingly recognised~\cite{tran2026lookbefore,wang2026beyondzooming}; what is missing is a measurement of the cost under a controlled budget, and a test of whether the lost context can simply be handed back to the model.
+
+This paper provides both. We built the natural repair (Fig.~\ref{fig:pipeline}): objects extracted from the selected tiles are registered into one global pixel frame, deduplicated across tile seams, and turned into a geometric relation graph (direction, distance, adjacency, containment, intersection) that is appended to the final prompt. Before running the experiment we fixed the confirmatory hypothesis, that the graph would help relational sub-tasks and matter little elsewhere.
+
+It did not. Our contributions are therefore a measurement, a negative result with its diagnosis, and a cheaper alternative:
+\begin{itemize}
+\item a \textbf{compute-accounted comparison of four methods} in which the two central ones run a single code path differing by one flag, with identical VLM calls and encoded pixels;
+\item a \textbf{crossover}: zooming changes accuracy by \dOTNon\pp{} on perception and \dOTRel\pp{} on relational questions, robust to \nPartitions{} definitions of the relational group;
+\item a \textbf{null for explicit relations that survives fixing its own main confound}: with an object detector supplying graphs on \gDcross\% of scenes, the relational gain is still only \relDRel\pp{} \relDRelci, and we trace this to object \emph{relevance} (\detKwShare\%), not availability;
+\item a \textbf{router} that decides whether to zoom, outperforming always-zooming by \routerDelta\pp{} ($p=\routerP$) at \routerSaving\% fewer VLM calls.
+\end{itemize}
+
+%-----------------------------------------------------------------------------
+\section{Related Work}
+
+\textbf{High-resolution VLMs.} Tiling encoders such as Monkey~\cite{li2024monkey} and LLaVA-UHD~\cite{xu2024llavauhd}, and native dynamic-resolution models such as Qwen2.5-VL~\cite{bai2025qwen25vl}, raise the input pixel budget. Training-free methods add search or hierarchy at inference: V*~\cite{wu2024vstar}, ZoomEye~\cite{shen2024zoomeye} and DC$^2$~\cite{wang2025dc2}.
+\textbf{UHR remote sensing.} XLRS-Bench~\cite{wang2025xlrs} and GeoLLaVA-8K~\cite{wang2025geollava8k} target 8K-scale scenes; LRS-VQA~\cite{luo2025lrsvqa} prunes tokens under text guidance, ImageRAG~\cite{zhang2024imagerag} retrieves regions, ZoomEarth~\cite{liu2025zoomearth} learns a zoom policy, and UHR-Micro~\cite{ni2026uhrmicro} documents a ``resolution illusion'' for small evidence.
+\textbf{The resolution--context trade-off.} Concurrent work reports the same tension we measure: patch-based zooming recovers small targets but destroys global context, motivating adaptive routing between global and local views~\cite{tran2026lookbefore}, and a pilot on XLRS-Bench finds that zooming saturates on tasks needing global search or multi-region comparison~\cite{wang2026beyondzooming}. Our contribution is not the existence of this trade-off but its controlled quantification, an explicit test of the obvious repair, and the grounding diagnosis that explains why the repair fails.
+\textbf{Structured intermediates.} VLMs are weak at spatial relations~\cite{chen2024spatialvlm,rahmanzadehgervi2024blind} and at coordinates given as text~\cite{cheng2024spatialrgpt}; scene graphs~\cite{johnson2015scenegraph} and visual programs~\cite{gupta2023visprog,suris2023vipergpt} externalise structure, while marks drawn on the image help where textual structure does not~\cite{yang2023som,izadi2025viser}. We test the textual form at UHR scale under matched compute and two grounding regimes.
+
+%-----------------------------------------------------------------------------
+\section{Method}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\textwidth]{fig1_architecture.pdf}
+\caption{The four compared methods; only the dashed relation block separates \Bthree{} from \Prop.}
+\label{fig:pipeline}
+\end{figure}
+
+\textbf{Selection.} Each scene is cut into 1024-pixel tiles with 128 pixels of overlap (\tilesTot{} tiles per scene on average). Tiles are scored by $0.35\,s_\mathrm{sal}+0.65\,s_\mathrm{clip}$: gradient and variance energy on a downscaled overview, and CLIP~\cite{radford2021clip} similarity between the question and each tile thumbnail. The top-5 tiles are kept, suppressing near-duplicate neighbours.
+\textbf{Local extraction and registration.} For each selected crop, the VLM returns JSON-formatted objects with boxes on a 0--1000 grid over the crop, which we lift to global pixels in code. Detections are merged across tiles by a label-aware greedy rule (IoU, containment, or near-touching boxes at a seam), yielding at most 60 objects per scene.
+\textbf{Relations.} For each object and its 6 nearest neighbours we emit one predicate per pair, in priority order: containment (intersection over the smaller box $\geq$0.85); intersection (IoU $\geq$0.05 or overlap $\geq$5\% of the smaller box, e.g.\ roads crossing rivers); adjacency (border gap $\leq$1.2\% of the image diagonal); otherwise 8-way compass direction with pixel distance. At most 220 relations are kept, cross-tile edges first.
+\textbf{Final call.} The final call receives the overview, 3 crops, and the object list in global 0--1000 coordinates. In \Prop{} it also receives the relation lines. The answer-format text is identical across methods. \Bone{} instead sends the whole image in a single call, and \Btwo{} answers on 8 grid tiles independently and reconciles them by a text-only vote; \Bthree{} and \Prop{} execute the same code path and issue $5{+}1$ calls over the same pixels, differing only in whether the relation block reaches the final prompt (Fig.~\ref{fig:pipeline}).
+
+%-----------------------------------------------------------------------------
+\section{Experimental Setup}
+
+\textbf{Data.} We use the XLRS-Bench-lite split~\cite{wang2025xlrs}: \nLoaded{} four-option multiple-choice items (chance 25\%) in 13 categories. \nUnscOLU{} of the 100 Overall-Land-Use items are multi-select (e.g.\ answer ``BCD'') and were excluded from every method, leaving \nScored{} scored items. Before the experiment we fixed the relational group: object spatial relationship, regional counting, counting with complex reasoning, and route planning (\nRel{} items); the remaining \nNon{} items form the non-relational group. A \nHeld-item bi-temporal category not matched by our taxonomy is held out of both groups but counted overall.
+\textbf{Models and budget.} All methods use Qwen2.5-VL-7B-Instruct~\cite{bai2025qwen25vl} in bf16 with greedy decoding and 1,280 visual tokens per image, on one NVIDIA L40S (\gpuhTotal{} GPU-hours for the main experiment, \detGpuH{} for the detector variant).
+\textbf{Statistics.} All comparisons are paired on items, using McNemar's exact test~\cite{mcnemar1947} and 10,000-sample paired bootstrap intervals~\cite{efron1993bootstrap}; per-task tests are Holm-corrected~\cite{holm1979}. The two group-level \Bthree{}~vs~\Prop{} tests are confirmatory; all other analyses are exploratory and labelled as such. Throughout, MPix counts the pixels actually encoded by the vision tower, and significance markers in figures are $^{*}p<.05$, $^{**}p<.01$, $^{***}p<.001$.
+
+%-----------------------------------------------------------------------------
+
+\begin{table}[t]
+\centering
+\caption{Accuracy (\%) and cost per item on the \nScored{} scored items.}
+\label{tab:main}
+\setlength{\tabcolsep}{3.4pt}
+\begin{tabular}{@{}lrrrrrrr@{}}
+\toprule
+Method & Calls & MPix & Tokens & s/item & Overall & Relational & Non-rel. \\
+\midrule
+Direct               & \callsBOne   & \mpixBOne   & \tokBOne   & \secBOne   & \accBOneAll   & \textbf{\accBOneRel} & \accBOneNon \\
+Tiling               & \callsBTwo   & \mpixBTwo   & \tokBTwo   & \secBTwo   & \accBTwoAll   & \accBTwoRel   & \accBTwoNon \\
+Selection            & \callsBThree & \mpixBThree & \tokBThree & \secBThree & \textbf{\accBThreeAll} & \accBThreeRel & \textbf{\accBThreeNon} \\
+Proposed             & \callsProp   & \mpixProp   & \tokProp   & \secProp   & \accPropAll   & \accPropRel   & \accPropNon \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\textwidth]{fig2_crossover.pdf}
+\caption{Accuracy by method and task group (a), and paired changes with 95\% CIs (b).}
+\label{fig:crossover}
+\end{figure}
+
+\section{Results}
+
+\subsection{A crossover between perceptual and relational accuracy}
+\Btwo{} is worse than \Bone{} in both groups (\dOTwAll\pp, $p=\pOTwAll$) despite 9$\times$ the calls: isolated crops lose scene context without adding structure. \Bthree{} recovers \dTwTNon\pp{} over \Btwo{} on non-relational tasks but nothing on relational ones (\dTwTRel\pp). Relative to \Bone, zooming therefore changes sign with the task group: \dOTNon\pp{} \dciOTNon{} for non-relational against \dOTRel\pp{} \dciOTRel{} for relational tasks, a difference of \didVal\pp{} \didCI{} (permutation $p<10^{-4}$, Fig.~\ref{fig:crossover}). On object spatial relationship (500 items) accuracy falls from \osrBOne\% with \Bone{} to \osrBThree\% with \Bthree, near the 25\% chance level.
+
+This is not an artefact of our task grouping. Redefining the relational group \nPartitions{} ways, including the spatial-relationship task alone (\crossOSR\pp{} \crossOSRci) and the counting tasks alone, leaves the crossover between \crossRangeLo{} and \crossRangeHi\pp, significant in every case (worst $p=\crossWorstP$; Appendix~\ref{app:partitions}).
+
+\subsection{Effect of explicit cross-tile relations}
+Table~\ref{tab:main} gives the confirmatory result. On relational tasks \Prop{} and \Bthree{} score the same (\accPropRel\% each): \dBPRel\pp{} \dciBPRel{} ($p=\pBPRel$, \wBPRel{} wins against \lBPRel{} losses). On non-relational tasks the change is \dBPNon\pp{} \dciBPNon{} ($p=\pBPNon$). The two methods match in calls (\callsProp) and encoded pixels (\mpixProp{}~MP); the relation block adds \tokDiff{} prompt tokens and no measurable benefit. The interval excludes relational gains above \mdeAllRel\pp.
+
+One explanation is mechanical: the VLM used as an object extractor returned nothing on \zeroObj\% of scenes here (98--100\% on object colour, classification and motion state), so the graph was usually empty and the test was partly a test of that emptiness.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\textwidth]{fig3_grounding_router.pdf}
+\caption{Relation effect by grounding regime (a), extractor coverage (b), accuracy against cost (c).}
+\label{fig:grounding}
+\end{figure}
+
+\subsection{Relation effects under detector-based grounding}\label{sec:detector}
+We therefore replaced the extractor with a dedicated detector and repeated the comparison on \detN{} items (\detNrel{} relational, \detNnon{} non-relational), \emph{replaying the tiles each item received originally} so that only object extraction changes. The subset deliberately over-samples relational items, so its absolute accuracies are not comparable with Table~\ref{tab:main}; its paired effects are. The detector is Grounding DINO~\cite{liu2024groundingdino} (base checkpoint), an open-vocabulary transformer detector prompted with the question's keywords plus a fixed remote-sensing vocabulary (box threshold 0.30, text threshold 0.25, at most 24 boxes per tile). We call the resulting methods \SelD{} and \PropD.
+
+Grounding improved sharply: scenes with no objects fell from \gVzero\% to \gDzero\%, those carrying a cross-tile relation rose from \gVcross\% to \gDcross\%, and objects per scene from \gVobj{} to \gDobj{} (Fig.~\ref{fig:grounding}b). The relation block nevertheless remains ineffective (Table~\ref{tab:detector}): \relDRel\pp{} \relDRelci{} on relational tasks ($p=\relDRelp$). What changes is its sign on perception questions, from \relVNon\pp{} to \relDNon\pp; pooled over all items, better grounding improves the relation effect by \impAll\pp{} \impAllci{} (permutation $p=\impAllp$), consistent in direction but short of significance.
+
+\textbf{Availability is not relevance.} Only \detKwShare\% of the detector's objects match any content word of the question; its most frequent label is ``\detTopLabel'' (\detTopCount{} instances). Detector objects on their own are in fact slightly worse than the VLM's descriptions (\detObjOnly\pp, $p=\detObjOnlyP$), so a graph that is dense but generic does not help the model answer. The crossover also survives the change: \Bone{} still beats \PropD{} on relational items (\detVsDirectRel\pp, $p=\detVsDirectRelP$).
+
+\begin{table}[t]
+\centering
+\caption{Accuracy (\%) and relation effects (pp, 95\% CI) under the two grounding regimes.}
+\label{tab:detector}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}llrrr@{}}
+\toprule
+Objects from & Method & All & Relational & Non-rel. \\
+\midrule
+--                & Direct        & \accDirAll   & \accDirRel   & \accDirNon \\
+VLM extractor     & Selection     & \accSelVAll  & \accSelVRel  & \accSelVNon \\
+VLM extractor     & Proposed      & \accPropVAll & \accPropVRel & \accPropVNon \\
+Detector          & Selection-D   & \accSelDAll  & \accSelDRel  & \accSelDNon \\
+Detector          & Proposed-D    & \accPropDAll & \accPropDRel & \accPropDNon \\
+\midrule
+\multicolumn{2}{@{}l}{Relation effect, VLM extractor} & \relVAll{} \relVAllci & \relVRel{} \relVRelci & \relVNon{} \relVNonci \\
+\multicolumn{2}{@{}l}{Relation effect, detector}      & \relDAll{} \relDAllci & \relDRel{} \relDRelci & \relDNon{} \relDNonci \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Deciding when to zoom}
+Back on all \nScored{} items, \Bone{} and \Bthree{} fail on different ones: an oracle choosing the better of the two per item reaches \oracleTwo\%, against \accBThreeAll\% for the best single method. We therefore learn a router with \routerFolds-fold cross-validation repeated \routerRepeats{} times, using only information available before answering, so no item's own outcome informs its routing. Routing on the task group reaches \routerAcc\%, exceeding \Bthree{} by \routerDelta\pp{} \routerCI{} ($p=\routerP$) while issuing \routerCalls{} VLM calls per item instead of \selCalls{} (\routerSaving\% fewer, Fig.~\ref{fig:grounding}c). Using only the question's keywords, without the benchmark's task label, the router matches \Bthree{} in accuracy (\routerKwAcc\%, $p=\routerKwP$) at \routerKwSaving\% fewer calls. Most of the oracle's headroom remains unclaimed, so better routing signals, not richer relation encodings, look like the productive direction.
+
+%-----------------------------------------------------------------------------
+\section{Discussion and Conclusion}
+
+Under matched compute, explicit cross-tile relations did not improve UHR remote sensing VQA, and this held after we removed the obvious confound with a detector that supplied graphs on \gDcross\% of scenes. Three lessons follow. First, zoom-based pipelines trade relational for perceptual accuracy, so aggregate scores hide the trade and the two task families should be reported separately. Second, a symbolic relation layer is only as good as the \emph{relevance} of its grounding: dense but generic detections helped no more than sparse ones, which argues for query-conditioned detection rather than more predicates, and possibly for marks drawn on the image rather than text~\cite{izadi2025viser}. Third, the cheapest gain available today is not to zoom better but to decide when to zoom at all.
+\textbf{Limitations:} one 7B model, the multiple-choice lite split only, one detector and one operating point, a generic CLIP scorer~\cite{liu2024remoteclip}, and a relational partition of our own design (Appendix~\ref{app:caveats}).
+% TODO: add a code/data availability statement once a release location is decided.
+
+\bibliographystyle{splncs04}
+\bibliography{refs}
+
+%=============================================================================
+\clearpage
+\appendix
+\section{Supplementary Material}
+
+\subsection{Robustness of the crossover to the relational partition}\label{app:partitions}
+The crossover is the relational effect minus the non-relational one; the non-relational group is always the complement of the relational one, with the bi-temporal category excluded. $^{*}$ marks permutation $p<0.05$.
+\begin{table}[H]
+\centering
+\caption{The crossover under alternative definitions of the relational group.}
+\label{tab:partitions}
+\setlength{\tabcolsep}{4pt}
+\footnotesize
+\input{analysis/table_partitions.tex}
+\end{table}
+
+\subsection{Per-task results}
+In Table~\ref{tab:pertask}, $\Delta_z$ is the change from \Bone{} to \Bthree{} and $\Delta_r$ the change from \Bthree{} to \Prop; Grp is R for relational, N for non-relational and H for the held-out category; the last column gives the share of scenes where the extractor returned no objects. Figure~\ref{fig:pertask} plots the same effects with 95\% CIs, slate for zooming and amber for the relation block, with $^{*}$ for Holm-adjusted $p<.05$; overall land use ($n{=}3$ scorable) is omitted and $^\dagger$ marks the held-out bi-temporal category.
+\begin{table}[H]
+\centering
+\caption{Per-task accuracy (\%) and paired effects.}
+\label{tab:pertask}
+\setlength{\tabcolsep}{2.6pt}
+\footnotesize
+\input{analysis/table_pertask.tex}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{figA_per_task.pdf}
+\caption{Paired per-task effects with 95\% CIs.}
+\label{fig:pertask}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{figA_mechanism.pdf}
+\caption{Empty graphs per task (a), and the relation effect by what the graph contained (b).}
+\label{fig:mechanism}
+\end{figure}
+
+Figure~\ref{fig:mechanism}a counts scenes in which the VLM extractor returned no object in any of the five selected crops. In Fig.~\ref{fig:mechanism}b the answer changed on \chgNoR\% of items when the block was empty, against \chgHasR\% and \chgCross\% when it carried any relation or a cross-tile relation, so the empty-block value is the noise floor from the prompt text alone.
+
+\subsection{Further caveats}\label{app:caveats}
+The planned ablation sweeps over tile size, overlap and top-$k$ were not run, so the configuration reported here is a single operating point. All methods chose option ``C'' for \shareCmin--\shareCmax\% of items, against \shareCgt\% of ground-truth answers: a position bias shared across methods, which affects absolute accuracy but not the paired comparisons. The \nUnscOLU{} multi-select Overall-Land-Use items were excluded identically from every method; set-based scoring of them is left to future work. Stratified analyses condition on the number of relations, a post-treatment variable, and their $p$-values are uncorrected. In the detector experiment, the relational gain on items carrying a cross-tile relation is detectable only above \mdeCrossRel\pp{} at 80\% power, so a small true effect cannot be excluded.
+
+\subsection{Example inputs, questions and relation graph}\label{app:examples}
+Figure~\ref{fig:input} shows one scene as the pipeline sees it, and Fig.~\ref{fig:graph} the relation graph built for it, in which 27 of the 32 relations connect objects observed in different tiles and \Prop{} answers correctly where \Bthree{} does not. Its labels also show a failure mode: the extractor copied the question's wording into its object labels. The qualitative pair at the end of this appendix contrasts that item with a regional land-use item where adding 116 relations turns a correct \Bthree{} answer into an error, relations acting as distractors on a perception task; dashed boxes are selected tiles and orange edges cross-tile relations. Table~\ref{tab:examples} lists real benchmark questions, verbatim.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{figA_input.pdf}
+\caption{One scene as the pipeline sees it: selected tiles in context, then at native resolution.}
+\label{fig:input}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{figA_graph.pdf}
+\caption{Relation graph for the scene in Fig.~\ref{fig:input}, with nodes at their global positions.}
+\label{fig:graph}
+\end{figure}
+
+\input{analysis/example_questions.tex}
+
+\subsection{Compute and extraction details}\label{app:compute}
+Only \rawUnparsed\% of the \rawItems{} items returned by the VLM extractor lacked a readable box, so the empty graphs reflect the extractor returning no objects rather than malformed output. Mean seconds per item for \Prop: overview \stageOverview, selection \stageSelection, local extraction \extSec, final answer \stageFinal; deduplication and relation construction together take \stageGraph. Peak VRAM was \peakVram{}~GB. Deduplication merged \dupRate\% of raw detections, \crossMerges{} of them across tile seams, and \borderShare\% of parsed detections touched a tile border. The detector variant needs one VLM call per item instead of six, so its two runs together cost \detGpuH{} GPU-hours.
+
+\subsection{Object count is confounded with task composition}
+All methods improve together with the number of objects extracted, including \Bone, which never receives objects, so the trend reflects the mix of scenes and tasks per bin (labelled in Fig.~\ref{fig:confound}) rather than any benefit of the relation graph.
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.66\textwidth]{figA_objects_confound.pdf}
+\caption{Accuracy against the number of objects extracted, by method.}
+\label{fig:confound}
+\end{figure}
+
+\subsection{Qualitative examples}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.49\textwidth]{figA_qual_win.jpg}\hfill
+\includegraphics[width=0.49\textwidth]{figA_qual_loss.jpg}
+\caption{A relational item the graph fixes (left) and a perception item it breaks (right).}
+\end{figure}
+
+\end{document}

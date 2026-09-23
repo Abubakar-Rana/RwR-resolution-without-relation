@@ -1,0 +1,9 @@
+# A1: THE main ablation (plan section 8). This is Baseline 3: identical to the
+# proposed method in tiles, selection, model and call budget, with the relation
+# block withheld. The primary comparison of the whole study is A1 vs the
+# proposed arm.
+base: ../default.yaml
+
+run:
+  out_dir: results/ablation/a1_no_relations
+  arms: [b3_selected]

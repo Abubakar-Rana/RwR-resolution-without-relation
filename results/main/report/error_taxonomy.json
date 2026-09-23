@@ -1,0 +1,507 @@
+{
+  "arm": "proposed_ctsr",
+  "n_total": 3080,
+  "n_correct": 1275,
+  "n_failed": 1708,
+  "n_unscorable_excluded": 97,
+  "counts": {
+    "parse_failure": 5,
+    "localisation_propagation": 1211,
+    "duplicate_objects": 185,
+    "tile_boundary": 68,
+    "incorrect_relation": 162,
+    "fine_grained_loss": 9,
+    "unexplained": 68
+  },
+  "fractions": {
+    "parse_failure": 0.0029,
+    "localisation_propagation": 0.709,
+    "duplicate_objects": 0.1083,
+    "tile_boundary": 0.0398,
+    "incorrect_relation": 0.0948,
+    "fine_grained_loss": 0.0053,
+    "unexplained": 0.0398
+  },
+  "conditions": {
+    "no_objects": 1216,
+    "relational_task": 533,
+    "relations_present": 484,
+    "border_objects": 318,
+    "cross_tile_present": 263,
+    "duplicates_likely": 185,
+    "border_dominant": 95,
+    "fixed_by_high_res": 85,
+    "parse_failed": 5
+  },
+  "by_task": {
+    "Anomaly Detection and Interpretation": {
+      "duplicate_objects": 13,
+      "unexplained": 9,
+      "tile_boundary": 7,
+      "localisation_propagation": 5,
+      "fine_grained_loss": 1
+    },
+    "Counting with Complex Reasoning": {
+      "localisation_propagation": 19,
+      "incorrect_relation": 14,
+      "duplicate_objects": 13,
+      "tile_boundary": 2
+    },
+    "Counting/Counting with changing detection": {
+      "unexplained": 11,
+      "localisation_propagation": 11,
+      "duplicate_objects": 10,
+      "fine_grained_loss": 1
+    },
+    "Environmental Condition Reasoning": {
+      "duplicate_objects": 9,
+      "unexplained": 6,
+      "fine_grained_loss": 3,
+      "tile_boundary": 3,
+      "localisation_propagation": 1
+    },
+    "Object Classification": {
+      "localisation_propagation": 485,
+      "duplicate_objects": 4,
+      "unexplained": 2
+    },
+    "Object Color": {
+      "localisation_propagation": 471,
+      "duplicate_objects": 1
+    },
+    "Object Motion State": {
+      "localisation_propagation": 20
+    },
+    "Object Spatial Relationship": {
+      "localisation_propagation": 131,
+      "incorrect_relation": 119,
+      "duplicate_objects": 82,
+      "tile_boundary": 31,
+      "parse_failure": 5,
+      "unexplained": 1
+    },
+    "Overall Counting": {
+      "unexplained": 20,
+      "localisation_propagation": 8,
+      "duplicate_objects": 7,
+      "tile_boundary": 6,
+      "fine_grained_loss": 3
+    },
+    "Overall Land Use Classification": {
+      "unexplained": 1
+    },
+    "Regional Counting": {
+      "localisation_propagation": 33,
+      "duplicate_objects": 10,
+      "incorrect_relation": 10,
+      "tile_boundary": 2,
+      "unexplained": 2
+    },
+    "Regional Land Use Classification": {
+      "duplicate_objects": 19,
+      "unexplained": 16,
+      "tile_boundary": 12,
+      "localisation_propagation": 9,
+      "fine_grained_loss": 1
+    },
+    "Route Planning": {
+      "incorrect_relation": 19,
+      "localisation_propagation": 18,
+      "duplicate_objects": 17,
+      "tile_boundary": 5
+    }
+  },
+  "by_group": {
+    "non_relational": {
+      "localisation_propagation": 999,
+      "unexplained": 54,
+      "duplicate_objects": 53,
+      "tile_boundary": 28,
+      "fine_grained_loss": 8
+    },
+    "relational": {
+      "localisation_propagation": 201,
+      "incorrect_relation": 162,
+      "duplicate_objects": 122,
+      "tile_boundary": 40,
+      "parse_failure": 5,
+      "unexplained": 3
+    },
+    "unknown": {
+      "unexplained": 11,
+      "localisation_propagation": 11,
+      "duplicate_objects": 10,
+      "fine_grained_loss": 1
+    }
+  },
+  "examples": {
+    "localisation_propagation": [
+      {
+        "uid": "idx0_0b2e9d9924",
+        "task": "Object Color",
+        "question": "",
+        "prediction": "D",
+        "gt": "A",
+        "n_objects": 0,
+        "n_relations": 0,
+        "raw_excerpt": "ANSWER: D"
+      },
+      {
+        "uid": "idx0_0ef1547fc0",
+        "task": "Object Spatial Relationship",
+        "question": "",
+        "prediction": "C",
+        "gt": "A",
+        "n_objects": 0,
+        "n_relations": 0,
+        "raw_excerpt": "ANSWER: C"
+      },
+      {
+        "uid": "idx0_96f8103b35",
+        "task": "Object Classification",
+        "question": "",
+        "prediction": "C",
+        "gt": "B",
+        "n_objects": 0,
+        "n_relations": 0,
+        "raw_excerpt": "ANSWER: C"
+      },
+      {
+        "uid": "idx0_cb22c13144",
+        "task": "Regional Land Use Classification",
+        "question": "",
+        "prediction": "B",
+        "gt": "C",
+        "n_objects": 0,
+        "n_relations": 0,
+        "raw_excerpt": "ANSWER: B"
+      },
+      {
+        "uid": "idx0_df835ef19f",
+        "task": "Regional Counting",
+        "question": "",
+        "prediction": "B",
+        "gt": "D",
+        "n_objects": 0,
+        "n_relations": 0,
+        "raw_excerpt": "ANSWER: B"
+      }
+    ],
+    "duplicate_objects": [
+      {
+        "uid": "idx0_27e0f4c943",
+        "task": "Route Planning",
+        "question": "",
+        "prediction": "A",
+        "gt": "D",
+        "n_objects": 11,
+        "n_relations": 38,
+        "raw_excerpt": "ANSWER: A"
+      },
+      {
+        "uid": "idx0_63fe1414f9",
+        "task": "Anomaly Detection and Interpretation",
+        "question": "",
+        "prediction": "B",
+        "gt": "D",
+        "n_objects": 14,
+        "n_relations": 54,
+        "raw_excerpt": "ANSWER: B"
+      },
+      {
+        "uid": "idx101_f257836941",
+        "task": "Regional Land Use Classification",
+        "question": "",
+        "prediction": "C",
+        "gt": "B",
+        "n_objects": 14,
+        "n_relations": 56,
+        "raw_excerpt": "ANSWER: C"
+      },
+      {
+        "uid": "idx106_84642cdb06",
+        "task": "Object Spatial Relationship",
+        "question": "",
+        "prediction": "A",
+        "gt": "B",
+        "n_objects": 6,
+        "n_relations": 15,
+        "raw_excerpt": "ANSWER: A"
+      },
+      {
+        "uid": "idx108_3805779d6f",
+        "task": "Object Spatial Relationship",
+        "question": "",
+        "prediction": "C",
+        "gt": "A",
+        "n_objects": 19,
+        "n_relations": 66,
+        "raw_excerpt": "ANSWER: C"
+      }
+    ],
+    "unexplained": [
+      {
+        "uid": "idx102_35d3819d97",
+        "task": "Regional Land Use Classification",
+        "question": "",
+        "prediction": "C",
+        "gt": "D",
+        "n_objects": 21,
+        "n_relations": 75,
+        "raw_excerpt": "ANSWER: C"
+      },
+      {
+        "uid": "idx109_a790322f57",
+        "task": "Regional Land Use Classification",
+        "question": "",
+        "prediction": "A",
+        "gt": "B",
+        "n_objects": 24,
+        "n_relations": 83,
+        "raw_excerpt": "ANSWER: A"
+      },
+      {
+        "uid": "idx125_d810a87f82",
+        "task": "Regional Land Use Classification",
+        "question": "",
+        "prediction": "C",
+        "gt": "B",
+        "n_objects": 10,
+        "n_relations": 36,
+        "raw_excerpt": "ANSWER: C"
+      },
+      {
+        "uid": "idx12_2277241b7a",
+        "task": "Counting/Counting with changing detection",
+        "question": "",
+        "prediction": "B",
+        "gt": "A",
+        "n_objects": 8,
+        "n_relations": 27,
+        "raw_excerpt": "ANSWER: B"
+      },
+      {
+        "uid": "idx138_e28c8e6a51",
+        "task": "Regional Land Use Classification",
+        "question": "",
+        "prediction": "B",
+        "gt": "D",
+        "n_objects": 16,
+        "n_relations": 69,
+        "raw_excerpt": "ANSWER: B"
+      }
+    ],
+    "incorrect_relation": [
+      {
+        "uid": "idx102_ac67cf3363",
+        "task": "Object Spatial Relationship",
+        "question": "",
+        "prediction": "A",
+        "gt": "B",
+        "n_objects": 3,
+        "n_relations": 3,
+        "raw_excerpt": "ANSWER: A"
+      },
+      {
+        "uid": "idx104_886ab11cdb",
+        "task": "Object Spatial Relationship",
+        "question": "",
+        "prediction": "B",
+        "gt": "A",
+        "n_objects": 2,
+        "n_relations": 1,
+        "raw_excerpt": "ANSWER: B"
+      },
+      {
+        "uid": "idx10_af8fa9c8f8",
+        "task": "Route Planning",
+        "question": "",
+        "prediction": "C",
+        "gt": "A",
+        "n_objects": 33,
+        "n_relations": 121,
+        "raw_excerpt": "ANSWER: C"
+      },
+      {
+        "uid": "idx111_0287b50d48",
+        "task": "Object Spatial Relationship",
+        "question": "",
+        "prediction": "D",
+        "gt": "C",
+        "n_objects": 2,
+        "n_relations": 1,
+        "raw_excerpt": "ANSWER: D"
+      },
+      {
+        "uid": "idx113_3b7e2ee58f",
+        "task": "Object Spatial Relationship",
+        "question": "",
+        "prediction": "D",
+        "gt": "C",
+        "n_objects": 11,
+        "n_relations": 41,
+        "raw_excerpt": "ANSWER: D"
+      }
+    ],
+    "tile_boundary": [
+      {
+        "uid": "idx106_a2a2e88278",
+        "task": "Regional Land Use Classification",
+        "question": "",
+        "prediction": "B",
+        "gt": "C",
+        "n_objects": 5,
+        "n_relations": 10,
+        "raw_excerpt": "ANSWER: B"
+      },
+      {
+        "uid": "idx110_bb6a341024",
+        "task": "Object Spatial Relationship",
+        "question": "",
+        "prediction": "D",
+        "gt": "B",
+        "n_objects": 2,
+        "n_relations": 1,
+        "raw_excerpt": "ANSWER: D"
+      },
+      {
+        "uid": "idx112_d7fad59777",
+        "task": "Regional Land Use Classification",
+        "question": "",
+        "prediction": "A",
+        "gt": "D",
+        "n_objects": 5,
+        "n_relations": 10,
+        "raw_excerpt": "ANSWER: A"
+      },
+      {
+        "uid": "idx118_b30be2c11b",
+        "task": "Object Spatial Relationship",
+        "question": "",
+        "prediction": "C",
+        "gt": "A",
+        "n_objects": 15,
+        "n_relations": 52,
+        "raw_excerpt": "ANSWER: C"
+      },
+      {
+        "uid": "idx123_a8bcf5fff1",
+        "task": "Object Spatial Relationship",
+        "question": "",
+        "prediction": "C",
+        "gt": "B",
+        "n_objects": 9,
+        "n_relations": 32,
+        "raw_excerpt": "ANSWER: C"
+      }
+    ],
+    "fine_grained_loss": [
+      {
+        "uid": "idx10_17dbc79db9",
+        "task": "Overall Counting",
+        "question": "",
+        "prediction": "C",
+        "gt": "B",
+        "n_objects": 20,
+        "n_relations": 72,
+        "raw_excerpt": "ANSWER: C"
+      },
+      {
+        "uid": "idx10_2ab2e3553d",
+        "task": "Environmental Condition Reasoning",
+        "question": "",
+        "prediction": "D",
+        "gt": "B",
+        "n_objects": 13,
+        "n_relations": 53,
+        "raw_excerpt": "ANSWER: D"
+      },
+      {
+        "uid": "idx153_163b568889",
+        "task": "Regional Land Use Classification",
+        "question": "",
+        "prediction": "D",
+        "gt": "A",
+        "n_objects": 4,
+        "n_relations": 6,
+        "raw_excerpt": "ANSWER: D"
+      },
+      {
+        "uid": "idx21_efa61235d7",
+        "task": "Anomaly Detection and Interpretation",
+        "question": "",
+        "prediction": "A",
+        "gt": "D",
+        "n_objects": 29,
+        "n_relations": 104,
+        "raw_excerpt": "ANSWER: A"
+      },
+      {
+        "uid": "idx28_d49fbb80ca",
+        "task": "Overall Counting",
+        "question": "",
+        "prediction": "A",
+        "gt": "B",
+        "n_objects": 21,
+        "n_relations": 80,
+        "raw_excerpt": "ANSWER: A"
+      }
+    ],
+    "parse_failure": [
+      {
+        "uid": "idx178_2d01cb7b07",
+        "task": "Object Spatial Relationship",
+        "question": "",
+        "prediction": "None",
+        "gt": "A",
+        "n_objects": 0,
+        "n_relations": 0,
+        "raw_excerpt": "There are no buildings present in the provided images."
+      },
+      {
+        "uid": "idx229_327b3e9b9a",
+        "task": "Object Spatial Relationship",
+        "question": "",
+        "prediction": "None",
+        "gt": "B",
+        "n_objects": 0,
+        "n_relations": 0,
+        "raw_excerpt": "There are no red and green playgrounds or black basketball courts visible in the provided images. Therefore, it's impossible to determine their positions relative to each other. \n\nANSWER: N/A"
+      },
+      {
+        "uid": "idx341_c7f05081bd",
+        "task": "Object Spatial Relationship",
+        "question": "",
+        "prediction": "None",
+        "gt": "A",
+        "n_objects": 0,
+        "n_relations": 0,
+        "raw_excerpt": "There is no city or buildings present in the provided images."
+      },
+      {
+        "uid": "idx423_1e17cd8ccb",
+        "task": "Object Spatial Relationship",
+        "question": "",
+        "prediction": "None",
+        "gt": "C",
+        "n_objects": 0,
+        "n_relations": 0,
+        "raw_excerpt": "There is no heart-shaped lake or rectangular soccer field with white lines visible in the provided images. Therefore, it's impossible to determine their positions relative to each other. \n\nANSWER: N"
+      },
+      {
+        "uid": "idx55_8dc30b492f",
+        "task": "Object Spatial Relationship",
+        "question": "",
+        "prediction": "None",
+        "gt": "A",
+        "n_objects": 0,
+        "n_relations": 0,
+        "raw_excerpt": "There are no buildings or stadiums visible in the provided images. Therefore, it's impossible to determine the location of any building in relation to a stadium based on these images alone. \n\nANSWER: N/A"
+      }
+    ]
+  },
+  "comparison_arms_used": [
+    "b3_selected",
+    "proposed_ctsr"
+  ]
+}
