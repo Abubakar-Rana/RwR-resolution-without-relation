@@ -1,0 +1,19 @@
+# expanded per-item outputs: regenerate with scripts/prepare_results.py from the .gz
+results/**/predictions.jsonl
+
+# benchmark images and HuggingFace caches are never committed
+data/
+*.hf_cache/
+hf_cache/
+
+# python
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+*.egg-info/
+.venv/
+venv/
+
+# os
+Thumbs.db
+.DS_Store

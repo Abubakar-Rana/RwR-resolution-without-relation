@@ -1,0 +1,176 @@
+Conference: Call for Papers - Computer Vision Conference 2027 | Advancing Machine Vision, Vision-Language Models, and Deep Learning 
+Title: “Beyond Tiling: Hierarchical Visual-Language Reasoning for Ultra-High-Resolution Remote Sensing Imagery”
+Gap: Current VLMs struggle when important objects occupy only a tiny fraction of an 8K–10K image; naïve resizing loses detail, while simple tiling loses global spatial context and relationships between tiles. XLRS-Bench explicitly targets these ultra-high-resolution limitations. [https://arxiv.org/pdf/2503.23771]
+Proposed approach: 
+Whole Image → Intelligent Tiling → Object/Region Detection → Local VLM Reasoning → Global Spatial Aggregation → Final Answer
+Instead of feeding the entire image or independent tiles to a VLM, build a hierarchical visual reasoning framework that first identifies relevant regions, reasons locally, then reconstructs the global scene.
+Steps to implementation:
+Data Acquisition & XLRS-Bench Preparation
+Task & Failure-Mode Analysis
+Baseline VLM Selection
+Ultra-High-Resolution Image Tiling
+Object-Aware Region Selection
+Local Visual Reasoning
+Global Context Aggregation
+Hierarchical VLM Reasoning Framework
+Training / Prompt Optimization
+Ablation Experiments
+Baseline vs. Proposed Method Evaluation
+XLRS-Bench Testing
+Quantitative Performance Analysis
+Failure-Case & Qualitative Analysis
+Generalization / Cross-Scene Testing
+Statistical Results & Visualization
+Research Findings & Conclusions
+Details:
+The strongest practical setup is to use Qwen2.5-VL-7B as the base VLM and build the research contribution around a Hierarchical Object-Aware Reasoning (HOAR) pipeline. XLRS-Bench itself uses Qwen2.5-VL-7B as an evaluation baseline, so this gives you a clean baseline-to-proposed comparison.
+Proposed architecture
+Core idea: Instead of giving the 8,500×8,500 image directly to the VLM, first identify where the useful information is, reason locally, then combine those local observations with global context.
+            XLRS-Bench Image
+          8,500 × 8,500 pixels
+                   │
+                   ▼
+        ┌─────────────────────┐
+        │ Global Image Encoder│
+        │ / Low-res Overview  │
+        └──────────┬──────────┘
+                   │
+             Scene Understanding
+                   │
+                   ▼
+        ┌─────────────────────┐
+        │ Intelligent Tiling  │
+        │ 512/1024 px regions │
+        └──────────┬──────────┘
+                   │
+                   ▼
+        ┌─────────────────────┐
+        │ Object/Region       │
+        │ Relevance Scoring   │
+        └──────────┬──────────┘
+                   │
+          Select important tiles
+                   │
+                   ▼
+        ┌─────────────────────┐
+        │ Qwen2.5-VL-7B       │
+        │ Local Reasoning     │
+        └──────────┬──────────┘
+                   │
+        Objects + attributes +
+        spatial relationships
+                   │
+                   ▼
+        ┌─────────────────────┐
+        │ Global Context      │
+        │ Aggregator          │
+        └──────────┬──────────┘
+                   │
+                   ▼
+        ┌─────────────────────┐
+        │ Qwen2.5-VL Reasoner │
+        │ Final Answer        │
+        └──────────┬──────────┘
+                   │
+                   ▼
+             XLRS Answer
+How I would implement it
+1. Baseline: Run Qwen2.5-VL-7B directly on XLRS-Bench. 2. Tiling baseline: Split each image into overlapping tiles → Qwen → aggregate answers. 3. Object-aware module: Use a lightweight detector/segmentation model to identify relevant objects/regions. 4. Relevance scoring: Rank tiles according to the question + detected objects. 5. Local reasoning: Send only relevant high-resolution crops to Qwen2.5-VL. 6. Spatial memory: Store each crop's objects, coordinates and relationships. 7. Global reasoning: Give Qwen the local observations + original low-resolution overview. 8. Final answer: Generate the VQA/grounding/caption answer. 9. Ablation: Compare Direct VLM → Tiling → Object-aware → Full HOAR. 10. XLRS evaluation: Measure gains separately for counting, spatial reasoning, grounding, captioning and complex reasoning.
+The important research contribution should therefore be the reasoning architecture, not Qwen itself. This is particularly defensible because XLRS-Bench has 45,942 annotations across 16 tasks and specifically exposes difficulties involving ultra-high resolution and complex spatial/spatiotemporal reasoning.
+Specifically, we can claim 3 methodological contributions
+1. Question-Aware Region Selection The system does not blindly tile the image. The question determines which regions/objects deserve high-resolution processing.
+2. Spatial Memory for Cross-Tile Reasoning Each local VLM observation is stored with object identity, coordinates, attributes and relationships, allowing the model to reason across different tiles rather than treating them independently.
+3. Global–Local Reasoning Fusion The final answer combines the whole-scene context + high-resolution local evidence + spatial relationships. This directly targets the information-loss problem created by either resizing or independent tiling.
+The actual research hypothesis
+Can question-aware, spatially grounded hierarchical reasoning reduce the loss of fine-grained information and cross-region spatial relationships that limits VLM performance on ultra-high-resolution remote-sensing imagery?
+That gives you a testable novelty rather than simply proposing another VLM pipeline.
+The paper becomes particularly strong if your experiments demonstrate specific failure modes:
+Direct VLM fails → Tiling partially fixes detail → Our spatial/question-aware framework fixes both detail AND cross-tile reasoning.
+That experimental progression is what would substantiate the novelty.
+Practical Implementations of Our work (after finalizing) will be: 
+An automated interpretation of very large satellite images where important objects are too small to be reliably understood after image resizing. For example, the framework could be used for:
+Disaster response: identify and reason about damaged buildings, roads, bridges, and shelters after floods/earthquakes.
+Infrastructure mapping: locate schools, hospitals, power infrastructure, roads, and their spatial relationships.
+Urban monitoring: understand buildings, construction, land use, and dense urban patterns.
+Environmental monitoring: analyze deforestation, wildfire damage, agricultural patterns, and other fine-scale changes.
+Large-scale geospatial querying: ask natural-language questions such as “Which schools are within the flooded area?” and obtain evidence-grounded answers from a huge satellite scene.
+The broader contribution: turning ultra-high-resolution satellite imagery from something that requires manual GIS interpretation into a queryable visual intelligence system capable of answering complex spatial questions.
+Title
+Beyond Zoom: Cross Tile Spatial Relation Reasoning for Ultra High Resolution Remote Sensing Vision Language Models
+1. Research Background
+Ultra high resolution remote sensing imagery contains detailed information about small objects and their spatial relationships. However, the large dimensions of these images create significant challenges for vision language models. Directly resizing an image can result in the loss of fine grained information, while dividing an image into independent tiles can preserve local detail but disrupt spatial relationships between objects located in different tiles.
+This study focuses on the second problem, namely the loss of spatial relationships during tile based processing. The research investigates whether explicitly representing relationships between objects across different image tiles can improve vision language model reasoning on ultra high resolution remote sensing imagery.
+2. Research Problem
+Current approaches for ultra high resolution remote sensing vision language tasks primarily address the loss of visual detail through image scaling, cropping, zooming, or active region selection. These approaches can improve access to small objects but may not explicitly preserve relationships between objects distributed across different regions of a large image.
+The proposed research addresses this gap by developing an explicit cross tile spatial relation representation in which objects detected from different tiles are transformed into a common global coordinate system and their spatial relationships are geometrically constructed.
+3. Research Question
+Does explicit cross tile spatial relation representation improve vision language model performance on relational reasoning tasks in ultra high resolution remote sensing imagery?
+4. Research Hypothesis
+Providing a vision language model with explicit representations of objects and their spatial relationships within a common global coordinate system will improve performance on relational tasks such as object spatial relationships, relational counting, and multi region grounding.
+The improvement is expected to be smaller for tasks that primarily require single object perception or general image captioning.
+5. Proposed Methodology
+The study will use Qwen2.5 VL 7B as the primary vision language model to provide a consistent foundation for baseline and proposed experiments.
+The proposed framework will consist of four main stages.
+5.1 Global Scene Understanding
+The complete ultra high resolution image will first be processed as a low resolution overview to obtain general scene context and identify the overall spatial structure of the image.
+5.2 Question Conditioned Tile Selection
+The high resolution image will be divided into overlapping tiles. The research question will be used to identify and prioritize regions that are likely to contain relevant objects or evidence.
+5.3 Local Visual Reasoning
+Selected high resolution tiles will be processed independently using the vision language model. Relevant objects, attributes, locations, and bounding regions will be extracted from each tile.
+5.4 Cross Tile Spatial Relation Representation
+Objects identified from individual tiles will be transformed from tile specific coordinates into a common global image coordinate system. A geometric scene graph will then be constructed in which objects represent nodes and spatial relationships represent edges.
+The representation will include relationships such as direction, distance, adjacency, containment, and intersection where applicable.
+The final reasoning stage will combine the global image context, high resolution local evidence, and cross tile spatial relations to generate the final response.
+6. Experimental Design
+The study will evaluate the contribution of the proposed spatial relation representation through a controlled experimental sequence.
+Baseline 1
+Direct Qwen2.5 VL inference using the original image representation.
+Baseline 2
+Independent tile based processing without explicit cross tile relations.
+Baseline 3
+Question conditioned tile selection followed by local vision language reasoning.
+Proposed Method
+Question conditioned tile selection combined with local reasoning and explicit cross tile spatial relation representation.
+The primary comparison will be between the third baseline and the proposed method so that the contribution of the spatial relation module can be isolated.
+7. Dataset and Evaluation
+XLRS Bench will be used as the primary benchmark because it contains ultra high resolution remote sensing imagery and evaluates multiple vision language tasks.
+Performance will be reported separately for relational tasks and non relational tasks. Particular attention will be given to object spatial relationship, relational and regional counting, and multi region grounding.
+Captioning and single object perception tasks will also be evaluated to determine whether the proposed method provides task specific improvements rather than simply increasing overall performance.
+8. Ablation Studies
+Ablation experiments will remove individual components of the proposed framework to determine their contribution.
+The main ablation will remove the cross tile spatial relation representation while keeping the image tiles, selection strategy, vision language model, and computational budget unchanged.
+Additional experiments will investigate the effect of tile size, tile overlap, number of selected regions, and object detection accuracy.
+9. Computational Evaluation
+Because the proposed framework may require multiple visual reasoning operations, comparisons will be performed under controlled computational conditions.
+The study will report model performance alongside inference cost, number of vision language model calls, processing time, and computational requirements where feasible.
+This will determine whether improvements result from the proposed reasoning mechanism rather than simply from processing more image regions.
+10. Error Analysis
+A detailed error analysis will categorize failures into several groups, including loss of fine grained information, tile boundary failures, incorrect spatial relationships, duplicate objects across overlapping tiles, and errors propagated from object localization.
+The relationship between object detection quality and final reasoning performance will also be investigated.
+11. Real World Demonstration
+A flood impact assessment will be used as a qualitative application case.
+The system will be evaluated on questions such as which schools or health facilities are located within an inundated region. This case will demonstrate whether the proposed cross tile reasoning framework can connect infrastructure objects and hazard regions that occur in different portions of an ultra high resolution scene.
+12. Expected Contribution
+The research is expected to make three primary contributions.
+First, it will formulate cross tile spatial relation reasoning as a specific challenge for ultra high resolution remote sensing vision language models.
+Second, it will introduce a lightweight geometric relation representation that connects objects identified across independently processed image tiles using a common global coordinate system.
+Third, it will provide controlled experimental evidence showing whether explicit cross tile spatial relations specifically improve relational reasoning tasks.
+13. Scope of the Study
+The study will not propose a new foundation vision language model or attempt to achieve state of the art performance across every XLRS Bench task. The primary objective is to isolate and evaluate the contribution of explicit cross tile spatial reasoning.
+This focused scope is intended to provide a clear and experimentally testable research contribution.
+14. Implementation Plan
+Reproduce the Qwen2.5 VL 7B baseline on XLRS Bench.
+Analyze task specific performance and identify relational reasoning limitations.
+Implement the high resolution tiling pipeline.
+Implement question conditioned tile selection.
+Implement local object and spatial information extraction.
+Transform tile coordinates into a global image coordinate system.
+Construct the geometric cross tile spatial relation graph.
+Integrate the relation representation with the final vision language reasoning stage.
+Conduct baseline and ablation experiments.
+Perform compute matched evaluation.
+Conduct error propagation and qualitative analysis.
+Evaluate the proposed method on a real world flood infrastructure case.
+Analyze results and prepare the research manuscript.
+15. Expected Research Outcome
+The central expected outcome is evidence showing whether explicit geometric representation of cross tile spatial relationships provides measurable benefits for relational reasoning in ultra high resolution remote sensing vision language tasks.

@@ -1,0 +1,446 @@
+--- PAGE 1 ---
+Beyond Zoom: Cross-Tile Spatial-Relation
+Reasoning for Ultra-High-Resolution
+Remote-Sensing Vision-Language Models
+Hafiz Muhammad Abubakar
+Planetary Health Informatics (PHI) Lab, NDORMs, University of Oxford
+hafiz.abubakar@ndorms.ox.ac.uk
+Abstract—Ultra-high-resolution (UHR) remote-sensing im-
+agery provides detailed information about small objects and
+their spatial configuration, but its extreme image dimensions
+pose challenges for vision-language models (VLMs). Direct image
+resizing can remove fine-grained visual evidence, while indepen-
+dent tile-based processing can preserve local detail but disrupt
+spatial relationships between objects distributed across the scene.
+Existing UHR approaches primarily address evidence acquisition
+through resolution scaling, token selection, cropping, or active
+visual exploration. In contrast, this work investigates whether
+explicitly representing spatial relationships across independently
+processed image tiles can improve relational reasoning.
+We propose a lightweight cross-tile spatial-relation framework
+that combines question-conditioned region selection, local VLM
+reasoning, global coordinate transformation, and a geometric
+scene graph representing relationships between objects across
+tiles. Qwen2.5-VL-7B is used as the underlying VLM to provide a
+controlled baseline. The proposed method is evaluated on XLRS-
+Bench, with particular emphasis on object spatial relationship,
+relational counting, and multi-region grounding tasks. Controlled
+ablations compare direct inference, independent tiling, question-
+conditioned selection, and the proposed cross-tile relation repre-
+sentation under matched computational conditions.
+[REPLACE: REPLACE WITH FINAL RESULTS: Briefly
+report the main quantitative improvement, task-specific improve-
+ment, and computational cost.]
+The study aims to establish whether explicit geometric rep-
+resentation of cross-tile relationships provides a measurable and
+task-specific advantage for UHR remote-sensing VLM reasoning.
+I. INTRODUCTION
+Recent advances in vision-language models (VLMs) have
+enabled increasingly sophisticated visual understanding and
+reasoning across natural images and domain-specific applica-
+tions. Remote sensing presents a particularly challenging set-
+ting because satellite imagery frequently contains large spatial
+extents, dense object distributions, and fine-grained structures
+that are difficult to preserve when images are processed at
+conventional resolutions.
+Ultra-high-resolution (UHR) remote-sensing imagery makes
+this challenge more pronounced. XLRS-Bench introduced a
+dedicated benchmark for evaluating multimodal large language
+models on UHR remote-sensing scenes, with an average image
+size of approximately8500×8500pixels and 16 subtasks
+covering both perception and reasoning capabilities [1]. The
+benchmark demonstrates that current multimodal models still
+face substantial difficulties when required to interpret ex-
+tremely large remote-sensing scenes.
+A fundamental difficulty arises from the trade-off between
+local detail and global context. Processing an entire UHR im-
+age directly requires aggressive visual compression, which can
+remove information about small objects. Conversely, dividing
+the image into smaller tiles allows a model to inspect high-
+resolution regions but can disconnect objects that occur in
+different tiles. Consequently, a model may correctly identify
+individual objects while failing to determine their relationships
+at the scene level.
+Recent research has primarily addressed the first part of
+this problem. GeoLLaV A-8K introduced background token
+pruning and anchored token selection to enable multimodal
+models to process remote-sensing imagery at resolutions up
+to8K×8K[2]. GeoEyes further introduced on-demand
+visual focusing, allowing a model to actively zoom into
+task-relevant regions [3]. GeoVista extended active perception
+through global planning, branch-wise regional inspection, and
+explicit evidence tracking across multiple regions [4]. These
+approaches improve the acquisition and organization of visual
+evidence in UHR scenes.
+However, evidence acquisition does not necessarily provide
+an explicit representation of geometric relationships between
+objects identified in independently processed regions. This
+distinction is important for tasks such as determining which
+object is north of another object, which facilities fall within
+a particular region, or how objects distributed across distant
+image tiles are spatially related.
+Relational reasoning has previously been explored in
+remote-sensing visual question answering. EarthVQA intro-
+duced a relational reasoning framework that explicitly mod-
+els object semantics and external spatial relationships us-
+ing segmentation-derived representations and object-guided
+attention [5]. However, EarthVQA addresses conventional-
+resolution remote-sensing imagery rather than the cross-tile
+reasoning problem introduced by extremely large UHR scenes.
+This work therefore investigates the following research
+question:
+Does explicit cross-tile spatial-relation representa-
+tion improve VLM performance on relational rea-
+soning tasks in ultra-high-resolution remote-sensing
+imagery?
+We hypothesize that representing objects in a common
+global coordinate system and explicitly constructing their spa-
+
+--- PAGE 2 ---
+tial relationships will improve relational tasks while producing
+smaller gains on tasks that primarily require single-object
+perception or generic captioning.
+The main contributions of this study are:
+1) We formulate cross-tile spatial-relation reasoning as a
+specific challenge for UHR remote-sensing VLMs.
+2) We introduce a lightweight geometric representation that
+connects objects extracted from independently processed
+tiles through a common global coordinate system.
+3) We conduct controlled ablation and compute-matched
+experiments to isolate the contribution of explicit cross-
+tile spatial relationships.
+4) We provide task-level and qualitative analysis to deter-
+mine whether improvements are concentrated on rela-
+tional reasoning tasks.
+II. RELATEDWORK
+A. Ultra-High-Resolution Remote-Sensing VLMs
+The development of UHR remote-sensing benchmarks has
+highlighted limitations of existing multimodal models when
+processing very large satellite images. XLRS-Bench intro-
+duced manually annotated UHR imagery with an average
+image size of approximately8500×8500pixels and defined
+16 subtasks covering perception and reasoning capabilities
+[1]. The benchmark provides a direct evaluation setting for
+studying the effect of image resolution and scene complexity
+on remote-sensing VLMs.
+GeoLLaV A-8K addressed the computational challenges as-
+sociated with UHR imagery through Background Token Prun-
+ing and Anchored Token Selection. The method exploits
+the observation that important visual information is often
+concentrated in object-centric regions and enables processing
+at resolutions up to8K×8K[2]. These approaches primarily
+address the problem of preserving or efficiently accessing
+useful visual information under extreme image dimensions.
+B. Active Visual Exploration for UHR Remote Sensing
+A second line of research treats UHR interpretation as an
+active perception problem. GeoEyes introduced on-demand
+visual focusing using a staged training strategy and reinforce-
+ment learning to improve adaptive zooming and evidence
+acquisition [3]. GeoVista subsequently introduced planning-
+driven active perception, branch-wise regional inspection, and
+explicit evidence tracking to reduce incomplete exploration
+and duplicated evidence [4].
+These methods demonstrate the importance of selecting and
+inspecting relevant regions rather than treating the complete
+UHR image uniformly. Nevertheless, their primary objective
+is evidence acquisition and tracking. The present work focuses
+on a complementary question: after evidence has been acquired
+from multiple regions, how should the spatial relationships
+among objects distributed across those regions be represented
+for final reasoning?
+TABLE I
+TASK CATEGORIES CONSIDERED IN THE EVALUATION.
+Category Representative Tasks Expected Effect
+Relational OSR, relational counting High
+Multi-region Grounding, regional reasoning High
+Perception Object recognition, properties Low/Moderate
+Captioning Scene description Low
+C. Relational Reasoning in Remote Sensing
+Relational reasoning has also been investigated in remote-
+sensing VQA. EarthVQA introduced a multi-task dataset
+containing 6,000 images and 208,593 question-answer pairs
+and proposed a Semantic Object Awareness framework
+for object-centric relational reasoning [5]. The framework
+uses segmentation-derived object representations and cross-
+attention to model object relationships.
+While EarthVQA establishes the importance of explicit
+object relationships for remote-sensing reasoning, it does not
+specifically address the spatial discontinuity created when an
+extremely large image is divided into independently processed
+tiles. Our work investigates this intersection between UHR
+visual processing and explicit geometric relational reasoning.
+III. DATASET
+A. XLRS-Bench
+XLRS-Bench is used as the primary evaluation benchmark
+[1]. The benchmark contains extremely large remote-sensing
+images with an average spatial dimension of approximately
+8500×8500pixels and evaluates multimodal models across
+16 subtasks.
+The benchmark covers both perceptual and reasoning ca-
+pabilities. For this study, particular attention is given to tasks
+that require relationships between multiple objects or spatial
+regions, including Object Spatial Relationship, relational and
+regional counting, and multi-region grounding.
+Non-relational tasks such as object perception and caption-
+ing are also retained for comparison. This allows the study to
+determine whether the proposed method produces task-specific
+improvements rather than uniformly improving all types of
+visual understanding.
+IV. DATAPREPROCESSING
+A. Image Standardization
+Each XLRS-Bench image is retained at its native resolution
+for the proposed high-resolution processing pipeline. A down-
+sampled representation is additionally generated to provide
+global scene context.
+[REPLACE: REPLACE WITH YOUR EXACT PREPRO-
+CESSING SETTINGS: image format, native resolution statis-
+tics, normalization, resizing method, and hardware con-
+straints.]
+
+--- PAGE 3 ---
+B. Image Tiling
+Each UHR image is divided into overlapping high-
+resolution tiles. Tile size and overlap are treated as experimen-
+tal parameters because they determine the trade-off between
+local visual detail, spatial coverage, computational cost, and
+duplicate object observations.
+[REPLACE: REPLACE: TILE SIZE = XXX pixels; OVER-
+LAP = XX%; NUMBER OF TILES = XXX.]
+The spatial coordinates of each tile are retained so that
+object observations extracted from different tiles can subse-
+quently be mapped to the coordinate system of the original
+image.
+C. Question-Conditioned Region Selection
+Rather than processing all tiles equally, candidate tiles are
+ranked according to their relevance to the input question.
+Relevant objects and regions identified from the global scene
+representation are used to prioritize high-resolution crops.
+[REPLACE: REPLACE WITH THE FINAL TILE SELEC-
+TION METHOD AND SCORING FUNCTION.]
+V. PROPOSEDMETHOD
+A. Overview
+The proposed framework consists of four principal stages:
+global scene understanding, question-conditioned tile selec-
+tion, local visual reasoning, and cross-tile spatial-relation
+reasoning.
+Given an input imageIand questionq, the system first
+generates a low-resolution global representation:
+G=f global(I).(1)
+The global representation provides scene-level context and
+supports selection of high-resolution regions relevant to the
+question.
+A set of candidate tiles is then generated:
+T={t 1, t2, . . . , tN}.(2)
+A question-conditioned selection function ranks the candi-
+date regions:
+Si =f select(ti, q, G),(3)
+and the top-Kregions are selected for detailed processing.
+B. Local Visual Reasoning
+Each selected high-resolution tile is processed indepen-
+dently using Qwen2.5-VL-7B [6]. For each tile, the model
+is prompted to identify relevant objects, attributes, and spatial
+evidence.
+For an objecto i detected in tilet j, its local coordinates are
+transformed into global image coordinates using the known
+tile offset:
+Bglobal
+i =B local
+i + (xj, yj),(4)
+where(x j, yj)denotes the top-left coordinate of tilet j in
+the original image.
+C. Cross-Tile Spatial Relation Graph
+The central component of the proposed framework is a
+geometric spatial relation graph.
+Let
+G= (V, E)(5)
+represent the scene graph, where each nodev i ∈V
+represents an object and each edgee ij∈Erepresents a spatial
+relationship between two objects.
+Each object is represented by its identity, attributes, global
+bounding box, and center coordinate:
+vi = (c i, ai, Bi, pi).(6)
+Spatial relationships are computed geometrically using the
+global coordinates. Depending on the task, the graph can
+encode relationships such as direction, distance, adjacency,
+containment, and intersection.
+For example,
+eij =r(o i, oj),(7)
+whererdenotes a spatial relation between objectso i and
+oj.
+Because all objects are represented in a common coordinate
+system, objects identified in different tiles can be directly
+compared.
+D. Global-Local Relation Fusion
+The final reasoning stage receives three forms of evidence:
+1) global scene context,
+2) selected high-resolution visual evidence,
+3) the cross-tile spatial relation graph.
+The final response is generated as
+y=f VLM(G, Tselected,G, q).(8)
+This design separates visual evidence acquisition from ex-
+plicit spatial relation construction and allows the contribution
+of the relation representation to be evaluated independently.
+VI. EXPERIMENTALDESIGN
+Four configurations are evaluated.
+A. Direct VLM
+The original image representation is provided directly to
+Qwen2.5-VL-7B without tile-level processing.
+B. Independent Tiling
+The image is divided into high-resolution tiles and pro-
+cessed independently. No explicit cross-tile spatial representa-
+tion is provided.
+C. Question-Conditioned Tiling
+Question-conditioned region selection is introduced before
+local VLM reasoning, but no explicit spatial relation graph is
+constructed.
+
+--- PAGE 4 ---
+TABLE II
+EXPERIMENTAL CONFIGURATIONS.
+Method Direct Tiling Selection Relations
+Direct VLM✓
+Independent Tiling✓
+Question-Conditioned Tiling✓ ✓
+Proposed Method✓ ✓ ✓
+D. Proposed Method
+The complete framework combines question-conditioned
+tile selection, local VLM reasoning, global coordinate trans-
+formation, and cross-tile spatial relation representation.
+VII. ABLATIONSTUDIES
+The primary ablation removes the cross-tile relation repre-
+sentation while keeping the VLM, tile selection mechanism,
+image regions, and computational budget unchanged.
+Additional experiments investigate the effects of:
+•tile size,
+•tile overlap,
+•number of selected tiles,
+•object localization accuracy,
+•relation types,
+•computational budget.
+The central hypothesis predicts that removing the relation
+representation will primarily affect tasks requiring relation-
+ships among spatially separated objects.
+VIII. COMPUTATIONALEVALUATION
+Because the proposed framework may involve multiple
+VLM calls, performance will be evaluated alongside compu-
+tational cost.
+The following quantities will be reported:
+•task accuracy,
+•number of VLM calls,
+•inference time,
+•GPU memory consumption,
+•computational budget.
+Where possible, comparisons will be performed under
+matched computational budgets to determine whether im-
+provements arise from the proposed spatial reasoning mecha-
+nism rather than simply from processing more visual regions.
+[REPLACE: REPLACE WITH FINAL HARDW ARE, IN-
+FERENCE TIME, MEMORY , AND COMPUTE RESULTS.]
+IX. RESULTS
+A. Overall Performance
+[REPLACE: REPLACE WITH FINAL XLRS-BENCH
+OVERALL RESULTS AND COMPARISON WITH BASE-
+LINES.]
+B. Task-Level Performance
+[REPLACE: REPLACE WITH TASK-SPECIFIC RE-
+SULTS FOR OBJECT SPATIAL RELATIONSHIP, COUNT-
+ING, GROUNDING, CAPTIONING, AND OTHER RELE-
+V ANT TASKS.]
+TABLE III
+OVERALL PERFORMANCE ONXLRS-BENCH.
+Method Overall Score Relational Score
+Direct VLM [REPLACE: XX.XX] [REPLACE: XX.XX]
+Independent Tiling [REPLACE: XX.XX] [REPLACE: XX.XX]
+Question-Conditioned Tiling [REPLACE: XX.XX] [REPLACE: XX.XX]
+Proposed Method [REPLACE: XX.XX] [REPLACE: XX.XX]
+C. Ablation Results
+[REPLACE: REPLACE WITH ABLATION RESULTS
+SHOWING THE EFFECT OF REMOVING THE CROSS-
+TILE RELATION REPRESENTATION.]
+D. Computational Results
+[REPLACE: REPLACE WITH COMPUTE-MATCHED
+RESULTS, INFERENCE TIME, VLM CALLS, AND MEM-
+ORY REQUIREMENTS.]
+X. ERRORANALYSIS
+The proposed framework will be evaluated through qualita-
+tive and quantitative analysis of failure cases. Errors will be
+categorized into fine-grained detail loss, tile-boundary failures,
+incorrect spatial relations, duplicate object observations, and
+errors propagated from object localization.
+[REPLACE: REPLACE WITH FINAL ERROR ANALYSIS
+AND REPRESENTATIVE FAILURE CASES.]
+XI. APPLICATIONDEMONSTRATION
+To demonstrate practical relevance, the proposed framework
+will be evaluated in a flood-impact scenario involving infras-
+tructure distributed across an UHR scene.
+The system will be queried with questions such as which
+schools or health facilities are located within an inundated
+region. Such queries require combining infrastructure objects
+and hazard regions that may be observed in different image
+tiles.
+[REPLACE: REPLACE WITH FLOOD CASE STUDY
+LOCATION, DATA SOURCE, IMAGE DETAILS, QUES-
+TION SET, AND QUALITATIVE RESULTS.]
+XII. DISCUSSION
+The central objective of this study is not to develop a new
+foundation VLM, but to isolate the contribution of explicit
+spatial relation representation in UHR remote-sensing reason-
+ing.
+If the proposed method produces its largest improvements
+on relational tasks while providing smaller improvements on
+non-relational tasks, this would support the hypothesis that
+cross-tile relation loss represents a distinct limitation of tile-
+based UHR reasoning.
+Conversely, if improvements are observed uniformly across
+all tasks, the results would suggest that the observed benefit
+may arise from more general improvements in visual evidence
+acquisition rather than from the proposed relational mecha-
+nism.
+
+--- PAGE 5 ---
+[REPLACE: REPLACE WITH FINAL INTERPRETATION
+OF RESULTS AND COMPARISON WITH THE HYPOTH-
+ESIS.]
+XIII. CONCLUSION
+This study proposes a cross-tile spatial-relation reasoning
+framework for ultra-high-resolution remote-sensing vision-
+language understanding. The framework combines question-
+conditioned region selection, local high-resolution visual rea-
+soning, global coordinate transformation, and geometric rela-
+tion construction.
+The research is designed to determine whether explic-
+itly preserving spatial relationships between objects across
+independently processed image tiles can improve relational
+reasoning in UHR remote-sensing scenes.
+[REPLACE: REPLACE WITH FINAL CONCLUSION
+BASED ON EXPERIMENTAL RESULTS.]
+REFERENCES
+[1] F. Wang, H. Wang, Z. Guo, D. Wang, Y . Wang, M. Chen, Q. Ma,
+L. Lan, W. Yang, J. Zhang, Z. Liu, and M. Sun, “Xlrs-bench: Could
+your multimodal llms understand extremely large ultra-high-resolution
+remote sensing imagery?” inProceedings of the IEEE/CVF Conference
+on Computer Vision and Pattern Recognition, June 2025, pp. 14 325–
+14 336.
+[2] F. Wang, M. Chen, Y . Li, D. Wang, H. Wang, Z. Guo, Z. Wang,
+B. Shan, L. Lan, Y . Wang, H. Wang, W. Yang, B. Du, and J. Zhang,
+“Geollava-8k: Scaling remote-sensing multimodal large language models
+to 8k resolution,” inAdvances in Neural Information Processing Systems,
+vol. 38, 2025.
+[3] F. Wang, M. Chen, Y . Li, Y . Yang, Y . Zhang, L. Lan, X. Yang, H. Sun,
+Y . Wang, D. Wang, J. Song, J. Zhang, and B. Du, “Geoeyes: On-demand
+visual focusing for evidence-grounded understanding of ultra-high-
+resolution remote sensing imagery,”arXiv preprint arXiv:2602.14201,
+2026.
+[4] J. Zhu, R. Fu, J. Hu, N. Xing, X. Na, X. Yang, Z. Lin, W. Zhang, L. Sun,
+Z. Xue, H. Liu, W. Zhang, and B. Yang, “Geovista: Visually grounded ac-
+tive perception for vision-language understanding of ultra-high-resolution
+remote sensing images,”arXiv preprint arXiv:2605.14475, 2026.
+[5] J. Wang, Z. Zheng, Z. Chen, A. Ma, and Y . Zhong, “Earthvqa: Towards
+queryable earth via relational reasoning-based remote sensing visual
+question answering,” inProceedings of the AAAI Conference on Artificial
+Intelligence, vol. 38, no. 6, 2024, pp. 5481–5489.
+[6] S. Bai, K. Chen, X. Liu, J. Wang, W. Ge, S. Song, K. Dang, P. Wang,
+J. Tang, H. Zhong, Y . Zhu, M. Li, Z. Li, J. Wan, P. Wang, W. Ding, Z. Fu,
+Y . Xu, J. Ye, X. Zhang, T. Xie, Z. Cheng, H. Zhang, Z. Yang, H. Xu, and
+J. Lin, “Qwen2.5-vl technical report,”arXiv preprint arXiv:2502.13923,
+2025.

@@ -1,0 +1,582 @@
+--- PAGE 1 ---
+Tile Selection Helps Perception but Hurts
+Spatial Reasoning in Ultra-High-Resolution
+Remote Sensing Visual Question Answering
+Anonymous Author(s)
+Aﬃliation withheld for review
+Abstract. Vision-language models (VLMs) must downscale remote
+sensing scenes of ultra-high resolution (UHR), so a common remedy is
+to select tiles relevant to the question and reason over them at native
+resolution. We asked whether this loses the spatial relations between ob-
+jects in diﬀerent tiles, and whether restoring them explicitly helps. We
+built a hierarchical pipeline that registers objects from selected tiles in
+a global coordinate frame and computes a geometric relation graph, and
+compared it with three baselines (whole-image input, independent tiles,
+and tile selection without relations) on 3,080 XLRS-Bench items using
+Qwen2.5-VL-7B. The comparison is paired, and the key contrast holds
+VLM calls and encoded pixels ﬁxed. The explicit relations did not help:
+the change on relational tasks was +0.0 pp (95% CI [ −2.1, +2.1]). The
+experiment instead shows a signiﬁcant crossover. Tile selection raises
+accuracy on perception questions by +4.1 pp but lowers it on relational
+questions by −4.5 pp (interaction −8.6 pp, p < 10−4), which puts object
+spatial relationships near chance. We trace the null result to the step
+before the relations: the VLM used as an object extractor returned no
+objects for 66% of scenes. The results point to routing between global
+and local views, and to more reliable grounding, rather than to richer
+relation encodings.
+Keywords: Remote sensing · Vision-language models · Ultra-high res-
+olution · Spatial reasoning
+1 Introduction
+UHR remote sensing images are 8,500 ×8,500 pixels or larger. XLRS-Bench [ 19]
+made plain what this means for VLMs: a target object may cover a few hundred
+pixels, and whole-image encoding [ 1] downscales it away. The ﬁeld’s answer is to
+zoom, whether by searching [ 21,16], pruning tokens [ 11], retrieving regions [ 24],
+or learning an active crop policy [ 10], each trading global context for local detail.
+We tested a speciﬁc concern with that trade. When evidence is spread across
+tiles, the model sees each crop in isolation and may lose the spatial relations
+between them. We therefore built an explicit remedy (Fig. 1). Objects extracted
+from the selected tiles are lifted into one global pixel frame and deduplicated
+across tile seams. A geometric relation graph (direction, distance, adjacency,
+
+--- PAGE 2 ---
+2 Anonymous
+containment, intersection) is then passed to the ﬁnal VLM call. Before running
+the experiment we ﬁxed the conﬁrmatory hypothesis: the relation block would
+improve accuracy on relational sub-tasks and matter little on the others.
+The hypothesis was not supported. The controlled design nonetheless yields
+three contributions:
+– a compute-accounted comparison of four methods , in which Selection
+and Proposed run one code path diﬀering by a single ﬂag, with identical VLM
+calls and pixels;
+– a crossover: question-conditioned zoom changes accuracy by +4.1 pp on
+perception and −4.5 pp on relational questions, and independent tiling hurts
+both;
+– a tightly bounded null for explicit relations ( ±2 pp), traced to grounding:
+extraction returned no objects for 66% of scenes.
+2 Related Work
+High-resolution VLMs. Tiling encoders such as Monkey [ 8] and LLaV A-
+UHD [ 22], and native dynamic-resolution models such as Qwen2.5-VL [ 1], raise
+the input pixel budget. Training-free methods add search or hierarchy at in-
+ference time: V* [ 21], ZoomEye [ 16], and DC 2 [20]. UHR remote sensing.
+XLRS-Bench [19] and GeoLLaV A-8K [18] target 8K-scale scenes. LRS-VQA [ 11]
+prunes tokens under text guidance, ImageRAG [ 24] retrieves relevant regions,
+and ZoomEarth [ 10] learns an active zoom policy. UHR-Micro [ 13] documents
+a “resolution illusion” for small evidence; GeoChat [ 7] is a domain-tuned VLM.
+Spatial reasoning and structured intermediates. VLMs are weak at spatial
+relations [ 2,15]. Scene graphs [ 6], visual programs [ 4,17], and visual marks [ 23]
+externalise that structure; we test it for cross-tile relations under matched com-
+pute.
+3 Method
+Selection. Each scene is cut into 1024-pixel tiles with 128 pixels of overlap (93
+tiles per scene on average). Tiles are scored by 0.35 ssal + 0.65 sclip. Here ssal is
+gradient and variance energy on a downscaled overview, and sclip is the CLIP [ 14]
+similarity between the question and each tile thumbnail. The top-5 tiles are kept,
+suppressing near-duplicate neighbours. Local extraction and registration.
+For each selected crop, the VLM returns JSON-formatted objects with boxes on
+a 0–1000 grid over the crop, which we lift to global pixels in code. Detections
+are then merged across tiles by a label-aware greedy rule (IoU, containment,
+or near-touching boxes at a seam), which yields at most 60 objects per scene.
+Relations. For each object and its 6 nearest neighbours, we emit one predicate
+per pair, in priority order: containment (intersection over the smaller box ≥0.85);
+intersection (IoU ≥0.05 or overlap ≥5% of the smaller box, e.g. roads crossing
+rivers); adjacency (border gap ≤1.2% of the image diagonal); otherwise 8-way
+
+--- PAGE 3 ---
+Tile Selection Helps Perception but Hurts Spatial Reasoning 3
+answer
+A / B / C / D
+object list (Selection and Proposed)
+global overview (whole scene, 1024 px)
+Proposed only
+Input
+UHR scene
++ question
+Tile selection
+saliency + CLIP
+question score
+top-5 tiles
+Extraction
+frozen VLM ×5:
+objects + boxes
+Registration
+global frame
++ dedup
+Relations
+direction, distance,
+topology
+Reasoning
+Qwen2.5-VL-7B
+(frozen, 1 call)
+overview
++ 3 crops
++ object list
+(+ relations)
+Fig. 1. Architecture of the four compared methods. Selection and Proposed execute
+the same code and diﬀer only in whether the relation block (dashed) reaches the ﬁnal
+prompt, so both issue 5+1 VLM calls over the same pixels. Direct sends the whole
+image in one call; Tiling answers on 8 grid tiles independently and reconciles them by
+a text-only vote. Real input and graph examples are in Appendix A.3.
+compass direction with pixel distance. At most 220 relations are kept, with cross-
+tile edges ranked ﬁrst. Final call. The ﬁnal call receives the overview, 3 crops,
+and the object list in global 0–1000 coordinates. In Proposed it also receives the
+relation lines. The answer-format text is identical across methods.
+4 Experimental Setup
+Data. We use the XLRS-Bench-lite split [ 19]: 3,080 four-option multiple-choice
+items (chance level 25%) in 13 categories. 97 of the 100 Overall-Land-Use items
+are multi-select (e.g. answer “BCD”) and were excluded from every method, leav-
+ing 2,983 scored items. Before the experiment we ﬁxed the relational group: ob-
+ject spatial relationship, regional counting, counting with complex reasoning, and
+route planning (800 items). The remaining 2,123 items form the non-relational
+group. A 60-item bi-temporal category not matched by our taxonomy is held
+out of both groups but counted overall. Model and budget. We used Qwen2.5-
+VL-7B-Instruct [ 1] in bf16 with greedy decoding and a budget of 1,280 visual
+tokens per image, on one NVIDIA L40S (35.6 GPU-hours in total). Statistics.
+All comparisons are paired on items. We use McNemar’s exact test [ 12] and
+10,000-sample paired bootstrap conﬁdence intervals [ 3]. Per-task tests are Holm-
+corrected [ 5]. The two group-level Selection vs Proposed tests are conﬁrmatory,
+and all other analyses are exploratory.
+5 Results
+5.1 The relation block does not help
+Table 1 gives the conﬁrmatory result. On relational tasks, Proposed and Selection
+score the same (33.4% each). The diﬀerence is +0.0 pp (95% CI [ −2.1, +2.1]; 37
+
+--- PAGE 4 ---
+4 Anonymous
+T able 1. Accuracy (%) and cost per item. Figure 2a gives the 95% CIs. MPix counts
+the pixels actually encoded by the vision tower. Selection and Proposed match exactly
+in calls and pixels, and diﬀer only in prompt tokens.
+Method Calls MPix Tokens s/item Overall Relational Non-rel.
+Direct 1.00 0.98 1,403 3.0 41.3 37.9 42.6
+Tiling 9.15 7.83 11,810 5.0 37.8 34.0 39.0
+Selection 6.10 7.53 12,006 16.8 43.1 33.4 46.7
+Proposed 6.10 7.53 12,455 16.9 42.7 33.4 46.2
+Direct Tiling
+SelectionProposed
+25
+30
+35
+40
+45
+50
+55
+Accuracy (%)
+chance (25%)
+a
+Non-relational Relational
+−5 0 5 10
+Paired change in accuracy (pp), 95% CI
+Relation block
+(Selection →  Proposed)
+Net effect of zoom
+(Direct →  Selection)
+Selection vs. grid
+(Tiling →  Selection)
+Independent tiling
+(Direct →  Tiling)
+-0.5 n.s.
++0.0 n.s.
++4.1 ***
+-4.5 **
++7.7 ***
+-0.6 n.s.
+-3.6 **
+-3.9 *
+b
+Fig. 2. (a) Accuracy by method and task group, with 95% bootstrap CIs. (b) Paired
+changes in accuracy with 95% CIs; stars mark McNemar exact p (*<.05, ** <.01,
+***<.001). The eﬀects of zoom have opposite signs for the two task groups, and the
+relation block has no eﬀect.
+wins against 37 losses; p = 1.00). On non-relational tasks the change is −0.5 pp
+[−1.3, +0.4] ( p = 0 .31). The two methods match in calls (6.10) and encoded
+pixels (7.53 MP); the relation block adds 448 prompt tokens on average and has
+no measurable beneﬁt. The interval excludes gains above about 2 pp.
+5.2 Zoom helps perception and hurts relations
+The progression across methods (Fig. 2) is more revealing. Tiling is worse than
+Direct in both groups ( −3.6 pp, p = 2 × 10−4) despite 9 × the calls. Selection
+recovers +7.7 pp over Tiling on non-relational tasks but nothing on relational
+ones (−0.6 pp). Relative to Direct, zooming therefore changes sign with the task
+group: +4.1 pp [+2.4, +5.9] for non-relational against −4.5 pp [−7.5, −1.5] for re-
+lational tasks, a diﬀerence of −8.6 pp [−12.1, −5.1] (permutation p < 10−4). On
+object spatial relationship (500 items), accuracy falls from 32.4% with Direct to
+27.2% with Selection, near the 25% chance level. Per-task eﬀects (Fig. 3) agree in
+
+--- PAGE 5 ---
+Tile Selection Helps Perception but Hurts Spatial Reasoning 5
+−30 −20 −10 0 10 20 30
+Paired change in accuracy (pp), 95% CI
+Route planning (n=100)
+Counting w/ complex reasoning (n=100)
+Object spatial relationship (n=500)
+Regional counting (n=100)
+Overall counting (n=60)
+Object colour (n=800)
+Regional land use (n=200)
+Object classification (n=800)
+Object motion state (n=60)
+Environmental condition (n=100)
+Anomaly detection (n=100)
+Bi-temporal counting† (n=60)
++1.0+0.0
+-5.0 +1.0
+-5.2 -1.0
+-6.0 +4.0
++8.3-6.7
++6.0*-0.4
++4.5-1.0
++2.9+0.8
++1.7+0.0
++1.0-2.0
++0.0-5.0
++3.3-1.7
+Relational tasks
+Non-relational tasks
+Held out
+Zoom: Direct →  Selection Relations: Selection →  Proposed 95% CI
+Fig. 3. Paired per-task eﬀects with 95% CIs. Slate bars show the eﬀect of zooming
+(Direct → Selection), amber bars the eﬀect of the relation block ( Selection → Proposed).
+* marks Holm-adjusted p < . 05. Overall land use ( n=3 scorable) is omitted. †The bi-
+temporal category is held out of both groups.
+direction, though only object colour survives Holm correction. This exploratory
+result ﬁts our premise that zooming discards the global layout relational ques-
+tions need; re-supplying it as text did not repair the loss.
+5.3 Why explicit relations did not help
+The relation graph was usually empty . On 66% of scenes, the VLM extrac-
+tor returned no parseable object in any of the ﬁve selected crops (Fig. 4a). For
+object colour, classiﬁcation and motion state, the rate was 98–100%. Only 21%
+of scenes produced any cross-tile relation. When objects were found, graphs were
+rich (16.3 objects and 59.3 relations on average), and parsing was not the cause
+(Appendix A.4). When relations were present, the model used them,
+and the eﬀect depended on the task group. We use the rate at which the
+answer changes between Selection and Proposed as a probe. It is 5.6% when the
+relation block is empty; this is the noise ﬂoor from the prompt text alone. It rises
+to 17.4% when relations are present, and to 30.0% on relational items with cross-
+tile edges (Fig. 4b). The sign of the eﬀect followed our hypothesis in direction
+but was not signiﬁcant: +2.8 pp [ −2.0, +7.7] on relational items with cross-tile
+relations ( n = 247 ), and −4.1 pp [ −7.5, −1.0] on non-relational ones ( n = 293 ;
+uncorrected p = 0 .02). On perception questions the relations therefore act as
+distractors (post-treatment strata; indicative only). The rise of accuracy with
+object count is not evidence for the method: it appears in Direct as well, which
+never sees any objects (Appendix, Fig. 7). Object-rich scenes simply belong to
+easier tasks.
+
+--- PAGE 6 ---
+6 Anonymous
+Motion state
+Colour
+ClassificationRegional countComplex countBi-temporal countSpatial relationRoute planning
+Anomaly
+Overall count
+Regional land use
+Environment
+0
+25
+50
+75
+100
+Scenes with no object extracted (%)
+100 100 98
+49 48
+40 37
+28
+14 13 11 9
+all tasks: 66%
+a
+relational
+non-relational
+held out
+none
+n=2,063
+Δans 6%
+any
+n=920
+Δans 17%
+cross-tile
+n=549
+Δans 19%
+Relations available
+−8
+−4
+0
+4
+8
+Selection →  Proposed (pp)
++0.2
+-1.5
+-3.1
++1.1
+-4.1
++2.8
+b
+non-relational
+relational
+Fig. 4. (a) Share of scenes where the VLM extractor returned no object in any of
+the ﬁve selected crops. (b) Change from Selection to Proposed, stratiﬁed by what the
+relation block contained. ∆ans is the share of items whose answer changed; 5.6% with
+an empty block is the noise ﬂoor from the prompt text alone.
+5.4 Complementarity and cost
+Direct and Selection fail on diﬀerent items. An oracle that picks the correct
+one of the two reaches 51.2% overall (44.9% relational, 53.6% non-relational),
+against 43.1% for the best single method. Selection and Proposed cost 5.6 × the
+wall time of Direct, and local extraction accounts for 77% of that time, while
+their net gain is +1.8 pp. A router that decides whether to zoom could capture
+most of the complementarity at a fraction of the cost.
+6 Discussion and Conclusion
+Under matched compute, explicit cross-tile relations did not improve UHR re-
+mote sensing VQA. Two lessons follow. First, zoom-based pipelines trade rela-
+tional accuracy for perceptual accuracy, and aggregate scores hide the trade, so
+relational and perception tasks should be reported separately. Second, a sym-
+bolic relation layer is only as good as its grounding: a 7B VLM prompted as
+a detector returned nothing on most scenes, precisely on the small-object ques-
+tions that motivate zooming. A dedicated detector is the necessary next test.
+Limitations: one 7B model, the multiple-choice lite split only, a generic CLIP
+scorer [ 9], and a relational partition of our own design (Appendix A.2).
+
+--- PAGE 7 ---
+Tile Selection Helps Perception but Hurts Spatial Reasoning 7
+References
+1. Bai, S., Chen, K., et al.: Qwen2.5-VL technical report. arXiv preprint
+arXiv:2502.13923 (2025)
+2. Chen, B., Xu, Z., Kirmani, S., Ichter, B., Sadigh, D., Guibas, L., Xia, F.: Spa-
+tialVLM: Endowing vision-language models with spatial reasoning capabilities. In:
+Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recog-
+nition (CVPR). pp. 14455–14465 (2024)
+3. Efron, B., Tibshirani, R.J.: An Introduction to the Bootstrap. Chapman & Hall,
+New York (1993)
+4. Gupta, T., Kembhavi, A.: Visual programming: Compositional visual reasoning
+without training. In: Proceedings of the IEEE/CVF Conference on Computer Vi-
+sion and Pattern Recognition (CVPR) (2023)
+5. Holm, S.: A simple sequentially rejective multiple test procedure. Scandinavian
+Journal of Statistics 6(2), 65–70 (1979)
+6. Johnson, J., Krishna, R., Stark, M., Li, L.J., Shamma, D.A., Bernstein, M.S., Fei-
+Fei, L.: Image retrieval using scene graphs. In: Proceedings of the IEEE Conference
+on Computer Vision and Pattern Recognition (CVPR). pp. 3668–3678 (2015)
+7. Kuckreja, K., Danish, M.S., Naseer, M., Das, A., Khan, S., Khan, F.S.: GeoChat:
+Grounded large vision-language model for remote sensing. In: Proceedings of the
+IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR). pp.
+27831–27840 (2024)
+8. Li, Z., Yang, B., Liu, Q., Ma, Z., Zhang, S., Yang, J., Sun, Y., Liu, Y., Bai, X.:
+Monkey: Image resolution and text label are important things for large multi-modal
+models. In: Proceedings of the IEEE/CVF Conference on Computer Vision and
+Pattern Recognition (CVPR) (2024)
+9. Liu, F., Chen, D., Guan, Z., Zhou, X., Zhu, J., Ye, Q., Fu, L., Zhou, J.: Remote-
+CLIP: A vision language foundation model for remote sensing. IEEE Transactions
+on Geoscience and Remote Sensing 62, 1–16 (2024). https://doi.org/10.1109/
+TGRS.2024.3390838
+10. Liu, R., Fu, B., Song, J., Li, K., Li, W., Xue, L., Qiao, H., Zhang, W., Meng, D.,
+Cao, X.: ZoomEarth: Active perception for ultra-high-resolution geospatial vision-
+language tasks. arXiv preprint arXiv:2511.12267 (2025)
+11. Luo, J., Zhang, Y., Yang, X., Wu, K., Zhu, Q., Liang, L., Chen, J., Li, Y.: When
+large vision-language model meets large remote sensing imagery: Coarse-to-ﬁne
+text-guided token pruning. In: Proceedings of the IEEE/CVF International Con-
+ference on Computer Vision (ICCV) (2025)
+12. McNemar, Q.: Note on the sampling error of the diﬀerence between correlated
+proportions or percentages. Psychometrika 12(2), 153–157 (1947)
+13. Ni, S., et al.: UHR-Micro: Diagnosing and mitigating the resolution illusion in earth
+observation VLMs. arXiv preprint arXiv:2605.12237 (2026)
+14. Radford, A., Kim, J.W., Hallacy, C., Ramesh, A., Goh, G., Agarwal, S., Sastry, G.,
+Askell, A., Mishkin, P., Clark, J., Krueger, G., Sutskever, I.: Learning transferable
+visual models from natural language supervision. In: Proceedings of the 38th Inter-
+national Conference on Machine Learning (ICML). PMLR, vol. 139, pp. 8748–8763
+(2021)
+15. Rahmanzadehgervi, P., Bolton, L., Taesiri, M.R., Nguyen, A.T.: Vision language
+models are blind. In: Proceedings of the Asian Conference on Computer Vision
+(ACCV) (2024)
+
+--- PAGE 8 ---
+8 Anonymous
+16. Shen, H., Zhao, K., Zhao, T., Xu, R., Zhang, Z., Zhu, M., Yin, J.: ZoomEye:
+Enhancing multimodal LLMs with human-like zooming capabilities through tree-
+based image exploration. arXiv preprint arXiv:2411.16044 (2024)
+17. Surís, D., Menon, S., Vondrick, C.: ViperGPT: Visual inference via python execu-
+tion for reasoning. In: Proceedings of the IEEE/CVF International Conference on
+Computer Vision (ICCV) (2023)
+18. Wang, F., Chen, M., Li, Y., Wang, D., Wang, H., Guo, Z., Wang, Z., Shan, B.,
+Lan, L., Wang, Y., Wang, H., Yang, W., Du, B., Zhang, J.: GeoLLaV A-8K: Scaling
+remote-sensing multimodal large language models to 8K resolution. arXiv preprint
+arXiv:2505.21375 (2025)
+19. Wang, F., Wang, H., Guo, Z., Wang, D., Wang, Y., Chen, M., Ma, Q., Lan, L.,
+Yang, W., Zhang, J., Liu, Z., Sun, M.: XLRS-Bench: Could your multimodal LLMs
+understand extremely large ultra-high-resolution remote sensing imagery? In: Pro-
+ceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recogni-
+tion (CVPR) (2025)
+20. Wang, W., Ding, L., Zeng, M., Zhou, X., Shen, L., Luo, Y., Yu, W., Tao, D.:
+Divide, conquer and combine: A training-free framework for high-resolution image
+perception in multimodal large language models. In: Proceedings of the AAAI
+Conference on Artiﬁcial Intelligence. vol. 39, pp. 7907–7915 (2025)
+21. Wu, P., Xie, S.: V*: Guided visual search as a core mechanism in multimodal LLMs.
+In: Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern
+Recognition (CVPR) (2024)
+22. Xu, R., Yao, Y., Guo, Z., Cui, J., Ni, Z., Ge, C., Chua, T.S., Liu, Z., Sun, M., Huang,
+G.: LLaV A-UHD: An LMM perceiving any aspect ratio and high-resolution images.
+In: Computer Vision – ECCV 2024. Lecture Notes in Computer Science, Springer
+(2024)
+23. Yang, J., Zhang, H., Li, F., Zou, X., Li, C., Gao, J.: Set-of-mark prompt-
+ing unleashes extraordinary visual grounding in GPT-4V. arXiv preprint
+arXiv:2310.11441 (2023)
+24. Zhang, Z., Shen, H., Zhao, T., Guan, Z., Chen, B., Wang, Y., Jia, X., Cai, Y., Shang,
+Y., Yin, J.: Enhancing ultra high resolution remote sensing imagery analysis with
+ImageRAG. arXiv preprint arXiv:2411.07688 (2024)
+
+--- PAGE 9 ---
+Tile Selection Helps Perception but Hurts Spatial Reasoning 9
+A Supplementary Material
+A.1 Per-task results
+T able 2. Per-task accuracy (%) and paired eﬀects. ∆z is the change from Direct to
+Selection; ∆r is the change from Selection to Proposed. Grp is R for relational tasks,
+N for non-relational, and H for the held-out category. The last column gives the share
+of scenes where the extractor returned no objects.
+Task Grp n Direct Tiling Select. Prop. ∆z ∆r No obj.
+Complex counting R 100 56.0 43.0 51.0 52.0 −5.0 +1.0 48
+Object spatial rel. R 500 32.4 30.2 27.2 26.2 −5.2 −1.0 37
+Regional counting R 100 45.0 36.0 39.0 43.0 −6.0 +4.0 49
+Route planning R 100 40.0 42.0 41.0 41.0 +1.0 +0.0 28
+Anomaly detection N 100 70.0 65.0 70.0 65.0 +0.0 −5.0 14
+Environ. condition N 100 79.0 72.0 80.0 78.0 +1.0 −2.0 9
+Object class. N 800 35.0 31.5 37.9 38.6 +2.9 +0.8 98
+Object colour N 800 35.4 34.4 41.4 41.0 +6.0 ∗ −0.4 100
+Motion state N 60 65.0 65.0 66.7 66.7 +1.7 +0.0 100
+Overall counting N 60 25.0 16.7 33.3 26.7 +8.3 −6.7 13
+Overall land use N 3 66.7 66.7 66.7 66.7 +0.0 +0.0 0
+Regional land use N 200 68.0 56.0 72.5 71.5 +4.5 −1.0 11
+Bi-temporal counting H 60 43.3 46.7 46.7 45.0 +3.3 −1.7 40
+A.2 Further caveats
+The planned ablation sweeps over tile size, overlap and top- k were not run, so
+the conﬁguration reported here is a single operating point. All methods chose
+option “C” for 37–41% of items, against 27% of ground-truth answers: a posi-
+tion bias shared across methods, which aﬀects absolute accuracy but not the
+paired comparisons. The 97 multi-select Overall-Land-Use items were excluded
+identically from every method; set-based scoring of these items is left to future
+work. The stratiﬁed analysis in Section 5.3 conditions on the number of relations,
+which is a post-treatment variable, and its p-values are uncorrected.
+A.3 Example inputs, questions and relation graph
+Figure 5 shows one scene as the pipeline sees it, and Fig. 6 the relation graph
+built for it. Table 3 lists real benchmark questions, verbatim.
+
+--- PAGE 10 ---
+10 Anonymous
+Full scene, 4,097×4,096 px
+1 2
+3
+1024×1024 px, native
+(1) tile 15
+1024×1024 px, native
+(2) tile 17
+1024×1024 px, native
+(3) tile 11
+Fig. 5. Input example (object spatial relationship item). Left: the full scene, with the
+three highest-scoring tiles outlined. Right: the same tiles at native resolution, as the
+VLM sees them during local extraction.
+tile 15 tile 17
+tile 11
+tile 22
+tile 19
+N
+H-shaped building
+white circular building
+direction, cross-tile
+direction, within tile
+containment
+adjacent / near
+contains
+contains
+adjacent NE
+near SE
+0
+1
+2
+3
+4
+5
+67
+8
+Fig. 6. Relation graph for the scene in Fig. 5. Nodes are placed at their global positions
+(lightly separated where they overlap); dashed boxes are the selected tiles. 27 of the
+32 relations connect objects observed in diﬀerent tiles. Proposed answered this item
+correctly and Selection did not. The labels also show a failure mode: the extractor
+copied the question’s wording into its object labels.
+
+--- PAGE 11 ---
+Tile Selection Helps Perception but Hurts Spatial Reasoning 11
+T able 3. Example XLRS-Bench questions (verbatim). R marks tasks in the relational
+group, N the non-relational group.
+Task Grp Question (answer)
+Counting with Com-
+plex Reasoning
+R How many parking lots are there in the town shown in the picture
+above? (D: 9)
+Object Spatial Rela-
+tionship
+R In the image, the two smaller green rectangular greenhouses located
+towards the upper right are positioned in which direction relative to
+the larger multi-unit residential area? (C: To the right)
+Regional Counting R How many houses are there inside the red circle? (B: 5)
+Route Planning R In the image below, what is the shortest driving route from the building
+with the red pyramid roof to the parking lot at the port on the left?
+(B: Exit the building and head west. Continue straight through the
+ﬁrst intersection. At the next intersection, turn left to reach your
+destination.)
+Anomaly Detection
+and Interpretation
+N The width and calmness of the river in the picture suggest? (D: It may
+serve as a vital natural water source, crucial for the surrounding
+ecosystem.)
+Object Classiﬁcation N Identify the object category within the given bounding box in the
+satellite or aerial image. Image resolution: 4096 x 4097. Bounding box:
+[2368, 2061, 2447, 2108]. (B: The Red Roof)
+Object Color N Determine the color of the object within the given reference bounding
+box in the satellite image. Image resolution: 5616 x 3744. Bounding
+box: [3826, 1648, 3944, 1695]. (C: White)
+Overall Land Use
+Classiﬁcation
+N Select the options that best represent the types of land use depicted in
+the image. (ABD: Farmland; Lakes or Ponds; Parking Lot or Garage
+[multi-select])
+Regional Land Use
+Classiﬁcation
+N Select the type of land marked with a red circle in the image. (D:
+Farmland)
+A.4 Compute and extraction details
+Only 1.6% of the 19,481 items returned by the extractor lacked a readable box,
+so the empty graphs reﬂect the extractor returning no objects rather than mal-
+formed output. Mean seconds per item for Proposed: overview 2.6, selection 0.3,
+local extraction 13.0, ﬁnal answer 0.9; deduplication and relation construction to-
+gether take 0.003. Peak VRAM was 18 GB. Deduplication merged 10.7% of raw
+detections, 623 of them across tile seams. 22% of the parsed detections touched
+a tile border.
+
+--- PAGE 12 ---
+12 Anonymous
+A.5 Object count is confounded with task
+0 1-5 6-15 16-30 31+
+Objects extracted per scene (Proposed)
+30
+40
+50
+60
+Accuracy (%)
+n=2034
+15% rel.
+n=255
+73% rel.
+n=348
+57% rel.
+n=266
+30% rel.
+n=177
+15% rel.
+Direct (never sees objects)
+Selection
+Proposed
+Fig. 7. Accuracy against the number of objects extracted. All methods improve to-
+gether, including Direct, which never receives objects. The trend therefore reﬂects the
+mix of scenes and tasks (the labels give the share of relational items per bin) rather
+than any beneﬁt of the relation graph.
+
+--- PAGE 13 ---
+Tile Selection Helps Perception but Hurts Spatial Reasoning 13
+A.6 Qualitative examples
+Fig. 8. Left: an object spatial relationship item that Proposed answers correctly and
+Selection does not; 27 of its 32 relations span tiles. Right: a regional land-use item where
+adding 116 relations changes a correct Selection answer into an error, an example of
+relations acting as distractors on a perception task. Dashed boxes are the selected tiles;
+orange edges are cross-tile relations.
