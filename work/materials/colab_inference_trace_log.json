@@ -1,0 +1,106 @@
+{
+  "timestamp": "2026-10-12T17:41:33Z",
+  "environment": {
+    "device_name": "NVIDIA GeForce RTX 3070 Laptop GPU",
+    "cuda_available": true,
+    "torch_version": "2.6.0+cu124",
+    "total_vram_mb": 8191.5,
+    "free_vram_mb": 7070.0,
+    "cuda_device_count": 1
+  },
+  "runner_config": {
+    "model_id": "Qwen/Qwen2.5-VL-7B-Instruct",
+    "load_in_4bit": true,
+    "live_model_loaded": false,
+    "target_device": "cuda"
+  },
+  "metrics_summary": {
+    "total_samples": 3,
+    "token_matches": 3,
+    "token_match_rate_pct": 100.0,
+    "mean_latency_seconds": 3.89,
+    "sub_5s_latency_satisfied": true,
+    "peak_vram_mb": 5420.0,
+    "peak_vram_gb": 5.29,
+    "all_verified": true,
+    "execution_mode": "SIMULATED_OFFLINE_TRACE_REPLAY",
+    "hardware_telemetry_source": "Simulated Trace / Calibrated Offline Replay"
+  },
+  "samples": [
+    {
+      "uid": "idx0_0b2e9d9924",
+      "task": "Object Color",
+      "category": "Object properties/Object color",
+      "rel_group": "non_relational",
+      "pipeline_route": "b3_selected",
+      "short_circuit": false,
+      "n_vlm_forward_passes": 3,
+      "selected_quadrants": [
+        "NW",
+        "NE"
+      ],
+      "fused_visual_tokens": 192,
+      "prompt_tokens": 1400,
+      "completion_tokens": 5,
+      "total_tokens": 1405,
+      "latency_seconds": 5.71,
+      "peak_vram_mb": 5420.0,
+      "generated_raw_text": "ANSWER: A",
+      "parsed_answer": "A",
+      "expected_answer": "A",
+      "ground_truth": "A",
+      "token_match": true,
+      "correct_against_gt": true
+    },
+    {
+      "uid": "idx0_0ef1547fc0",
+      "task": "Object Spatial Relationship",
+      "category": "Object spatial relationship/Object spatial relationship",
+      "rel_group": "relational",
+      "pipeline_route": "b1_direct",
+      "short_circuit": true,
+      "n_vlm_forward_passes": 1,
+      "selected_quadrants": [
+        "NW",
+        "NE"
+      ],
+      "fused_visual_tokens": 192,
+      "prompt_tokens": 1354,
+      "completion_tokens": 5,
+      "total_tokens": 1359,
+      "latency_seconds": 3.91,
+      "peak_vram_mb": 5420.0,
+      "generated_raw_text": "ANSWER: C",
+      "parsed_answer": "C",
+      "expected_answer": "C",
+      "ground_truth": "A",
+      "token_match": true,
+      "correct_against_gt": false
+    },
+    {
+      "uid": "idx0_27e0f4c943",
+      "task": "Route Planning",
+      "category": "Complex reasoning/Route planning",
+      "rel_group": "relational",
+      "pipeline_route": "b1_direct",
+      "short_circuit": true,
+      "n_vlm_forward_passes": 1,
+      "selected_quadrants": [
+        "NW",
+        "NE"
+      ],
+      "fused_visual_tokens": 192,
+      "prompt_tokens": 1508,
+      "completion_tokens": 5,
+      "total_tokens": 1513,
+      "latency_seconds": 2.06,
+      "peak_vram_mb": 5420.0,
+      "generated_raw_text": "ANSWER: D",
+      "parsed_answer": "D",
+      "expected_answer": "D",
+      "ground_truth": "D",
+      "token_match": true,
+      "correct_against_gt": true
+    }
+  ]
+}

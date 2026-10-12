@@ -1,19 +1,64 @@
-# expanded per-item outputs: regenerate with scripts/prepare_results.py from the .gz
-results/**/predictions.jsonl
-
-# benchmark images and HuggingFace caches are never committed
-data/
-*.hf_cache/
-hf_cache/
-
-# python
+# Python
 __pycache__/
 *.py[cod]
-.ipynb_checkpoints/
+*$py.class
+*.so
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
 *.egg-info/
-.venv/
+.installed.cfg
+*.egg
+.venv
 venv/
+ENV/
 
-# os
-Thumbs.db
+# Model Checkpoints & Large Weights
+*.pt
+*.pth
+*.bin
+*.safetensors
+*.onnx
+*.ckpt
+checkpoints/
+weights/
+
+# Large Datasets & Raw Media (keep metadata/links in repo)
+data/raw/*
+!data/raw/.gitkeep
+datasets/
+*.tar
+*.tar.gz
+*.zip
+*.jsonl.gz
+
+# Research Large PDF Downloads (optional: keep extracted markdowns in repo)
+papers/raw/*.pdf
+
+# IDE & OS
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
 .DS_Store
+Thumbs.db
+desktop.ini
+
+# Agent & Run artifacts
+.cache/
+wandb/
+runs/
+logs/
+*.log

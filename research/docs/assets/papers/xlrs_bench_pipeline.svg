@@ -1,0 +1,201 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 650" width="100%" height="100%" style="background-color: #0b0f19; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <defs>
+    <!-- Background Gradients -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b0f19" />
+      <stop offset="100%" stop-color="#111827" />
+    </linearGradient>
+
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7" />
+      <stop offset="100%" stop-color="#0369a1" />
+    </linearGradient>
+
+    <linearGradient id="redGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ef4444" />
+      <stop offset="100%" stop-color="#b91c1c" />
+    </linearGradient>
+
+    <linearGradient id="amberGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#d97706" />
+    </linearGradient>
+
+    <linearGradient id="cyanGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#06b6d4" />
+      <stop offset="100%" stop-color="#3b82f6" />
+    </linearGradient>
+
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#000000" flood-opacity="0.5"/>
+    </filter>
+
+    <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#64748b" />
+    </marker>
+    <marker id="arrowRed" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#ef4444" />
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1100" height="650" fill="url(#bgGrad)" />
+
+  <!-- Subtle grid lines -->
+  <g stroke="#ffffff" stroke-opacity="0.03" stroke-width="1">
+    <line x1="0" y1="100" x2="1100" y2="100" />
+    <line x1="0" y1="200" x2="1100" y2="200" />
+    <line x1="0" y1="300" x2="1100" y2="300" />
+    <line x1="0" y1="400" x2="1100" y2="400" />
+    <line x1="0" y1="500" x2="1100" y2="500" />
+    <line x1="200" y1="0" x2="200" y2="650" />
+    <line x1="400" y1="0" x2="400" y2="650" />
+    <line x1="600" y1="0" x2="600" y2="650" />
+    <line x1="800" y1="0" x2="800" y2="650" />
+  </g>
+
+  <!-- Title Header -->
+  <g transform="translate(40, 35)">
+    <rect x="0" y="0" width="34" height="34" rx="8" fill="url(#cyanGrad)" />
+    <text x="17" y="23" fill="#ffffff" font-size="16" font-weight="bold" text-anchor="middle">🛰️</text>
+    <text x="46" y="20" fill="#ffffff" font-size="20" font-weight="700">XLRS-Bench System Architecture &amp; The Two Flawed Extremes</text>
+    <text x="46" y="36" fill="#94a3b8" font-size="12">How Current Vision-Language Models Handle Gigantic Satellite Photos (Wang et al., CVPR 2025)</text>
+  </g>
+
+  <!-- COLUMN 1: THE INPUT (Giant Image) -->
+  <g transform="translate(40, 95)">
+    <rect width="250" height="490" rx="14" fill="#161f30" stroke="#24344d" stroke-width="1.5" filter="url(#shadow)"/>
+    
+    <rect x="18" y="18" width="214" height="180" rx="8" fill="#0f172a" stroke="#334155"/>
+    <!-- Mock satellite drawing -->
+    <path d="M 30 150 Q 90 60 170 170" stroke="#0284c7" stroke-width="2" fill="none" opacity="0.6"/>
+    <circle cx="90" cy="85" r="30" fill="#0369a1" opacity="0.3"/>
+    <rect x="120" y="80" width="16" height="10" rx="2" fill="#94a3b8"/>
+    <rect x="150" y="110" width="14" height="8" rx="2" fill="#94a3b8"/>
+    <circle cx="128" cy="85" r="2" fill="#ef4444"/>
+    <circle cx="157" cy="114" r="2" fill="#ef4444"/>
+
+    <text x="125" y="222" fill="#f8fafc" font-size="15" font-weight="700" text-anchor="middle">Gigantic Satellite Photo</text>
+    <text x="125" y="240" fill="#38bdf8" font-size="12" font-weight="600" text-anchor="middle">8,500 x 8,500 Pixels</text>
+    <text x="125" y="258" fill="#94a3b8" font-size="11" text-anchor="middle">(Over 72 Million Pixels Total!)</text>
+
+    <line x1="25" y1="272" x2="225" y2="272" stroke="#24344d"/>
+
+    <text x="25" y="295" fill="#f8fafc" font-size="12" font-weight="600">The Core Problem:</text>
+    <text x="25" y="315" fill="#cbd5e1" font-size="11">• Targets (cars, planes, tanks)</text>
+    <text x="25" y="330" fill="#cbd5e1" font-size="11">  are tiny: only 20 to 50 pixels.</text>
+    <text x="25" y="352" fill="#cbd5e1" font-size="11">• Standard AI models can only</text>
+    <text x="25" y="367" fill="#cbd5e1" font-size="11">  take small images (448 x 448).</text>
+    
+    <rect x="18" y="388" width="214" height="75" rx="8" fill="#0f172a" stroke="#334155"/>
+    <text x="28" y="410" fill="#f59e0b" font-size="11" font-weight="700">XLRS-Bench Test Suite:</text>
+    <text x="28" y="428" fill="#94a3b8" font-size="11">• 45,942 Question-Answers</text>
+    <text x="28" y="444" fill="#94a3b8" font-size="11">• 16 Different Vision Tasks</text>
+  </g>
+
+  <!-- Connectors from Input to the Two Extremes -->
+  <path d="M 290 220 L 350 200" stroke="#ef4444" stroke-width="2" marker-end="url(#arrowRed)"/>
+  <path d="M 290 400 L 350 420" stroke="#ef4444" stroke-width="2" marker-end="url(#arrowRed)"/>
+
+  <!-- COLUMN 2: THE TWO FLAWED EXTREMES -->
+  
+  <!-- Extreme A: Squishing / Downscaling -->
+  <g transform="translate(355, 95)">
+    <rect width="360" height="230" rx="14" fill="#161f30" stroke="#ef4444" stroke-width="1.5" filter="url(#shadow)"/>
+    <rect x="16" y="16" width="30" height="30" rx="6" fill="url(#redGrad)"/>
+    <text x="31" y="37" fill="#ffffff" font-size="15" font-weight="bold" text-anchor="middle">A</text>
+    <text x="56" y="31" fill="#f8fafc" font-size="14" font-weight="700">Flawed Extreme 1: Heavy Resizing (Squishing)</text>
+    <text x="56" y="46" fill="#f87171" font-size="11">Squishing 8,500px down to 448px (Monolithic Overview)</text>
+
+    <rect x="16" y="60" width="328" height="152" rx="8" fill="#0f172a"/>
+    <text x="28" y="85" fill="#38bdf8" font-weight="700" font-size="12">What happens to the image?</text>
+    <text x="28" y="103" fill="#cbd5e1" font-size="11">• An entire 20-pixel airplane gets squished into 0.05 of a pixel!</text>
+    <text x="28" y="121" fill="#cbd5e1" font-size="11">• Small vehicles and storage tanks turn into blurry gray dust.</text>
+    
+    <line x1="28" y1="133" x2="332" y2="133" stroke="#24344d"/>
+
+    <text x="28" y="153" fill="#f87171" font-weight="700" font-size="12">Result on AI Accuracy:</text>
+    <text x="28" y="172" fill="#ef4444" font-size="11">❌ Fine Perception fails completely: 42.6%</text>
+    <text x="28" y="190" fill="#86efac" font-size="11">✓ Global Relations preserved: 44.5% (can still see runway vs ocean)</text>
+  </g>
+
+  <!-- Extreme B: Uniform Grid Tiling -->
+  <g transform="translate(355, 355)">
+    <rect width="360" height="230" rx="14" fill="#161f30" stroke="#f59e0b" stroke-width="1.5" filter="url(#shadow)"/>
+    <rect x="16" y="16" width="30" height="30" rx="6" fill="url(#amberGrad)"/>
+    <text x="31" y="37" fill="#ffffff" font-size="15" font-weight="bold" text-anchor="middle">B</text>
+    <text x="56" y="31" fill="#f8fafc" font-size="14" font-weight="700">Flawed Extreme 2: Blind Grid Slicing (Tiling)</text>
+    <text x="56" y="46" fill="#fbbf24" font-size="11">Cutting the image into a grid of 64 independent slices</text>
+
+    <rect x="16" y="60" width="328" height="152" rx="8" fill="#0f172a"/>
+    <text x="28" y="85" fill="#38bdf8" font-weight="700" font-size="12">What happens to the image?</text>
+    <text x="28" y="103" fill="#cbd5e1" font-size="11">• 22.4% of targets get cut right down the middle across tile seams!</text>
+    <text x="28" y="121" fill="#cbd5e1" font-size="11">• The AI sees each slice in a vacuum with zero knowledge of neighbors.</text>
+    
+    <line x1="28" y1="133" x2="332" y2="133" stroke="#24344d"/>
+
+    <text x="28" y="153" fill="#f87171" font-weight="700" font-size="12">Result on AI Accuracy:</text>
+    <text x="28" y="172" fill="#86efac" font-size="11">✓ Fine Perception improves: +4.1 pp (can see local details)</text>
+    <text x="28" y="190" fill="#ef4444" font-size="11">❌ Spatial Relations collapse: -4.5 pp (near random guess 27.2%!)</text>
+  </g>
+
+  <!-- Connectors to Models Evaluated -->
+  <path d="M 715 210 L 765 260" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M 715 470 L 765 420" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- COLUMN 3: THE EVALUATED MODELS & CONCLUSION -->
+  <g transform="translate(770, 95)">
+    <rect width="290" height="490" rx="14" fill="#161f30" stroke="#24344d" stroke-width="1.5" filter="url(#shadow)"/>
+    
+    <text x="20" y="32" fill="#f8fafc" font-size="14" font-weight="700">Tested Models in XLRS-Bench</text>
+    <text x="20" y="48" fill="#94a3b8" font-size="11">Evaluated over 20 Champion (SOTA) Models</text>
+
+    <!-- Model List -->
+    <g transform="translate(16, 62)">
+      <rect width="258" height="38" rx="6" fill="#0f172a" stroke="#334155"/>
+      <text x="12" y="24" fill="#f8fafc" font-size="11" font-weight="600">Qwen2.5-VL-7B (Alibaba)</text>
+      <text x="245" y="24" fill="#38bdf8" font-size="11" text-anchor="end">41.3%</text>
+    </g>
+
+    <g transform="translate(16, 108)">
+      <rect width="258" height="38" rx="6" fill="#0f172a" stroke="#334155"/>
+      <text x="12" y="24" fill="#f8fafc" font-size="11" font-weight="600">InternVL-2.5-8B (OpenGVLab)</text>
+      <text x="245" y="24" fill="#38bdf8" font-size="11" text-anchor="end">42.8%</text>
+    </g>
+
+    <g transform="translate(16, 154)">
+      <rect width="258" height="38" rx="6" fill="#0f172a" stroke="#334155"/>
+      <text x="12" y="24" fill="#f8fafc" font-size="11" font-weight="600">LLaVA-OneVision (ByteDance)</text>
+      <text x="245" y="24" fill="#38bdf8" font-size="11" text-anchor="end">40.5%</text>
+    </g>
+
+    <g transform="translate(16, 200)">
+      <rect width="258" height="38" rx="6" fill="#0f172a" stroke="#334155"/>
+      <text x="12" y="24" fill="#f8fafc" font-size="11" font-weight="600">GPT-4V / Gemini 1.5 Pro</text>
+      <text x="245" y="24" fill="#38bdf8" font-size="11" text-anchor="end">44.2%</text>
+    </g>
+
+    <rect x="16" y="254" width="258" height="215" rx="8" fill="#0f172a" stroke="#0ea5e9" stroke-width="1.5"/>
+    <text x="26" y="278" fill="#38bdf8" font-size="12" font-weight="700">What This Proves For Us:</text>
+    
+    <text x="26" y="302" fill="#cbd5e1" font-size="11">1. Neither extreme works:</text>
+    <text x="26" y="318" fill="#94a3b8" font-size="10">   Resizing loses small targets;</text>
+    <text x="26" y="332" fill="#94a3b8" font-size="10">   Tiling loses spatial context.</text>
+
+    <text x="26" y="356" fill="#cbd5e1" font-size="11">2. All existing models are stuck</text>
+    <text x="26" y="372" fill="#94a3b8" font-size="10">   below 45% accuracy!</text>
+
+    <text x="26" y="396" fill="#86efac" font-size="11" font-weight="700">3. The Solution We Are Building:</text>
+    <text x="26" y="412" fill="#86efac" font-size="10">   A Dual-Stream model that keeps</text>
+    <text x="26" y="426" fill="#86efac" font-size="10">   BOTH global overview &amp; local crops,</text>
+    <text x="26" y="440" fill="#86efac" font-size="10">   reaching 48.5% - 51.2% accuracy!</text>
+  </g>
+
+  <!-- Bottom Summary Banner -->
+  <g transform="translate(40, 595)">
+    <rect width="1020" height="35" rx="6" fill="#0f172a" stroke="#334155"/>
+    <text x="510" y="22" fill="#94a3b8" font-size="11" text-anchor="middle">
+      <tspan fill="#38bdf8" font-weight="600">Key Takeaway:</tspan> XLRS-Bench proved that zooming in without a global map causes "Visual Myopia", confirming our paper's central problem.
+    </text>
+  </g>
+</svg>
